@@ -1,5 +1,12 @@
 require 'spec_helper'
 
 describe PlaceMeasure do
-  pending "add some examples to (or delete) #{__FILE__}"
+    it "belongs to a place" do
+    end
+
+    it "belongs to a measure" do
+    end
+
+    it "has a value" do
+    end
 end

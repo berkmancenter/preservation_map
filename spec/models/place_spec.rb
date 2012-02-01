@@ -1,5 +1,17 @@
 require 'spec_helper'
 
 describe Place do
-  pending "add some examples to (or delete) #{__FILE__}"
+    it "has at least one place-measure" do
+    end
+
+    it "has a valid longitude" do
+    end
+
+    it "has a valid latitude" do
+    end
+
+    context "given a measure" do
+        it "returns a spot" do
+        end
+    end
 end

@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Measure do
-  pending "add some examples to (or delete) #{__FILE__}"
+    it "belongs to a geograph" do
+    end
+
+    context "given a place" do
+        it "returns a spot" do
+        end
+    end
 end

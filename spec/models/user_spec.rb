@@ -1,5 +1,9 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+    it "has a valid email address" do
+    end
+
+    it "can own geographs" do
+    end
 end
