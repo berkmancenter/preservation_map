@@ -24,6 +24,7 @@ gem 'formtastic'
 
 group :development do
     gem 'rspec-rails'
+    gem 'cucumber-rails'
 end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
