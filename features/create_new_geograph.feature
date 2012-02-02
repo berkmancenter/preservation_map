@@ -3,10 +3,11 @@ Feature: Create a new GeoGraph
     As an admin
     I want to create a new geograph
 
+    @wip
     Scenario: new valid geograph
         Given I am an admin
-        When I create a valid geograph
-        Then I should be redirected to the measure-adding page
+        When I create a valid geograph named "Preservation Map"
+        Then I should be redirected to the measure-adding page for "Preservation Map"
 
     @wip
     Scenario: new invalid geograph

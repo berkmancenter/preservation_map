@@ -1,5 +1,14 @@
 Code::Application.routes.draw do
-  devise_for :users
+
+    authenticated :user do 
+        root :to => 'users#my_geo_graphs'
+    end
+
+    root :to => 'geo_graphs#index'
+
+    resources :geo_graphs
+
+    devise_for :users, :path => 'accounts'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -50,7 +59,6 @@ Code::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
