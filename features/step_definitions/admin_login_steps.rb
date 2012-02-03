@@ -1,5 +1,5 @@
 Given /^I am at the login page$/ do
-    visit('/accounts/sign_in')
+    visit new_user_session_path
 end
 
 Given /^I am an existing user$/ do

@@ -6,6 +6,8 @@ Code::Application.routes.draw do
 
     root :to => 'geo_graphs#index'
 
+    match 'my_geo_graphs' => 'users#my_geo_graphs'
+
     resources :geo_graphs
 
     devise_for :users, :path => 'accounts'
