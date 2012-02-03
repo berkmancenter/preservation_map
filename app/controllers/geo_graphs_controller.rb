@@ -9,8 +9,8 @@ class GeoGraphsController < ApplicationController
     end
 
     def create
-        @hub = Hub.new
-        @hub.attributes = params[:hub]
+        @geograph = GeoGraph.new
+        @geograph.attributes = params[:geograph]
         respond_to do|format|
             if @hub.save
                 current_user.has_role!(:owner, @hub)
