@@ -1,4 +1,4 @@
-Given /^I am an admin$/ do
+Given /^I am an authorized user$/ do
     email = 'test@example.com'
     password = 'secretpass'
     User.new(:email => email, :password => password, :password_confirmation => password).save!
@@ -29,6 +29,6 @@ Then /^I should be redirected to the place\-adding page for "([^"]*)"$/ do |geog
     page.find('h1').text.should eq('Add Places to ' + geograph_name)
 end
 
-Then /^I should get an "([^"]*)" error$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should be redirected to the sign-in page$/ do
+    page.find('h2').should have_content('Sign in')
 end

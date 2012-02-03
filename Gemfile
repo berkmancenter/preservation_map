@@ -19,7 +19,6 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'devise'
 gem 'formtastic'
-gem 'cancan'
 
 group :development do
     gem 'rspec-rails'

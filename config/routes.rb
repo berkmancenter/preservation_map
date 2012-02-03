@@ -8,7 +8,10 @@ Code::Application.routes.draw do
 
     match 'my_geo_graphs' => 'users#my_geo_graphs'
 
-    resources :geo_graphs
+    resources :geo_graphs do
+        match "places/add" => 'geo_graphs#add_places', :as => :add_places
+    end
+
 
     devise_for :users, :path => 'accounts'
 

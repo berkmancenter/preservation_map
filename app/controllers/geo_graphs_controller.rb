@@ -8,18 +8,20 @@ class GeoGraphsController < ApplicationController
         @geograph = GeoGraph.new
     end
 
+    def add_places
+        @geograph = GeoGraph.find(params[:geo_graph_id]) 
+    end
+
     def create
         @geograph = GeoGraph.new
         @geograph.attributes = params[:geograph]
         respond_to do|format|
-            if @hub.save
-                current_user.has_role!(:owner, @hub)
-                current_user.has_role!(:creator, @hub)
-                flash[:notice] = 'Added that Hub.'
-                format.html {redirect_to hub_path(@hub)}
+            if @geograph.save
+                flash[:notice] = 'Added that Geograph.'
+                format.html {redirect_to geo_graph_add_places_path(@geograph.id)}
             else
-                flash[:error] = 'Could not add that Hub'
-                format.html {render :action => :new}
+                flash[:error] = 'Could not add that Geograph'
+                format.html {redirect_to new_geo_graph_path}
             end
         end
     end
