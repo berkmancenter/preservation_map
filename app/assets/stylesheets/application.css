@@ -10,4 +10,11 @@
  *
  *= require_self
  *= require_tree .
+ *= require formtastic
+
+ # app/assets/stylesheets/ie6.css
+ *= require formtastic_ie6
+
+ # app/assets/stylesheets/ie7.css
+ *= require formtastic_ie7
 */
