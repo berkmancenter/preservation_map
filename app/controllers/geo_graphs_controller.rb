@@ -13,15 +13,14 @@ class GeoGraphsController < ApplicationController
     end
 
     def create
-        @geograph = GeoGraph.new
-        @geograph.attributes = params[:geograph]
-        respond_to do|format|
+        @geograph = GeoGraph.new(params[:geo_graph])
+        @geograph.user = current_user
+        respond_to do |format|
             if @geograph.save
-                flash[:notice] = 'Added that Geograph.'
-                format.html {redirect_to geo_graph_add_places_path(@geograph.id)}
+                format.html {redirect_to geo_graph_add_places_path(@geograph)}
             else
-                flash[:error] = 'Could not add that Geograph'
-                format.html {redirect_to new_geo_graph_path}
+                flash[:alert] = 'Could not add that GeoGraph.'
+                format.html { render :action => 'new' }
             end
         end
     end
@@ -33,6 +32,12 @@ class GeoGraphsController < ApplicationController
     end
 
     def update
+        @geograph = GeoGraph.find(params[:id])
+        respond_to do |format|
+            if @geograph.update_attributes(params[:geo_graph])
+                format.html { redirect_to geo_graph_path(@geograph) }
+            end
+        end
     end
 
     def destroy

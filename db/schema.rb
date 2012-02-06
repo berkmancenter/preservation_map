@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120202224652) do
+ActiveRecord::Schema.define(:version => 20120206214512) do
 
   create_table "color_themes", :force => true do |t|
     t.string   "gradient"
@@ -44,8 +44,9 @@ ActiveRecord::Schema.define(:version => 20120202224652) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "api_abbr"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "geo_graph_id"
   end
 
   create_table "users", :force => true do |t|
