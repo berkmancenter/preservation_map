@@ -7,6 +7,7 @@ Feature: Add places to a GeoGraph
         Given I am an authorized user
         And I have one geograph
 
+    @wip
     Scenario: upload a valid CSV file
         Given I am on the "add places" page for my geograph
         When I upload a valid CSV file

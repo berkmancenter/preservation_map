@@ -4,6 +4,6 @@ class AddUserIdToGeoGraph < ActiveRecord::Migration
   end
 
   def down
-    add_column :geo_graphs, :user_id
+    remove_column :geo_graphs, :user_id
   end
 end

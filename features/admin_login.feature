@@ -3,6 +3,7 @@ Feature: Admin login
     As an admin
     I want to be able to login
 
+    @wip
     Scenario: log in with good creds
         Given I am at the login page
         And I am an existing user

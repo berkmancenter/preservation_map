@@ -12,12 +12,23 @@ class GeoGraphsController < ApplicationController
         @geograph = GeoGraph.find(params[:geo_graph_id]) 
     end
 
+    def edit_columns
+        @geograph = GeoGraph.find(params[:geo_graph_id]) 
+    end
+
     def create
         @geograph = GeoGraph.new(params[:geo_graph])
         @geograph.user = current_user
         respond_to do |format|
             if @geograph.save
-                format.html {redirect_to geo_graph_add_places_path(@geograph)}
+                if params[:geo_graph][:import_data]
+                    if @geograph.import_data.places?
+                        @geograph.places = @geograph.import_data.places
+                    end
+                    format.html {redirect_to geo_graph_edit_columns_path(@geograph)}
+                else
+                    format.html {redirect_to geo_graph_add_places_path(@geograph)}
+                end
             else
                 flash[:alert] = 'Could not add that GeoGraph.'
                 format.html { render :action => 'new' }

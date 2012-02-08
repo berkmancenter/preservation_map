@@ -19,6 +19,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'devise'
 gem 'formtastic'
+gem 'paperclip'
 
 group :development do
     gem 'rspec-rails'

@@ -9,7 +9,8 @@ Code::Application.routes.draw do
     match 'my_geo_graphs' => 'users#my_geo_graphs'
 
     resources :geo_graphs do
-        match "places/add" => 'geo_graphs#add_places', :as => :add_places
+        get 'places/add' => 'geo_graphs#add_places', :as => :add_places
+        get 'columns/edit' => 'geo_graphs#edit_columns', :as => :edit_columns
     end
 
 
