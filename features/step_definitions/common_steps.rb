@@ -1,4 +1,4 @@
-Given /^I am an authorized user$/ do
+Given /^I am logged in as an authorized user$/ do
     email = 'test@example.com'
     password = 'secretpass'
     @user = User.new(:email => email, :password => password, :password_confirmation => password)
@@ -15,14 +15,22 @@ Given /^I have one geograph$/ do
     click_button('Create')
 end
 
-Given /^I am not an authorized user$/ do
-    visit destroy_user_session_path
-end
-
-Given /^I am on the "([^"]*)" page$/ do |path|
+Given /^I am at the "([^"]*)" page$/ do |path|
     visit send(path.gsub(' ', '_') + '_path')
 end
 
 When /^I navigate to the "([^"]*)" page$/ do |path|
     visit send(path.gsub(' ', '_') + '_path')
+end
+
+Then /^I should get an alert message$/ do
+    page.find('p.alert').text.should_not be_empty
+end
+
+Then /^I should get an inline error message$/ do
+    page.all('p.inline-errors').count.should be > 0
+end
+
+Then /^I should be redirected to the "([^"]*)" page$/ do |path|
+    page.current_path.should eq send(path.gsub(' ', '_') + '_path')
 end

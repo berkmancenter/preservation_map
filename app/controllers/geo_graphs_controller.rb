@@ -25,7 +25,7 @@ class GeoGraphsController < ApplicationController
                     if @geograph.import_data.places?
                         @geograph.places = @geograph.import_data.places
                     end
-                    format.html {redirect_to geo_graph_edit_columns_path(@geograph)}
+                    format.html {redirect_to geo_graph_path(@geograph)}
                 else
                     format.html {redirect_to geo_graph_add_places_path(@geograph)}
                 end

@@ -1,12 +1,8 @@
 require 'csv'
 
 Paperclip::Attachment.class_eval do
-    def place_column_names
-        ['Place Name', 'Latitude', 'Longitude', 'API Code']
-    end
-
     def places?
-        return (self.table.headers & place_column_names).count == place_column_names.count
+        return (self.table.headers & Code::Application.config.place_column_names).count == Code::Application.config.place_column_names.count
     end
 
     def places
@@ -22,7 +18,7 @@ Paperclip::Attachment.class_eval do
 
     def measures
         if self.places?
-            return self.table.by_col!.delete_if { |name, col| place_column_names.include? name }.by_row!
+            return self.table.by_col!.delete_if { |name, col| Code::Application.config.place_column_names.include? name }.by_row!
         else
             self.table
         end
