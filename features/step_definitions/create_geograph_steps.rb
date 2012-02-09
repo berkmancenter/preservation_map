@@ -23,6 +23,6 @@ Then /^the "([^"]*)" geograph should contain places$/ do |geograph_name|
 end
 
 Then /^the "([^"]*)" geograph should contain data for its places$/ do |geograph_name|
-    GeoGraph.find_by_name(geograph_name).places.first.measure.find_by_name('Environment').value.should be_between(1, 5)
+    PlaceMeasure.find_by_place_id_and_measure_id(GeoGraph.find_by_name(geograph_name).places.first.id, Measure.find_by_name('Environment').id).value.should be_between(1, 5)
 end
 

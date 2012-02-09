@@ -1,2 +1,16 @@
 <h1>GeoGraph#show</h1>
-<p>Find me in app/views/geo_graph/show.html.erb</p>
+<table>
+    <% @place_measures.each_with_index do |pm, i| %>
+        <% if i == 0 %>
+            <tr><th>Library Name</th>
+            <% @geograph.measures.each do |measure| %>
+                <th><%= measure.name %></th>
+            <% end %>
+            </tr>
+        <% end %>
+        <% if i == 0 or @place_measures[i-1].place_id != pm.place_id %>
+            </tr><tr><td><%= pm.place.name %></td>
+        <% end %>
+        <td><%= pm.value %></td>
+<% end %>
+</table>

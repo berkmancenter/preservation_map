@@ -20,15 +20,11 @@ class GeoGraphsController < ApplicationController
         @geograph = GeoGraph.new(params[:geo_graph])
         @geograph.user = current_user
         respond_to do |format|
+            if params[:geo_graph][:import_data]
+                @geograph.import_from_attachment!
+            end
             if @geograph.save
-                if params[:geo_graph][:import_data]
-                    if @geograph.import_data.places?
-                        @geograph.places = @geograph.import_data.places
-                    end
-                    format.html {redirect_to geo_graph_path(@geograph)}
-                else
-                    format.html {redirect_to geo_graph_add_places_path(@geograph)}
-                end
+                format.html {redirect_to geo_graph_path(@geograph)}
             else
                 flash[:alert] = 'Could not add that GeoGraph.'
                 format.html { render :action => 'new' }
@@ -37,6 +33,8 @@ class GeoGraphsController < ApplicationController
     end
 
     def show
+        @geograph = GeoGraph.find(params[:id])
+        @place_measures = PlaceMeasure.where(:geo_graph_id => @geograph.id).includes(:place, :measure)
     end
 
     def edit
