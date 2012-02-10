@@ -11,7 +11,6 @@ Feature: Geograph Creation
         Then I should get an alert message
         And I should get an inline error message
 
-    @wip
     Scenario: Creating a geograph using a CSV file with specifically named columns
         Given I am logged in as an authorized user
         And I am at the "new geo graph" page
@@ -28,9 +27,10 @@ Feature: Geograph Creation
         And I am at the "new geo graph" page
         When I name the geograph "Preservation Map"
         And I upload a CSV file containing places and measures with specific column names
-        And I add an API data provider
+        And I add an external data provider
         And I create it
         Then the "Preservation Map" geograph should contain places
+        And the "Preservation Map" should contain external data
         And I should be redirected to the "show" page for the "Preservation Map" geograph
         
     @wip

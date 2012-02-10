@@ -2,6 +2,7 @@ require 'csv'
 
 class GeoGraph < ActiveRecord::Base
     belongs_to :user
+    has_and_belongs_to_many :external_data_sources
     has_many :place_measures, :order => [:place_id, :measure_id]
     has_many :places, :through => :place_measures, :uniq => true, :order => :id
     has_many :measures, :through => :place_measures, :uniq => true, :order => :id

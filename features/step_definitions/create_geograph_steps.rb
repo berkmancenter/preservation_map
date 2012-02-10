@@ -10,6 +10,10 @@ When /^I create it$/ do
     click_button('Create Geo graph')
 end
 
+When /^I add an external data provider$/ do
+    check('HOLLIS')
+end
+
 Then /^I should be redirected to the "([^"]*)" page for the "([^"]*)" geograph$/ do |path, geograph_name|
     if path == 'show'
         page.current_path.should eq geo_graph_path(GeoGraph.find_by_name(geograph_name))

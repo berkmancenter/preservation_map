@@ -1,5 +1,6 @@
 <%= semantic_form_for @geograph do |f| %>
     <%= f.input :name %>
     <%= f.input :import_data %>
+    <%= f.input :external_data_sources, :as => :check_boxes %>
     <%= f.buttons %>
 <% end %>
