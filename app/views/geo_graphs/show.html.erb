@@ -3,7 +3,7 @@
     <% @place_measures.each_with_index do |pm, i| %>
         <% if i == 0 %>
             <tr><th>Library Name</th>
-            <% @geograph.measures.each do |measure| %>
+            <% @geograph.all_measures.each do |measure| %>
                 <th><%= measure.name %></th>
             <% end %>
             </tr>

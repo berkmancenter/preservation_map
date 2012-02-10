@@ -11,7 +11,7 @@ When /^I create it$/ do
 end
 
 When /^I add an external data provider$/ do
-    check('HOLLIS')
+    check('Hollis')
 end
 
 Then /^I should be redirected to the "([^"]*)" page for the "([^"]*)" geograph$/ do |path, geograph_name|

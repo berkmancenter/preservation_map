@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209152311) do
+ActiveRecord::Schema.define(:version => 20120210014904) do
 
   create_table "color_themes", :force => true do |t|
     t.string   "gradient"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20120209152311) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "class_name"
   end
 
   create_table "external_data_sources_geo_graphs", :id => false, :force => true do |t|

@@ -6,4 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-ExternalDataSource.create(:name => 'HOLLIS')
+dir_name = Rails.root.to_s + '/lib/external_data_sources/'
+
+Dir.new(dir_name).each do |filename| 
+    if File.file?(dir_name + filename)
+        class_name = filename.sub(/\.rb$/,'').camelize
+        ExternalDataSource.create(:name => class_name.constantize.name, :class_name => class_name)
+    end
+end
