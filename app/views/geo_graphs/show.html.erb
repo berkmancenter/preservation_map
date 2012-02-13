@@ -14,4 +14,7 @@
         <td><%= pm.value %></td>
 <% end %>
 </table>
-<script>
+<div id="map" style="width: 500px; height: 500px;"></div>
+<%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
+<%= javascript_include_tag('openlayers/OpenLayers') %>
+<%= javascript_include_tag params[:controller] + '_' + params[:action] %>
