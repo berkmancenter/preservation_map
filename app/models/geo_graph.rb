@@ -44,11 +44,16 @@ class GeoGraph < ActiveRecord::Base
         return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
     end
 
+
     def table
         if import_data.exists?
             CSV.read(import_data.path, :headers => true)
         else
             CSV.read(import_data.uploaded_file.tempfile.path, :headers => true)
         end
+    end
+
+    def all_measures
+        measures + external_data_sources.map { |source| source.measures }.flatten!
     end
 end
