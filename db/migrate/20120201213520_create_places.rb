@@ -5,6 +5,7 @@ class CreatePlaces < ActiveRecord::Migration
       t.float :latitude
       t.float :longitude
       t.string :api_abbr
+      t.integer :geo_graph_id
 
       t.timestamps
     end
