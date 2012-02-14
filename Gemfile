@@ -20,6 +20,7 @@ gem 'pg'
 gem 'devise'
 gem 'formtastic'
 gem 'paperclip'
+gem 'color'
 
 group :development do
     gem 'rspec-rails'

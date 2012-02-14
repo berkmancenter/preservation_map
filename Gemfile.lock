@@ -41,6 +41,7 @@ GEM
     childprocess (0.3.0)
       ffi (~> 1.0.6)
     cocaine (0.2.1)
+    color (1.4.1)
     cucumber (1.1.4)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.2)
@@ -158,6 +159,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  color
   cucumber-rails
   database_cleaner
   devise
