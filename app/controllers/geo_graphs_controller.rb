@@ -34,7 +34,13 @@ class GeoGraphsController < ApplicationController
 
     def show
         @geograph = GeoGraph.find(params[:id])
-        @place_measures = PlaceMeasure.where(:geo_graph_id => @geograph.id).includes(:place, :measure)
+        if params['color-measure']
+        end
+        if params['size-measure']
+        end
+        respond_to do |format|
+            format.html
+        end
     end
 
     def edit
@@ -42,6 +48,10 @@ class GeoGraphsController < ApplicationController
 
     def update
         @geograph = GeoGraph.find(params[:id])
+        unless @geograph.user == current_user
+            flash[:alert] = 'You do not have access to that geograph.'
+            redirect_to geo_graph_path(@geograph)
+        end
         respond_to do |format|
             if @geograph.update_attributes(params[:geo_graph])
                 format.html { redirect_to geo_graph_path(@geograph) }
