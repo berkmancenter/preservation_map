@@ -1,5 +1,5 @@
 <h1><%= @geograph.name %></h1>
-<table style="display:none;">
+<table> 
     <thead>
         <tr>
             <th>Place Name</th>
@@ -19,12 +19,65 @@
         <% end %>
     </tbody>
 </table>
-
-<div id="map" style="width: 1600px; height: 900px;"></div>
-<div style="background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(<%= @geograph.color_theme[0] %>), to(<%= @geograph.color_theme[100] %>), color-stop(0.25,<%= @geograph.color_theme[25] %>), color-stop(0.5,<%= @geograph.color_theme[50] %>), color-stop(0.75,<%= @geograph.color_theme[75] %>)); width: 600px; height: 50px"></div>
+<%= semantic_form_for @geograph, :remote => true do |f| %>
+    <%= f.inputs do %>
+        <% unless @geograph.measures.empty? %>
+            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+            <%= f.input :color_theme, :as => :radio %>
+        <% end %>
+    <%= f.buttons %>
+    <% end %>
+<% end %>
+<div id="map"></div>
+</div>
+<div id="gradient"></div>
+<style>
+    html {
+        height: 97%;
+        width: 99%;
+        margin: 0.5%;
+        padding: 0;
+    }
+    body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    #map {
+        width: 100%;
+        height: 60%;
+    }
+    #gradient {
+        background-image: -webkit-linear-gradient(
+            left,
+            <%= @geograph.color_theme.gradient.map{ |color| "#{color[1]} #{color[0]}%" }.join(',') %>
+        );
+        width: 600px;
+        height: 50px;
+    }
+    table {
+        display: none;
+    }
+</style>
 <script>
-    var places;
-    $(function() { $.getJSON('<%= geo_graph_path(@geograph) %>.json', function(data) { places = data; place_spots(); }); }); 
+    var places, map, spots, base, googleProj, standardProj, path = '<%= geo_graph_path(@geograph) %>.json';
+
+    $(function() {
+        $('#edit_geo_graph_<%= @geograph.id %> input[type=submit]').hide();
+        $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { $(e.target).parents('form:first').submit(); } );
+        $('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
+        map = new OpenLayers.Map('map');
+        spots = new OpenLayers.Layer.Vector("Spots");
+        base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
+        map.addLayer(base);
+        map.zoomToMaxExtent();
+        map.addLayer(spots);
+        googleProj = map.getProjectionObject();
+        standardProj = new OpenLayers.Projection('EPSG:4326');
+        place_spots();
+    }); 
 </script>
 <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
 <%= javascript_include_tag('openlayers/OpenLayers') %>

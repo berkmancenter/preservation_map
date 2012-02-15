@@ -3,6 +3,9 @@ require 'json'
 
 class GeoGraph < ActiveRecord::Base
     belongs_to :user
+    belongs_to :size_measure, :class_name => 'Measure'
+    belongs_to :color_measure, :class_name => 'Measure'
+    belongs_to :color_theme
 
     has_many :places
     has_many :measures
@@ -12,10 +15,9 @@ class GeoGraph < ActiveRecord::Base
     validates_attachment_content_type :import_data, :content_type => 'text/csv'
     validates_attachment_size :import_data, :in => 1..1.megabyte
     validates :name, :presence => true, :length => { :in => 3..50 }
+    validates :import_data, :min_spot_size, :max_spot_size, :presence => true
 
-    serialize :color_theme
-
-    before_save :add_defaults
+    after_initialize :add_defaults
 
     def import_from_attachment!
         place_col_names = Code::Application.config.place_column_names
@@ -56,23 +58,6 @@ class GeoGraph < ActiveRecord::Base
         end
     end
 
-    def places?
-        return (self.table.headers & Code::Application.config.place_column_names.values).count == Code::Application.config.place_column_names.count
-    end
-
-    def measures?
-        return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
-    end
-
-
-    def table
-        if import_data.exists?
-            CSV.read(import_data.path, :headers => true)
-        else
-            CSV.read(import_data.uploaded_file.tempfile.path, :headers => true)
-        end
-    end
-
     def all_measures
         unless external_data_sources.empty?
             measures + external_data_sources.map { |source| source.measures }.flatten!
@@ -89,10 +74,10 @@ class GeoGraph < ActiveRecord::Base
                 :name => place.name,
                 :latitude => place.latitude,
                 :longitude => place.longitude,
-                :size => Measure.find(size_measure_id).size(place),
-                :color => Measure.find(color_measure_id).color(place),
-                :colorMeasureValue => Measure.find(color_measure_id).value(place),
-                :sizeMeasureValue => Measure.find(size_measure_id).value(place)
+                :size => measures.find(size_measure_id).size(place),
+                :color => measures.find(color_measure_id).color(place),
+                :colorMeasureValue => measures.find(color_measure_id).value(place),
+                :sizeMeasureValue => measures.find(size_measure_id).value(place)
             }
         end
 
@@ -101,14 +86,24 @@ class GeoGraph < ActiveRecord::Base
 
     protected
     def add_defaults
-        self.color_theme ||= {
-            0 => '#0000b0',
-            25 => '#00e3eb',
-            50 => '#00d100',
-            75 => '#ffff00',
-            100 => '#e80202'
-        }
+        self.color_theme ||= ColorTheme.first
         self.max_spot_size ||= 20 
         self.min_spot_size ||= 3
+    end
+
+    def places?
+        return (self.table.headers & Code::Application.config.place_column_names.values).count == Code::Application.config.place_column_names.count
+    end
+
+    def measures?
+        return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
+    end
+
+    def table
+        if import_data.exists?
+            CSV.read(import_data.path, :headers => true)
+        else
+            CSV.read(import_data.uploaded_file.tempfile.path, :headers => true)
+        end
     end
 end
