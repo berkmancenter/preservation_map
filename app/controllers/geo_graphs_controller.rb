@@ -8,21 +8,11 @@ class GeoGraphsController < ApplicationController
         @geograph = GeoGraph.new
     end
 
-    def add_places
-        @geograph = GeoGraph.find(params[:geo_graph_id]) 
-    end
-
-    def edit_columns
-        @geograph = GeoGraph.find(params[:geo_graph_id]) 
-    end
-
     def create
         @geograph = GeoGraph.new(params[:geo_graph])
         @geograph.user = current_user
+        @geograph.import_from_attachment!
         respond_to do |format|
-            if params[:geo_graph][:import_data]
-                @geograph.import_from_attachment!
-            end
             if @geograph.save
                 format.html {redirect_to geo_graph_path(@geograph)}
             else
@@ -34,12 +24,6 @@ class GeoGraphsController < ApplicationController
 
     def show
         @geograph = GeoGraph.find(params[:id])
-        if params['color-measure']
-            @geograph.color_measure_id = params['color-measure'].to_i
-        end
-        if params['size-measure']
-            @geograph.size_measure_id = params['size-measure'].to_i
-        end
         respond_to do |format|
             format.html
             format.json { render :json => @geograph }
@@ -62,7 +46,13 @@ class GeoGraphsController < ApplicationController
         end
         respond_to do |format|
             if @geograph.update_attributes(params[:geo_graph])
-                format.html { redirect_to geo_graph_path(@geograph) }
+              format.html  { redirect_to(@geograph,
+                            :notice => 'Post was successfully updated.') }
+              format.json  { head :no_content }
+            else
+              format.html  { render :action => "edit" }
+              format.json  { render :json => @geograph.errors,
+                            :status => :unprocessable_entity }
             end
         end
     end
