@@ -11,19 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210014904) do
-
-  create_table "color_themes", :force => true do |t|
-    t.string   "gradient"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20120209152311) do
 
   create_table "external_data_sources", :force => true do |t|
     t.string   "name"
+    t.string   "class_name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "class_name"
   end
 
   create_table "external_data_sources_geo_graphs", :id => false, :force => true do |t|
@@ -33,30 +27,34 @@ ActiveRecord::Schema.define(:version => 20120210014904) do
 
   create_table "geo_graphs", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
     t.integer  "user_id"
+    t.integer  "color_measure_id"
+    t.integer  "size_measure_id"
+    t.integer  "max_spot_size"
+    t.integer  "min_spot_size"
+    t.text     "color_theme"
     t.string   "import_data_file_name"
     t.string   "import_data_content_type"
     t.integer  "import_data_file_size"
     t.datetime "import_data_updated_at"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
 
   create_table "measures", :force => true do |t|
     t.string   "name"
     t.string   "api_url"
+    t.integer  "geo_graph_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.integer  "geo_graph_id"
   end
 
   create_table "place_measures", :force => true do |t|
     t.float    "value"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "measure_id"
     t.integer  "place_id"
-    t.integer  "geo_graph_id"
+    t.integer  "measure_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "places", :force => true do |t|
@@ -64,9 +62,9 @@ ActiveRecord::Schema.define(:version => 20120210014904) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "api_abbr"
+    t.integer  "geo_graph_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.integer  "geo_graph_id"
   end
 
   create_table "users", :force => true do |t|
