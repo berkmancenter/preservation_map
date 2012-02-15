@@ -35,15 +35,23 @@ class GeoGraphsController < ApplicationController
     def show
         @geograph = GeoGraph.find(params[:id])
         if params['color-measure']
+            @geograph.color_measure_id = params['color-measure'].to_i
         end
         if params['size-measure']
+            @geograph.size_measure_id = params['size-measure'].to_i
         end
         respond_to do |format|
             format.html
+            format.json { render :json => @geograph }
         end
     end
 
     def edit
+        @geograph = GeoGraph.find(params[:id])
+        unless @geograph.user == current_user
+            flash[:alert] = 'You do not have access to that geograph.'
+            redirect_to geo_graph_path(@geograph)
+        end
     end
 
     def update

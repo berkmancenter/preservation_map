@@ -20,10 +20,11 @@
     </tbody>
 </table>
 
-<div style="background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(<%= @geograph.color_theme[0] %>), to(<%= @geograph.color_theme[100] %>), color-stop(0.25,<%= @geograph.color_theme[25] %>), color-stop(0.5,<%= @geograph.color_theme[50] %>), color-stop(0.75,<%= @geograph.color_theme[75] %>)); width: 600px; height: 50px"></div>
 <div id="map" style="width: 1600px; height: 900px;"></div>
+<div style="background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(<%= @geograph.color_theme[0] %>), to(<%= @geograph.color_theme[100] %>), color-stop(0.25,<%= @geograph.color_theme[25] %>), color-stop(0.5,<%= @geograph.color_theme[50] %>), color-stop(0.75,<%= @geograph.color_theme[75] %>)); width: 600px; height: 50px"></div>
 <script>
-    var places = <%= raw @geograph.to_json %>
+    var places;
+    $(function() { $.getJSON('<%= geo_graph_path(@geograph) %>.json', function(data) { places = data; place_spots(); }); }); 
 </script>
 <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
 <%= javascript_include_tag('openlayers/OpenLayers') %>

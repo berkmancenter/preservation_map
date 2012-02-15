@@ -1,4 +1,4 @@
-$(function() {
+function place_spots() {
     var map = new OpenLayers.Map('map');
     var base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
     map.addLayer(base);
@@ -30,4 +30,4 @@ $(function() {
     map.addLayer(spots);
     map.setCenter(coords);
     map.zoomTo(16);
-});
+}

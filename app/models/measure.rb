@@ -11,7 +11,6 @@ class Measure < ActiveRecord::Base
     def color(place_id)
         percent = place_measures.find_by_measure_id_and_place_id(id, place_id).to_percent
         lower_key = percent < 1 ? (percent * 100).round / 25 * 25 : 75
-        logger.debug(lower_key.to_s)
         lower_color, upper_color = geo_graph.color_theme.values_at(lower_key, lower_key + 25).map { |color| Color::RGB.from_html(color) }
         return upper_color.mix_with(lower_color, (percent * 100).round).html
     end

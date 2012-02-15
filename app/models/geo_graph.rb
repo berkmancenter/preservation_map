@@ -51,8 +51,8 @@ class GeoGraph < ActiveRecord::Base
                 end
             end
 
-            self.color_measure_id = self.measures[3].id
-            self.size_measure_id = self.measures[3].id
+            self.color_measure_id ||= self.measures[3].id
+            self.size_measure_id ||= self.measures[3].id
         end
     end
 
@@ -81,7 +81,7 @@ class GeoGraph < ActiveRecord::Base
         end
     end
 
-    def to_json
+    def to_json(arg = nil)
         return_object = [];
 
         places.each do |place|
