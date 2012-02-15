@@ -1,20 +1,30 @@
-<h1>GeoGraph#show</h1>
-<table>
-    <% @place_measures.each_with_index do |pm, i| %>
-        <% if i == 0 %>
-            <tr><th>Library Name</th>
+<h1><%= @geograph.name %></h1>
+<table style="display:none;">
+    <thead>
+        <tr>
+            <th>Place Name</th>
             <% @geograph.all_measures.each do |measure| %>
                 <th><%= measure.name %></th>
             <% end %>
+        </tr>
+    </thead>
+    <tbody>
+        <% @geograph.places.each do |place| %>
+            <tr>
+                <td><%= place.name %></td>
+                <% @geograph.measures.each do |measure| %>
+                    <td><%= measure.value(place.id) %></td>
+                <% end %>
             </tr>
         <% end %>
-        <% if i == 0 or @place_measures[i-1].place_id != pm.place_id %>
-            </tr><tr><td><%= pm.place.name %></td>
-        <% end %>
-        <td><%= pm.value %></td>
-<% end %>
+    </tbody>
 </table>
-<div id="map" style="width: 500px; height: 500px;"></div>
+
+<div style="background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(<%= @geograph.color_theme[0] %>), to(<%= @geograph.color_theme[100] %>), color-stop(0.25,<%= @geograph.color_theme[25] %>), color-stop(0.5,<%= @geograph.color_theme[50] %>), color-stop(0.75,<%= @geograph.color_theme[75] %>)); width: 600px; height: 50px"></div>
+<div id="map" style="width: 1600px; height: 900px;"></div>
+<script>
+    var places = <%= raw @geograph.to_json %>
+</script>
 <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
 <%= javascript_include_tag('openlayers/OpenLayers') %>
-<%= javascript_include_tag params[:controller] + '_' + params[:action] %>
+<%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
