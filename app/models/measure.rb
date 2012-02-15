@@ -9,10 +9,14 @@ class Measure < ActiveRecord::Base
     end
 
     def color(place_id)
+        theme = geo_graph.color_theme.gradient
         percent = place_measures.find_by_measure_id_and_place_id(id, place_id).to_percent
-        lower_key = percent < 1 ? (percent * 100).round / 25 * 25 : 75
-        lower_color, upper_color = geo_graph.color_theme.values_at(lower_key, lower_key + 25).map { |color| Color::RGB.from_html(color) }
-        return upper_color.mix_with(lower_color, (percent * 100).round).html
+        percent_i = (percent * 100).floor
+        lower_color = percent_i > 0 ? theme[theme.keys[theme.keys.push(percent_i).sort!.index(percent_i) - 1]] : theme[0]
+        lower_key = theme.key(lower_color)
+        upper_color = theme[theme.keys[theme.keys.sort!.index(lower_key) + 1]]
+        new_percent = ((percent - lower_key.to_f / 100) / (theme.key(upper_color) - lower_key) * 10000).round
+        return Color::RGB.from_html(upper_color).mix_with(Color::RGB.from_html(lower_color), new_percent).html
     end
 
     def value(place_id)
