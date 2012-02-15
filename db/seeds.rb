@@ -14,3 +14,28 @@ Dir.new(dir_name).each do |filename|
         ExternalDataSource.create(:name => class_name.constantize.name, :class_name => class_name)
     end
 end
+
+ColorTheme.new(:gradient => {
+    0 => '#0000b0',
+    25 => '#00e3eb',
+    50 => '#00d100',
+    75 => '#ffff00',
+    100 => '#e80202'
+}).save!
+
+ColorTheme.new(:gradient => {
+    0 => '#00d100',
+    50 => '#ffff00',
+    100 => '#e80202'
+}).save!
+
+ColorTheme.new(:gradient => {
+    0 => '#0000b0',
+    100 => '#e80202'
+}).save!
+
+ColorTheme.new(:gradient => {
+    0 => '#FFF',
+    75 => '#0F0',
+    100 => '#000'
+}).save!

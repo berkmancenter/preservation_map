@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209152311) do
+ActiveRecord::Schema.define(:version => 20120215223534) do
+
+  create_table "color_themes", :force => true do |t|
+    t.text     "gradient"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "external_data_sources", :force => true do |t|
     t.string   "name"
@@ -32,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20120209152311) do
     t.integer  "size_measure_id"
     t.integer  "max_spot_size"
     t.integer  "min_spot_size"
-    t.text     "color_theme"
+    t.integer  "color_theme_id"
     t.string   "import_data_file_name"
     t.string   "import_data_content_type"
     t.integer  "import_data_file_size"
