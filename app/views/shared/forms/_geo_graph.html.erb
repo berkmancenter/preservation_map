@@ -4,7 +4,7 @@
         <%= f.input :import_data, :label => 'Data' %>
         <%= f.input :min_spot_size, :label => 'Minimum spot size' %>
         <%= f.input :max_spot_size, :label => 'Maximum spot size' %>
-        <%= f.input :color_theme %>
+        <%= f.input :color_theme, :as => :radio, :value_as_class => true %>
         <% if ExternalDataSource.count %>
             <%= f.input :external_data_sources, :as => :check_boxes %>
         <% end %>
