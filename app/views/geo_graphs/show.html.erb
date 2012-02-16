@@ -1,4 +1,80 @@
+<style>
+    #map {
+        width: 800px;
+        height: 800px;
+        float: left;
+    }
+    table {
+        display: none;
+    }
+    .gradient li {
+        width: 200px;
+        height: 50px;
+    }
+    form.geo_graph {
+        width: 400px;
+        float: left;
+    }
+    <%= ColorTheme.all.map{ |color_theme| ".color_theme_#{color_theme.id} { background-image: -webkit-linear-gradient( left, #{color_theme.gradient.map do |color| color[1].to_s + ' ' + color[0].to_s + '%' end.join(',')} ); }" }.join %>
+</style>
+<script>
+    var places, map, spots, base, googleProj, standardProj, path = '<%= geo_graph_path(@geograph) %>.json';
+
+    $(function() {
+        $('#edit_geo_graph_<%= @geograph.id %> input[type=submit]').hide();
+        $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { $(e.target).parents('form:first').submit(); } );
+        $('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
+        $('#hideTable').click(function() { $('table').toggle() });
+        map = new OpenLayers.Map('map');
+        spots = new OpenLayers.Layer.Vector("Spots");
+        base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
+        map.addLayer(base);
+        map.zoomToMaxExtent();
+        map.addLayer(spots);
+        selectControl = new OpenLayers.Control.SelectFeature(spots);
+        spots.events.on({
+            'featureselected': function(clicked) {
+                feature = clicked.feature;
+                popup = new OpenLayers.Popup.FramedCloud("chicken", 
+                    feature.geometry.getBounds().getCenterLonLat(),
+                    null,
+                    "<div style='font-size:.8em'>Place: " + feature.data.placeName +"<br>"
+                        + $('#geo_graph_size_measure_id option:selected').text() + ' (size): ' + feature.data.sizeMeasureValue
+                        + "<br />"
+                        + $('#geo_graph_color_measure_id option:selected').text() + ' (color): ' + feature.data.colorMeasureValue
+                        + "</div>",
+                    null,
+                    true
+                );
+                feature.popup = popup;
+                map.addPopup(popup);
+            }
+        });
+        map.addControl(selectControl);
+        selectControl.activate();
+        googleProj = map.getProjectionObject();
+        standardProj = new OpenLayers.Projection('EPSG:4326');
+        place_spots();
+    }); 
+</script>
+
+<%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
+<%= javascript_include_tag('openlayers/OpenLayers') %>
+<%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
+
 <h1><%= @geograph.name %></h1>
+<%= semantic_form_for @geograph, :remote => true do |f| %>
+    <%= f.inputs do %>
+        <% unless @geograph.measures.empty? %>
+            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+            <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
+        <% end %>
+    <%= f.buttons %>
+    <% end %>
+<% end %>
+<button id="hideTable">Toggle Data Table</button>
+<div id="map"></div>
 <table> 
     <thead>
         <tr>
@@ -19,66 +95,3 @@
         <% end %>
     </tbody>
 </table>
-<%= semantic_form_for @geograph, :remote => true do |f| %>
-    <%= f.inputs do %>
-        <% unless @geograph.measures.empty? %>
-            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-            <%= f.input :color_theme, :as => :radio %>
-        <% end %>
-    <%= f.buttons %>
-    <% end %>
-<% end %>
-<div id="map"></div>
-</div>
-<div id="gradient"></div>
-<style>
-    html {
-        height: 97%;
-        width: 99%;
-        margin: 0.5%;
-        padding: 0;
-    }
-    body {
-        height: 100%;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-    #map {
-        width: 100%;
-        height: 60%;
-    }
-    #gradient {
-        background-image: -webkit-linear-gradient(
-            left,
-            <%= @geograph.color_theme.gradient.map{ |color| "#{color[1]} #{color[0]}%" }.join(',') %>
-        );
-        width: 600px;
-        height: 50px;
-    }
-    table {
-        display: none;
-    }
-</style>
-<script>
-    var places, map, spots, base, googleProj, standardProj, path = '<%= geo_graph_path(@geograph) %>.json';
-
-    $(function() {
-        $('#edit_geo_graph_<%= @geograph.id %> input[type=submit]').hide();
-        $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { $(e.target).parents('form:first').submit(); } );
-        $('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
-        map = new OpenLayers.Map('map');
-        spots = new OpenLayers.Layer.Vector("Spots");
-        base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
-        map.addLayer(base);
-        map.zoomToMaxExtent();
-        map.addLayer(spots);
-        googleProj = map.getProjectionObject();
-        standardProj = new OpenLayers.Projection('EPSG:4326');
-        place_spots();
-    }); 
-</script>
-<%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
-<%= javascript_include_tag('openlayers/OpenLayers') %>
-<%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
