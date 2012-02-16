@@ -11,6 +11,7 @@ function place_spots() {
                 new OpenLayers.Feature.Vector(
                     new OpenLayers.Geometry.Point(coords.lon, coords.lat),
                     {
+                        placeName: places[i].name,
                         colorMeasureValue: places[i].colorMeasureValue,
                         sizeMeasureValue: places[i].sizeMeasureValue
                     },
