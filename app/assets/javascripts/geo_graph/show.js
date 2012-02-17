@@ -1,6 +1,6 @@
 function place_spots() {
-    $.getJSON(path, function(data) {
-        places = data;
+    $.getJSON(path, { color_measure: $('#geo_graph_color_measure_id').val(), size_measure: $('#geo_graph_size_measure_id').val()}, function(data) {
+        places = data.geo_graph.places;
         var spotFeatures = Array();
         var coords;
         spots.removeAllFeatures();

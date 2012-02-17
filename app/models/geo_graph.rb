@@ -19,6 +19,14 @@ class GeoGraph < ActiveRecord::Base
 
     after_initialize :add_defaults
 
+    acts_as_api
+
+    api_accessible :geo_graph do |template|
+        template.add :name
+        template.add :color_theme, :template => :gradient_only
+        template.add :places, :template => :processed_data
+    end
+
     def import_from_attachment!
         place_col_names = Code::Application.config.place_column_names
 
@@ -64,24 +72,6 @@ class GeoGraph < ActiveRecord::Base
         else
             measures
         end
-    end
-
-    def to_json(arg = nil)
-        return_object = [];
-
-        places.each do |place|
-            return_object << {
-                :name => place.name,
-                :latitude => place.latitude,
-                :longitude => place.longitude,
-                :size => measures.find(size_measure_id).size(place),
-                :color => measures.find(color_measure_id).color(place),
-                :colorMeasureValue => measures.find(color_measure_id).value(place),
-                :sizeMeasureValue => measures.find(size_measure_id).value(place)
-            }
-        end
-
-        return return_object.to_json
     end
 
     protected

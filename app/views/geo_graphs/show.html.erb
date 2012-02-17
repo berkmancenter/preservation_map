@@ -22,8 +22,8 @@
 
     $(function() {
         $('#edit_geo_graph_<%= @geograph.id %> input[type=submit]').hide();
-        $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { $(e.target).parents('form:first').submit(); } );
-        $('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
+        $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { place_spots(); } );
+        //$('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
         $('#hideTable').click(function() { $('table').toggle() });
         map = new OpenLayers.Map('map');
         spots = new OpenLayers.Layer.Vector("Spots");

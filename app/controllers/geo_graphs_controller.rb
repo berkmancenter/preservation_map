@@ -24,9 +24,15 @@ class GeoGraphsController < ApplicationController
 
     def show
         @geograph = GeoGraph.find(params[:id])
+        if params[:color_measure]
+            @geograph.color_measure = Measure.find(params[:color_measure])
+        end
+        if params[:size_measure]
+            @geograph.size_measure = Measure.find(params[:size_measure])
+        end
         respond_to do |format|
             format.html
-            format.json { render :json => @geograph }
+            format.json { render_for_api :geo_graph,  :json => @geograph }
         end
     end
 
