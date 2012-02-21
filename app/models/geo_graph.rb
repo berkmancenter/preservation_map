@@ -31,7 +31,7 @@ class GeoGraph < ActiveRecord::Base
                 :longitude => place.longitude,
                 :size => place.size(size_measure),
                 :sizeMeasureValue => place.value(size_measure),
-                :color => place.color(color_measure),
+                :color => place.color(color_measure, color_theme),
                 :colorMeasureValue => place.value(color_measure)
             }
         end

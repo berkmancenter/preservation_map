@@ -9,8 +9,8 @@ class Place < ActiveRecord::Base
         measure.size(self)
     end
 
-    def color(measure)
-        measure.color(self)
+    def color(measure, color_theme = nil)
+        measure.color(self, color_theme)
     end
 
     def value(measure)
