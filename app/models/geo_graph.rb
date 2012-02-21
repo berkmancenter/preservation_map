@@ -19,12 +19,23 @@ class GeoGraph < ActiveRecord::Base
 
     after_initialize :add_defaults
 
-    acts_as_api
-
-    api_accessible :geo_graph do |template|
-        template.add :name
-        template.add :color_theme, :template => :gradient_only
-        template.add :places, :template => :processed_data
+    def as_json(options={})
+        hash = {
+            :name => name,
+            :color_theme => { :gradient => color_theme.gradient }
+        }
+        hash[:places] = places.map do |place| 
+            {
+                :name => place.name,
+                :latitude => place.latitude,
+                :longitude => place.longitude,
+                :size => place.size(size_measure),
+                :sizeMeasureValue => place.value(size_measure),
+                :color => place.color(color_measure),
+                :colorMeasureValue => place.value(color_measure)
+            }
+        end
+        return hash
     end
 
     def import_from_attachment!

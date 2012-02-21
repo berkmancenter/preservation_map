@@ -1,6 +1,10 @@
 function place_spots() {
-    $.getJSON(path, { color_measure: $('#geo_graph_color_measure_id').val(), size_measure: $('#geo_graph_size_measure_id').val()}, function(data) {
-        places = data.geo_graph.places;
+    $.getJSON(path, {
+            color_measure: $('#geo_graph_color_measure_id').val(),
+            size_measure: $('#geo_graph_size_measure_id').val(),
+            color_theme: $('#geo_graph_color_theme_input :checked').val()
+        }, function(data) {
+        places = data.places;
         var spotFeatures = Array();
         var coords;
         spots.removeAllFeatures();

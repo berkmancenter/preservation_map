@@ -21,7 +21,6 @@ gem 'devise'
 gem 'formtastic'
 gem 'paperclip'
 gem 'color'
-gem 'acts_as_api'
 
 group :development do
     gem 'rspec-rails'

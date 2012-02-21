@@ -30,9 +30,12 @@ class GeoGraphsController < ApplicationController
         if params[:size_measure]
             @geograph.size_measure = Measure.find(params[:size_measure])
         end
+        if params[:color_theme]
+            @geograph.color_theme = ColorTheme.find(params[:color_theme])
+        end
         respond_to do |format|
             format.html
-            format.json { render_for_api :geo_graph,  :json => @geograph }
+            format.json { render :json => @geograph }
         end
     end
 

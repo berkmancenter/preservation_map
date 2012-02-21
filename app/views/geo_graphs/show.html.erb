@@ -89,7 +89,7 @@
             <tr>
                 <td><%= place.name %></td>
                 <% @geograph.measures.each do |measure| %>
-                    <td><%= measure.value(place.id) %></td>
+                    <td><%= measure.value(place) %></td>
                 <% end %>
             </tr>
         <% end %>
