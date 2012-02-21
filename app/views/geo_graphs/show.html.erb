@@ -70,7 +70,14 @@
         //$('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
         $('#hideTable').click(function() { $('table').toggle() });
         OpenLayers.ImgPath = '<%= image_path('openlayers') %>/';
-        map = new OpenLayers.Map('map');
+        map_controls = [
+            new OpenLayers.Control.ArgParser(),
+            new OpenLayers.Control.Attribution(),
+            new OpenLayers.Control.Navigation(),
+            new OpenLayers.Control.PanZoomBar(),
+            new OpenLayers.Control.KeyboardDefaults()
+        ];
+        map = new OpenLayers.Map('map', { controls: map_controls });
         spots = new OpenLayers.Layer.Vector("Spots");
         base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
         map.addLayer(base);
