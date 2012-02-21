@@ -7,6 +7,8 @@ class CreateGeoGraphs < ActiveRecord::Migration
       t.integer :size_measure_id
       t.integer :max_spot_size
       t.integer :min_spot_size
+      t.integer :num_legend_sizes
+      t.integer :num_legend_colors
       t.integer :color_theme_id
       t.has_attached_file :import_data
 

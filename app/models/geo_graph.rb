@@ -20,9 +20,14 @@ class GeoGraph < ActiveRecord::Base
     after_initialize :add_defaults
 
     def as_json(options={})
+        Measure.includes(:place_measures)
         hash = {
             :name => name,
-            :color_theme => { :gradient => color_theme.gradient }
+            :color_theme => { :gradient => color_theme.gradient },
+            :legend_sizes => size_measure.legend_sizes,
+            :legend_colors => color_measure.legend_colors(color_theme),
+            :min_spot_size => min_spot_size,
+            :max_spot_size => max_spot_size
         }
         hash[:places] = places.map do |place| 
             {
@@ -89,7 +94,9 @@ class GeoGraph < ActiveRecord::Base
     def add_defaults
         self.color_theme ||= ColorTheme.first
         self.max_spot_size ||= 20 
-        self.min_spot_size ||= 3
+        self.min_spot_size ||= 5
+        self.num_legend_sizes ||= 5
+        self.num_legend_colors ||= 5
     end
 
     def places?
