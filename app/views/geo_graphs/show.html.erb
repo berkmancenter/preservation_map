@@ -1,19 +1,39 @@
 <style>
-    #map {
-        width: 800px;
-        height: 800px;
-        float: left;
+    html, body, #map {
+        margin: 0;
+        width: 100%;
+        height: 100%;
     }
     table {
         display: none;
     }
     .gradient li {
         width: 200px;
-        height: 50px;
+        height: 20px;
+    }
+    .olPopupCloseBox {
+        background: url(<%= image_path('openlayers/close.png') %>) no-repeat;
     }
     form.geo_graph {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
         width: 400px;
-        float: left;
+        z-index: 9999;
+        background-color: #fff;
+    }
+    #geo_graph_title {
+        position: absolute;
+        top: 15px;
+        right: 30px;
+        background-color: #fff;
+        z-index: 3;
+    }
+    #hideTable {
+        position: absolute;
+        z-index: 3;
+        top: 30px;
+        left: 100px;
     }
     <%= ColorTheme.all.map{ |color_theme| ".color_theme_#{color_theme.id} { background-image: -webkit-linear-gradient( left, #{color_theme.gradient.map do |color| color[1].to_s + ' ' + color[0].to_s + '%' end.join(',')} ); }" }.join %>
 </style>
@@ -25,11 +45,13 @@
         $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { place_spots(); } );
         //$('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
         $('#hideTable').click(function() { $('table').toggle() });
+        OpenLayers.ImgPath = '<%= image_path('openlayers') %>/';
         map = new OpenLayers.Map('map');
         spots = new OpenLayers.Layer.Vector("Spots");
         base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: 20 });
         map.addLayer(base);
         map.zoomToMaxExtent();
+        map.addControl(new OpenLayers.Control.KeyboardDefaults());
         map.addLayer(spots);
         selectControl = new OpenLayers.Control.SelectFeature(spots);
         spots.events.on({
@@ -62,7 +84,7 @@
 <%= javascript_include_tag('openlayers/OpenLayers') %>
 <%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
 
-<h1><%= @geograph.name %></h1>
+<h1 id="geo_graph_title"><%= @geograph.name %></h1>
 <%= semantic_form_for @geograph, :remote => true do |f| %>
     <%= f.inputs do %>
         <% unless @geograph.measures.empty? %>
