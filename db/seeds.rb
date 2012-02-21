@@ -36,6 +36,6 @@ ColorTheme.new(:gradient => {
 
 ColorTheme.new(:gradient => {
     0 => '#FFF',
-    75 => '#0F0',
+    50 => '#F00',
     100 => '#000'
 }).save!
