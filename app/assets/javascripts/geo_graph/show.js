@@ -13,15 +13,17 @@ function place_spots() {
             for (i in data.legend_sizes) {
                 diameter = data.legend_sizes[i].diameter - 2;
                 html += '<div class="spot_size"><div class="spot_circle" style="width:' + diameter + 'px;height:' + diameter + 'px;"></div><div class="spot_value">' + data.legend_sizes[i].value + '</div></div>';
-                $('#sizes').html(html);
             }
+            $('#sizes .spot_size').remove();
+            $('#sizes').append(html);
 
             html = '';
 
             for (i in data.legend_colors) {
-                html += '<div class="spot_color"><div class="spot_circle" style="background-color:' + data.legend_colors[i].color + '"></div><div class="spot_value">' + data.legend_colors[i].value + '</div></div>';
-                $('#colors').html(html);
+                html += '<div class="spot_color"><div class="spot_swatch" style="background-color:' + data.legend_colors[i].color + '"></div><div class="spot_value">' + data.legend_colors[i].value + '</div></div>';
             }
+            $('#colors .spot_color').remove();
+            $('#colors').append(html);
 
             for(i in places) {
                 place = places[i];
