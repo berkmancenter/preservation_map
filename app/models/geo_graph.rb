@@ -15,7 +15,9 @@ class GeoGraph < ActiveRecord::Base
     validates_attachment_content_type :import_data, :content_type => 'text/csv'
     validates_attachment_size :import_data, :in => 1..1.megabyte
     validates :name, :presence => true, :length => { :in => 3..50 }
-    validates :import_data, :min_spot_size, :max_spot_size, :presence => true
+    validates :import_data, :min_spot_size, :max_spot_size, :num_legend_sizes, :num_legend_colors, :presence => true
+    validates :num_legend_sizes, :num_legend_colors, :numericality => { :only_integer => true, :less_than_or_equal_to => 50, :greater_than_or_equal_to => 0 }
+    validates :min_spot_size, :max_spot_size, :numericality => { :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0 }
 
     after_initialize :add_defaults
 

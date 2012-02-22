@@ -23,7 +23,7 @@ class Measure < ActiveRecord::Base
             percent = i.to_f / (geo_graph.num_legend_sizes - 1)
             sizes << {
                 :diameter => percent_to_size(percent) * 2,
-                :value => percent_to_value(percent)
+                :value => percent_to_value(percent).round(2)
             }
         end
         return sizes
@@ -32,10 +32,10 @@ class Measure < ActiveRecord::Base
     def legend_colors(color_theme = nil)
         colors = []
         geo_graph.num_legend_colors.times do |i|
-            percent = i.to_f / (geo_graph.num_legend_sizes - 1)
+            percent = i.to_f / (geo_graph.num_legend_colors - 1)
             colors << {
                 :color => percent_to_color(percent, color_theme),
-                :value => percent_to_value(percent)
+                :value => percent_to_value(percent).round(2)
             }
         end
         return colors
