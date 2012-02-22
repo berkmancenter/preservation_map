@@ -10,6 +10,7 @@ class CreateGeoGraphs < ActiveRecord::Migration
       t.integer :num_legend_sizes
       t.integer :num_legend_colors
       t.integer :color_theme_id
+      t.integer :num_zoom_levels
       t.has_attached_file :import_data
 
       t.timestamps

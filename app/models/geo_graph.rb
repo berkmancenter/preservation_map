@@ -99,6 +99,7 @@ class GeoGraph < ActiveRecord::Base
         self.min_spot_size ||= 5
         self.num_legend_sizes ||= 5
         self.num_legend_colors ||= 5
+        self.num_zoom_levels ||= 20
     end
 
     def places?

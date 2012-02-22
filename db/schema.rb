@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.integer  "num_legend_sizes"
     t.integer  "num_legend_colors"
     t.integer  "color_theme_id"
+    t.integer  "num_zoom_levels"
     t.string   "import_data_file_name"
     t.string   "import_data_content_type"
     t.integer  "import_data_file_size"
