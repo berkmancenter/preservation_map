@@ -2,6 +2,7 @@ class GeoGraphsController < ApplicationController
     before_filter :authenticate_user!, :except => [:index, :show]
 
     def index
+        @geographs = GeoGraph.all
     end
 
     def new
@@ -14,10 +15,10 @@ class GeoGraphsController < ApplicationController
         @geograph.import_from_attachment!
         respond_to do |format|
             if @geograph.save
-                format.html {redirect_to geo_graph_path(@geograph)}
+                format.html {redirect_to edit_geo_graph_path(@geograph)}
             else
                 flash[:alert] = 'Could not add that GeoGraph.'
-                format.html { render :action => 'new' }
+                format.html { render 'new' }
             end
         end
     end
@@ -59,7 +60,7 @@ class GeoGraphsController < ApplicationController
                             :notice => 'Post was successfully updated.') }
               format.json  { head :no_content }
             else
-              format.html  { render :action => "edit" }
+              format.html  { render "edit" }
               format.json  { render :json => @geograph.errors,
                             :status => :unprocessable_entity }
             end
