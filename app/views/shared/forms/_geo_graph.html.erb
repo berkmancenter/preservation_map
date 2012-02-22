@@ -2,16 +2,20 @@
     <%= f.inputs do %>
         <%= f.input :name %>
         <%= f.input :import_data, :label => 'Data' %>
-        <%= f.input :min_spot_size, :label => 'Minimum spot size' %>
-        <%= f.input :max_spot_size, :label => 'Maximum spot size' %>
-        <%= f.input :color_theme, :as => :radio, :value_as_class => true %>
+        <%= f.input :color_theme, :as => :radio, :value_as_class => true, :label => 'Default color theme' %>
         <% if ExternalDataSource.count %>
             <%= f.input :external_data_sources, :as => :check_boxes %>
         <% end %>
         <% unless @geograph.measures.empty? %>
-            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false, :label => 'Default size measure' %>
+            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false, :label => 'Default color measure' %>
         <% end %>
+    <% end %>
+    <%= f.inputs 'Advanced' do %>
+        <%= f.input :min_spot_size, :label => 'Minimum spot size' %>
+        <%= f.input :max_spot_size, :label => 'Maximum spot size' %>
+        <%= f.input :num_legend_sizes, :label => 'Number of sizes in legend' %>
+        <%= f.input :num_legend_colors, :label => 'Number of colors in legend' %>
     <% end %>
     <%= f.buttons %>
 <% end %>
