@@ -1,0 +1,55 @@
+html, body, #content, #map {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+table {
+    display: none;
+}
+.overlay {
+    position: absolute;
+    z-index: 9999;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    color: #d4d4d4;
+    background-image: url(<%= image_path 'background.png' %>);
+}
+.spot_size, .spot_color {
+    display: inline-block;
+    text-align: center;
+}
+.spot_swatch {
+    margin: 0 5px;
+    border: 2px solid #000;
+}
+.spot_circle {
+    border: 2px solid #000;
+    background-color: #aaa;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+#legend > div {
+    display: inline-block;
+}
+.gradient li {
+    width: 200px;
+    height: 20px;
+}
+.olPopupCloseBox {
+    background: url(<%= image_path('openlayers/close.png') %>) no-repeat !important;
+}
+#legend {
+    left: 100px;
+    bottom: 25px;
+}
+#controls {
+    bottom: 25px;
+    right: 25px;
+}
+#geo_graph_title {
+    top: 25px;
+    right: 25px;
+}

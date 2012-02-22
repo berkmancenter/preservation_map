@@ -1,3 +1,7 @@
+/*
+ *= require application
+ *= require openlayers/OpenLayers
+*/
 function place_spots() {
     $.getJSON(path, {
             color_measure: $('#geo_graph_color_measure_id').val(),

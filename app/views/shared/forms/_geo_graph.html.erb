@@ -2,7 +2,7 @@
     <%= f.inputs do %>
         <%= f.input :name %>
         <%= f.input :import_data, :label => 'Data' %>
-        <%= f.input :color_theme, :as => :radio, :value_as_class => true, :label => 'Default color theme' %>
+        <%= f.input :color_theme, :as => :radio, :value_as_class => true, :label => 'Default color theme', :member_label => '' %>
         <% if ExternalDataSource.count %>
             <%= f.input :external_data_sources, :as => :check_boxes %>
         <% end %>

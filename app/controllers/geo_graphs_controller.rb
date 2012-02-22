@@ -35,7 +35,7 @@ class GeoGraphsController < ApplicationController
             @geograph.color_theme = ColorTheme.find(params[:color_theme])
         end
         respond_to do |format|
-            format.html
+            format.html { render :layout => false }
             format.json { render :json => @geograph }
         end
     end
