@@ -1,9 +1,5 @@
 Code::Application.routes.draw do
 
-    authenticated :user do 
-        root :to => 'users#my_geo_graphs'
-    end
-
     root :to => 'geo_graphs#index'
 
     match 'my_geo_graphs' => 'users#my_geo_graphs'

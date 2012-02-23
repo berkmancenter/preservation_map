@@ -1,4 +1,12 @@
 <h3>GeoGraphs</h3>
 <table>
-<%= render :partial => 'shared/line_items/geo_graph', :collection => @geographs %>
+    <thead>
+        <tr><th>Name</th><th>Last Updated</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        <%= render :partial => 'shared/line_items/geo_graph', :collection => @geographs %>
+    </tbody>
 </table>
+<% if user_signed_in? %>
+    <%= link_to "Create a new geograph", new_geo_graph_path %>
+<% end %>
