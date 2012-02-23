@@ -2,6 +2,7 @@ class Measure < ActiveRecord::Base
     has_many :place_measures
     has_many :places, :through => :place_measures
     belongs_to :geo_graph
+    belongs_to :external_data_source
 
     def size(place)
         percent = value_to_percent(value(place))
@@ -14,7 +15,11 @@ class Measure < ActiveRecord::Base
     end
 
     def value(place)
-        place_measures.find_by_place_id(place.id).value
+        if place_measures.find_by_place_id(place.id)
+            return place_measures.find_by_place_id(place.id).value
+        elsif external_data_source
+            return external_data_source.value(place, self)
+        end
     end
 
     def legend_sizes

@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.string   "name"
     t.string   "api_url"
     t.integer  "geo_graph_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "external_data_source_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "place_measures", :force => true do |t|

@@ -12,17 +12,27 @@ class GeoGraph < ActiveRecord::Base
     has_and_belongs_to_many :external_data_sources
     has_attached_file :import_data
 
+    validates :name,
+              :import_data,
+              :min_spot_size,
+              :max_spot_size,
+              :num_legend_sizes,
+              :num_legend_colors, 
+    :presence => true
+
     validates_attachment_content_type :import_data, :content_type => 'text/csv'
     validates_attachment_size :import_data, :in => 1..1.megabyte
-    validates :name, :presence => true, :length => { :in => 3..50 }
-    validates :import_data, :min_spot_size, :max_spot_size, :num_legend_sizes, :num_legend_colors, :presence => true
-    validates :num_legend_sizes, :num_legend_colors, :numericality => { :only_integer => true, :less_than_or_equal_to => 50, :greater_than_or_equal_to => 0 }
-    validates :min_spot_size, :max_spot_size, :numericality => { :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0 }
+    validates :name, :length => { :in => 3..50 }
+    validates :num_legend_sizes, :num_legend_colors, :numericality => {
+        :only_integer => true, :less_than_or_equal_to => 50, :greater_than_or_equal_to => 0
+    }
+    validates :min_spot_size, :max_spot_size, :numericality => {
+        :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0
+    }
 
     after_initialize :add_defaults
 
     def as_json(options={})
-        Measure.includes(:place_measures)
         hash = {
             :name => name,
             :color_theme => { :gradient => color_theme.gradient },
@@ -45,7 +55,7 @@ class GeoGraph < ActiveRecord::Base
         return hash
     end
 
-    def import_from_attachment!
+    def import_data_from_attachment!
         place_col_names = Code::Application.config.place_column_names
 
         if places? and measures?
@@ -84,11 +94,23 @@ class GeoGraph < ActiveRecord::Base
         end
     end
 
-    def all_measures
-        unless external_data_sources.empty?
-            measures + external_data_sources.map { |source| source.measures }.flatten!
-        else
-            measures
+    def import_data_from_external_sources!
+        external_data_sources.each do |eds|
+            eds.measures.each do |measure|
+                measures << measure
+            end
+        end
+
+        self.save
+
+        external_data_sources.each do |eds|
+            places.each do |place|
+                measures.where(:external_data_source_id => eds.id).each do |measure|
+                    place_measure = PlaceMeasure.new(:value => measure.value(place))
+                    place.place_measures << place_measure
+                    measure.place_measures << place_measure
+                end
+            end
         end
     end
 

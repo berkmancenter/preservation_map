@@ -12,7 +12,8 @@ class GeoGraphsController < ApplicationController
     def create
         @geograph = GeoGraph.new(params[:geo_graph])
         @geograph.user = current_user
-        @geograph.import_from_attachment!
+        @geograph.import_data_from_attachment!
+        @geograph.import_data_from_external_sources!
         respond_to do |format|
             if @geograph.save
                 format.html {redirect_to edit_geo_graph_path(@geograph)}

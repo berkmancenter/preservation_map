@@ -4,6 +4,7 @@ class CreateMeasures < ActiveRecord::Migration
       t.string :name
       t.string :api_url
       t.integer :geo_graph_id
+      t.integer :external_data_source_id
 
       t.timestamps
     end
