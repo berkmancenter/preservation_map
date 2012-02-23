@@ -19,8 +19,15 @@
 </head>
 <body>
     <div id="content" role="main">
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
+        <% if flash[:notice] %>
+            <p class="flash notice"><%= flash[:notice] %></p>
+        <% end %>
+        <% if flash[:alert] %>
+            <p class="flash alert"><%= flash[:alert] %></p>
+        <% end %>
+        <% if flash[:error] %>
+            <p class="flash error"><%= flash[:error] %></p>
+        <% end %>
         <h1 class="overlay" id="geo_graph_title"><%= @geograph.name %></h1>
 
         <div class="overlay" id="controls">
@@ -54,7 +61,7 @@
             <thead>
                 <tr>
                     <th>Place Name</th>
-                    <% @geograph.all_measures.each do |measure| %>
+                    <% @geograph.measures.each do |measure| %>
                         <th><%= measure.name %></th>
                     <% end %>
                 </tr>
