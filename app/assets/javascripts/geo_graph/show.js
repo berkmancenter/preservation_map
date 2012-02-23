@@ -19,7 +19,7 @@ function place_spots() {
                 html += '<div class="spot_size"><div class="spot_circle" style="width:' + diameter + 'px;height:' + diameter + 'px;"></div><div class="spot_value">' + data.legend_sizes[i].value + '</div></div>';
             }
             $('#sizes .spot_size').remove();
-            $('#sizes').append(html);
+            $('#sizes').append(html).find('#size-title').text( $('#geo_graph_size_measure_id :selected').text() );
 
             html = '';
 
@@ -27,7 +27,7 @@ function place_spots() {
                 html += '<div class="spot_color"><div class="spot_swatch" style="background-color:' + data.legend_colors[i].color + '"></div><div class="spot_value">' + data.legend_colors[i].value + '</div></div>';
             }
             $('#colors .spot_color').remove();
-            $('#colors').append(html);
+            $('#colors').append(html).find('#color-title').text( $('#geo_graph_color_measure_id :selected').text() );
 
             for(i in places) {
                 place = places[i];

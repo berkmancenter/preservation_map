@@ -3,55 +3,25 @@ html, body, #content, #map {
     padding: 0;
     width: 100%;
     height: 100%;
+    font-size: 13px;
+}
+h1 {
+    font-size: 3em;
+}
+h2 {
+    font-size: 2em;
+}
+h3 {
+    font-size: 1.3em;
 }
 table {
     display: none;
 }
-.overlay {
-    position: absolute;
-    z-index: 9999;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    color: #d4d4d4;
-    background-image: url(<%= image_path 'background.png' %>);
+dd {
+    margin: 2px 0 10px 15px;
 }
-.spot_size, .spot_color {
-    display: inline-block;
-    text-align: center;
-}
-.spot_swatch {
-    margin: 0 5px;
-    border: 2px solid #000;
-}
-.spot_circle {
-    border: 2px solid #000;
-    background-color: #aaa;
-    border-radius: 50%;
-    margin: 0 5px;
-}
-#legend > div {
-    display: inline-block;
-}
-.gradient li {
-    width: 200px;
-    height: 20px;
-}
-.olPopupCloseBox {
-    background: url(<%= image_path('openlayers/close.png') %>) no-repeat !important;
-}
-#legend {
-    left: 100px;
-    bottom: 25px;
-}
-#controls {
-    bottom: 25px;
-    right: 25px;
-}
-#geo_graph_title {
-    top: 25px;
-    right: 25px;
+dt {
+    font-weight: bold;
 }
 .flash {
     z-index: 9999;
@@ -60,4 +30,88 @@ table {
     top: 25px;
     width: 75%;
     box-shadow: 0 0 15px black;
+}
+.overlay {
+    z-index: 9999;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    color: #d4d4d4;
+    background-image: url(<%= image_path 'background.png' %>);
+    margin: 15px 0;
+    overflow: auto;
+    position: relative;
+}
+.sidebar {
+    position: absolute;
+    z-index: 9999;
+    right: 25px;
+    width: 25%;
+    min-width: 290px;
+    max-width: 350px;
+    height: 100%;
+}
+#geo_graph_title {
+    margin-top: 0;
+    padding-top: 5px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+#geo_graph_title h1 {
+    display: inline-block;
+    margin: 0 15px 0 0;
+}
+#geo_graph_title a {
+    margin-right: 10px;
+}
+.overlay legend {
+    color: #d4d4d4;
+    margin-bottom: 5px;
+    position: static !important;
+}
+.overlay legend label {
+    position: static !important;
+}
+.gradient label {
+    display: inline-block;
+}
+.gradient .choices-group li {
+    width: 100%;
+    height: 20px;
+}
+.gradient .choices-group {
+    width: 93%;
+    padding-left: 7%;
+}
+.gradient .choices-group label input {
+    margin: 4px 0 0 -7%;
+}
+/*---- Legend ----*/
+#legend > div {
+    text-align: center;
+    margin: 0 auto 25px auto;
+}
+#legend {
+    padding-bottom: 0;
+}
+.spot_size, .spot_color {
+    display: inline-block;
+    margin: 0 5px;
+}
+.spot_swatch {
+    border: 2px solid #000;
+    margin-bottom: 5px;
+}
+.spot_circle {
+    border: 2px solid #000;
+    background-color: #aaa;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-bottom: 5px;
+}
+/*---- [End] Legend ----*/
+
+.olPopupCloseBox {
+    background: url(<%= image_path('openlayers/close.png') %>) no-repeat !important;
 }

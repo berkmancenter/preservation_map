@@ -28,30 +28,39 @@
         <% if flash[:error] %>
             <p class="flash error"><%= flash[:error] %></p>
         <% end %>
-        <h1 class="overlay" id="geo_graph_title"><%= @geograph.name %></h1>
 
-        <div class="overlay" id="controls">
-            <h2>Settings</h2>
-            <%= semantic_form_for @geograph, :remote => true do |f| %>
-                <%= f.inputs do %>
-                    <% unless @geograph.measures.empty? %>
-                        <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-                        <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-                        <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
-                    <% end %>
-                <%= f.buttons %>
+        <div class="sidebar">
+            <div class="overlay" id="geo_graph_title">
+                <h1><%= @geograph.name %></h1>
+                <% if current_user == @geograph.user %>
+                    <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
+                    <%= link_to 'Set as default view', edit_geo_graph_path(@geograph) %>
                 <% end %>
-            <% end %>
-            <button id="hideTable">Toggle Data Table</button>
-        </div>
-
-        <div class="overlay" id="legend">
-            <h2>Legend</h2>
-            <div id="sizes">
-                <h3>Sizes</h3>
             </div>
-            <div id="colors">
-                <h3>Colors</h3>
+
+            <div class="overlay" id="controls">
+                <h2>Settings</h2>
+                <%= semantic_form_for @geograph, :remote => true do |f| %>
+                    <%= f.inputs do %>
+                        <% unless @geograph.measures.empty? %>
+                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+                            <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
+                        <% end %>
+                    <%= f.buttons %>
+                    <% end %>
+                <% end %>
+                <!-- <button id="hideTable">Toggle Data Table</button> -->
+            </div>
+
+            <div class="overlay" id="legend">
+                <h2>Legend</h2>
+                <div id="sizes">
+                    <h3 id="size-title"></h3>
+                </div>
+                <div id="colors">
+                    <h3 id="color-title"></h3>
+                </div>
             </div>
         </div>
 
@@ -105,14 +114,14 @@
             spots.events.on({
                 'featureselected': function(clicked) {
                     feature = clicked.feature;
-                    popup = new OpenLayers.Popup.FramedCloud("chicken", 
+                    popup = new OpenLayers.Popup.FramedCloud("place_info", 
                         feature.geometry.getBounds().getCenterLonLat(),
                         null,
-                        "<div style='font-size:.8em'>Place: " + feature.data.placeName +"<br>"
-                            + $('#geo_graph_size_measure_id option:selected').text() + ' (size): ' + feature.data.sizeMeasureValue
-                            + "<br />"
-                            + $('#geo_graph_color_measure_id option:selected').text() + ' (color): ' + feature.data.colorMeasureValue
-                            + "</div>",
+                        "<div><dl><dt>Place: </dt><dd>" + feature.data.placeName +"</dd><dt>"
+                                + $('#geo_graph_size_measure_id option:selected').text() + ' (size): </dt><dd>' + feature.data.sizeMeasureValue
+                            + "</dd><dt>"
+                            + $('#geo_graph_color_measure_id option:selected').text() + ' (color): </dt><dd>' + feature.data.colorMeasureValue
+                            + "</dd></dl></div>",
                         null,
                         true
                     );
