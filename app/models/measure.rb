@@ -24,8 +24,13 @@ class Measure < ActiveRecord::Base
 
     def legend_sizes
         sizes = []
-        geo_graph.num_legend_sizes.times do |i|
-            percent = i.to_f / (geo_graph.num_legend_sizes - 1)
+        num_legend_sizes = [geo_graph.num_legend_sizes, num_unique_values].min
+        num_legend_sizes.times do |i|
+            if num_legend_sizes == 1 
+                percent = 1
+            else
+                percent = i.to_f / (num_legend_sizes - 1)
+            end
             sizes << {
                 :diameter => percent_to_size(percent) * 2,
                 :value => percent_to_value(percent).round(2)
@@ -36,8 +41,13 @@ class Measure < ActiveRecord::Base
 
     def legend_colors(color_theme = nil)
         colors = []
-        geo_graph.num_legend_colors.times do |i|
-            percent = i.to_f / (geo_graph.num_legend_colors - 1)
+        num_legend_colors = [geo_graph.num_legend_colors, num_unique_values].min
+        num_legend_colors.times do |i|
+            if num_legend_colors == 1 
+                percent = 1
+            else
+                percent = i.to_f / (num_legend_colors - 1)
+            end
             colors << {
                 :color => percent_to_color(percent, color_theme),
                 :value => percent_to_value(percent).round(2)
@@ -71,5 +81,9 @@ class Measure < ActiveRecord::Base
         min_value = place_measures.minimum(:value)
         max_value = place_measures.maximum(:value)
         return (max_value - min_value) * percent + min_value
+    end
+
+    def num_unique_values
+        return place_measures.select(:value).count(:distinct => true)
     end
 end
