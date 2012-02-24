@@ -55,12 +55,17 @@ spot_layer.events.on({
         );
         clicked.feature.popup = popup;
         map.addPopup(popup);
+    },
+    'featureunselected': function(clicked) {
+            map.removePopup(clicked.feature.popup);
+            clicked.feature.popup.destroy();
+            clicked.feature.popup = null;
     }
 });
 map.addLayer(spot_layer);
 
 // Add select control to spots layer so spots can actually get selected
-map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {autoActivate: true}));
+map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {toggle: true, autoActivate: true}));
 
 // Put spots on the map
 place_spots();
