@@ -1,38 +1,138 @@
 /*
  *= require application
  *= require openlayers/OpenLayers
+ *= require_self
 */
+
+var map, spot_layer; 
+
+// Change OL theme
+OpenLayers.ImgPath = ol_image_path;
+
+// Create map in #map with controls
+map = new OpenLayers.Map('map', {
+    controls: [
+        new OpenLayers.Control.ArgParser(),
+        new OpenLayers.Control.Attribution(),
+        new OpenLayers.Control.Navigation(),
+        new OpenLayers.Control.PanZoomBar(),
+        new OpenLayers.Control.KeyboardDefaults()
+    ]
+});
+
+// Add base layer(s)
+map.addLayer(new OpenLayers.Layer.Google('Google Streets', {
+    isBaseLayer: true,
+    numZoomLevels: geograph_zoom_levels
+}));
+
+// Add feature layer (with spots)
+spot_layer = new OpenLayers.Layer.Vector('Spot Layer');
+spot_layer.events.on({
+    // Create popup when the spot is selected
+    'featureselected': function(clicked) {
+        var spot_data = clicked.feature.data;
+        var popup_html =
+            '<div>' +
+                '<dl>' +
+                    '<dt>Place: </dt>' +
+                        '<dd>' + spot_data.placeName +'</dd>' +
+                    '<dt>' + $('#geo_graph_size_measure_id option:selected').text() + ' (size): </dt>' +
+                        '<dd>' + spot_data.sizeMeasureValue + '</dd>' +
+                    '<dt>' + $('#geo_graph_color_measure_id option:selected').text() + ' (color): </dt>' +
+                        '<dd>' + spot_data.colorMeasureValue + '</dd>' +
+                '</dl>' +
+             '</div>';
+
+        var popup = new OpenLayers.Popup.FramedCloud("place_info", 
+            clicked.feature.geometry.getBounds().getCenterLonLat(),
+            null,
+            popup_html,
+            null,
+            true
+        );
+        clicked.feature.popup = popup;
+        map.addPopup(popup);
+    }
+});
+map.addLayer(spot_layer);
+
+// Add select control to spots layer so spots can actually get selected
+map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {autoActivate: true}));
+
+// Put spots on the map
+place_spots();
+
+// For some reason, the map is broken if this isn't here
+map.zoomToMaxExtent();
+
+// When the page is ready, add event handlers
+$(function() {
+    // Update spots on settings change
+    $('#geograph_settings').find('input, select').change(function() { place_spots(); } );
+
+    // Show data table when button is clicked
+    $('#hideTable').click(function() { $('table').toggle() });
+
+}); 
+
+// Put the spots on the map
 function place_spots() {
-    $.getJSON(path, {
+    $.getJSON(ajax_path, {
             color_measure: $('#geo_graph_color_measure_id').val(),
             size_measure: $('#geo_graph_size_measure_id').val(),
             color_theme: $('#geo_graph_color_theme_input :checked').val()
-        }, function(data) {
-            var spotFeatures = Array();
-            var coords, place, diameter, html = '';
+        },
+        function(geograph) {
+            // Setup vars
+            var coords, places, diameter,
+                legend_html = '',
+                spots = [],
+                standard_proj = new OpenLayers.Projection('EPSG:4326')
+            ;
 
-            places = data.places;
-            spots.removeAllFeatures();
+            // Remove all spots
+            spot_layer.removeAllFeatures();
 
-            for (i in data.legend_sizes) {
-                diameter = data.legend_sizes[i].diameter - 2;
-                html += '<div class="spot_size"><div class="spot_circle" style="width:' + diameter + 'px;height:' + diameter + 'px;"></div><div class="spot_value">' + data.legend_sizes[i].value + '</div></div>';
+            // Create legend html for size measure
+            for (i in geograph.legend_sizes) {
+                // Remove the border pixels from diameter so they match those on the map
+                diameter = geograph.legend_sizes[i].diameter - 1 * 2;
+                legend_html +=
+                    '<div class="spot_size">' +
+                        '<div class="spot_circle" style="width:' + diameter + 'px;height:' + diameter + 'px;"></div>' +
+                        '<div class="spot_value">' + geograph.legend_sizes[i].value + '</div>' +
+                    '</div>'
+                ;
             }
+
+            // Remove size measure legend items and add new ones
             $('#sizes .spot_size').remove();
-            $('#sizes').append(html).find('#size-title').text( $('#geo_graph_size_measure_id :selected').text() );
+            $('#sizes').append(legend_html).find('#size-title').text( $('#geo_graph_size_measure_id :selected').text() );
 
-            html = '';
+            // Reset to add color info
+            legend_html = '';
 
-            for (i in data.legend_colors) {
-                html += '<div class="spot_color"><div class="spot_swatch" style="background-color:' + data.legend_colors[i].color + '"></div><div class="spot_value">' + data.legend_colors[i].value + '</div></div>';
+            // Create legend html for color measure
+            for (i in geograph.legend_colors) {
+                legend_html +=
+                    '<div class="spot_color">' +
+                        '<div class="spot_swatch" style="background-color:' + geograph.legend_colors[i].color + '"></div>' +
+                        '<div class="spot_value">' + geograph.legend_colors[i].value + '</div>' +
+                    '</div>'
+                ;
             }
-            $('#colors .spot_color').remove();
-            $('#colors').append(html).find('#color-title').text( $('#geo_graph_color_measure_id :selected').text() );
 
-            for(i in places) {
-                place = places[i];
-                coords = new OpenLayers.LonLat(place.longitude, place.latitude).transform(standardProj, googleProj); 
-                spotFeatures.push(
+            // Remove color measure legend items and add new ones
+            $('#colors .spot_color').remove();
+            $('#colors').append(legend_html).find('#color-title').text( $('#geo_graph_color_measure_id :selected').text() );
+
+            // Add a spot for each place
+            for(i in geograph.places) {
+                place = geograph.places[i];
+                // Calculate the latlong for the spot
+                coords = new OpenLayers.LonLat(place.longitude, place.latitude).transform(standard_proj, map.getProjectionObject()); 
+                spots.push(
                     new OpenLayers.Feature.Vector(
                         new OpenLayers.Geometry.Point(coords.lon, coords.lat),
                         {
@@ -48,7 +148,7 @@ function place_spots() {
                 );
             }
 
-            spots.addFeatures(spotFeatures);
+            spot_layer.addFeatures(spots);
         }
     );
 }

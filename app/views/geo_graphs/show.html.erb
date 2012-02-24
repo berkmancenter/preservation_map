@@ -7,8 +7,6 @@
     <%= stylesheet_link_tag(params[:controller].singularize + '/' + params[:action], :media => 'all') %>
     <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
     <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
-    <%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
-    <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
     <%= csrf_meta_tags %>
     <style>
         .spot_swatch, .spot_circle {
@@ -38,16 +36,15 @@
                 <% end %>
             </div>
 
-            <div class="overlay" id="controls">
+            <div class="overlay" id="geograph_settings">
                 <h2>Settings</h2>
-                <%= semantic_form_for @geograph, :remote => true do |f| %>
-                    <%= f.inputs do %>
-                        <% unless @geograph.measures.empty? %>
+                <% unless @geograph.measures.empty? %>
+                    <%= semantic_form_for @geograph, :remote => true do |f| %>
+                        <%= f.inputs do %>
                             <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
                             <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
                             <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
                         <% end %>
-                    <%= f.buttons %>
                     <% end %>
                 <% end %>
                 <!-- <button id="hideTable">Toggle Data Table</button> -->
@@ -65,6 +62,16 @@
         </div>
 
         <div id="map"></div>
+
+        <% if current_user == @geograph.user %>
+            <div id="default-map-view">
+                <%= semantic_form_for @geograph, :remote => true do |f| %>
+                    <%= f.input :default_zoom_level %>
+                    <%= f.input :default_latitude %>
+                    <%= f.input :default_longitude %>
+                <% end %>
+            </div>
+        <% end %>
 
         <table> 
             <thead>
@@ -88,54 +95,13 @@
         </table>
     </div>
     <script>
-        var places, map, spots, base, googleProj, standardProj, path = '<%= geo_graph_path(@geograph) %>.json';
-
-        $(function() {
-            $('#edit_geo_graph_<%= @geograph.id %> input[type=submit]').hide();
-            $('#edit_geo_graph_<%= @geograph.id %>').find('input, select').change(function(e) { place_spots(); } );
-            //$('#edit_geo_graph_<%= @geograph.id %>').bind('ajax:success', function() { place_spots(); } );
-            $('#hideTable').click(function() { $('table').toggle() });
-            OpenLayers.ImgPath = '<%= image_path('openlayers') %>/';
-            map_controls = [
-                new OpenLayers.Control.ArgParser(),
-                new OpenLayers.Control.Attribution(),
-                new OpenLayers.Control.Navigation(),
-                new OpenLayers.Control.PanZoomBar(),
-                new OpenLayers.Control.KeyboardDefaults()
-            ];
-            map = new OpenLayers.Map('map', { controls: map_controls });
-            spots = new OpenLayers.Layer.Vector("Spots");
-            base = new OpenLayers.Layer.Google("Google Streets", { isBaseLayer: true, numZoomLevels: <%= @geograph.num_zoom_levels %> });
-            map.addLayer(base);
-            map.zoomToMaxExtent();
-            map.addControl(new OpenLayers.Control.KeyboardDefaults());
-            map.addLayer(spots);
-            selectControl = new OpenLayers.Control.SelectFeature(spots);
-            spots.events.on({
-                'featureselected': function(clicked) {
-                    feature = clicked.feature;
-                    popup = new OpenLayers.Popup.FramedCloud("place_info", 
-                        feature.geometry.getBounds().getCenterLonLat(),
-                        null,
-                        "<div><dl><dt>Place: </dt><dd>" + feature.data.placeName +"</dd><dt>"
-                                + $('#geo_graph_size_measure_id option:selected').text() + ' (size): </dt><dd>' + feature.data.sizeMeasureValue
-                            + "</dd><dt>"
-                            + $('#geo_graph_color_measure_id option:selected').text() + ' (color): </dt><dd>' + feature.data.colorMeasureValue
-                            + "</dd></dl></div>",
-                        null,
-                        true
-                    );
-                    feature.popup = popup;
-                    map.addPopup(popup);
-                }
-            });
-            map.addControl(selectControl);
-            selectControl.activate();
-            googleProj = map.getProjectionObject();
-            standardProj = new OpenLayers.Projection('EPSG:4326');
-            place_spots();
-        }); 
+        var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
+            ol_image_path = '<%= image_path('openlayers') %>/',
+            geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
+        ;
     </script>
+    <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
+    <%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
 </body>
 </html>
 
