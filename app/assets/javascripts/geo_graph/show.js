@@ -99,7 +99,7 @@ $(function() {
             $('#default_view_default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
             $('#default_view_edit_geo_graph_1').submit();
         });
-        $('#default_view_edit_geo_graph_1').bind('ajax:success', function(e) { alert('Successly set as default view'); });
+        $('#default_view_edit_geo_graph_1').bind('ajax:success', function(e) { alert('Successfully set as default view'); });
     }
 }); 
 
