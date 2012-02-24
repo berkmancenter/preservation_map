@@ -32,7 +32,7 @@
                 <h1><%= @geograph.name %></h1>
                 <% if current_user == @geograph.user %>
                     <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
-                    <%= link_to 'Set as default view', edit_geo_graph_path(@geograph) %>
+                    <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :id => 'set-default-view' %>
                 <% end %>
             </div>
 
@@ -65,10 +65,13 @@
 
         <% if current_user == @geograph.user %>
             <div id="default-map-view">
-                <%= semantic_form_for @geograph, :remote => true do |f| %>
+                <%= semantic_form_for @geograph, :remote => true, :namespace => 'default_view' do |f| %>
                     <%= f.input :default_zoom_level %>
-                    <%= f.input :default_latitude %>
-                    <%= f.input :default_longitude %>
+                    <%= f.input :default_latitude, :as => :string %>
+                    <%= f.input :default_longitude, :as => :string %>
+                    <%= f.input :color_measure_id, :as => :string %>
+                    <%= f.input :size_measure_id, :as => :string %>
+                    <%= f.input :color_theme_id, :as => :string %>
                 <% end %>
             </div>
         <% end %>
@@ -98,6 +101,13 @@
         var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
             ol_image_path = '<%= image_path('openlayers') %>/',
             geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
+            <% if @geograph.default_zoom_level %>
+                , geograph_default_zoom = <%= @geograph.default_zoom_level %>
+            <% end %>
+            <% if @geograph.default_latitude and @geograph.default_longitude %>
+                , geograph_default_latitude = <%= @geograph.default_latitude %>
+                , geograph_default_longitude = <%= @geograph.default_longitude %>
+            <% end %>
         ;
     </script>
     <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>

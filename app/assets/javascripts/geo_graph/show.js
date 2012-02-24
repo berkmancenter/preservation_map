@@ -4,7 +4,9 @@
  *= require_self
 */
 
-var map, spot_layer; 
+var map, spot_layer, 
+    standard_proj = new OpenLayers.Projection('EPSG:4326')
+;
 
 // Change OL theme
 OpenLayers.ImgPath = ol_image_path;
@@ -63,8 +65,18 @@ map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {autoActivate: t
 // Put spots on the map
 place_spots();
 
-// For some reason, the map is broken if this isn't here
-map.zoomToMaxExtent();
+// Set default map center
+if (geograph_default_latitude && geograph_default_longitude) {
+    map.setCenter(new OpenLayers.LonLat(geograph_default_longitude, geograph_default_latitude).transform(standard_proj, map.getProjectionObject()));
+}
+
+// Zoom to default zoom level
+if (geograph_default_zoom) {
+    map.zoomTo(geograph_default_zoom);
+}
+else {
+    map.zoomToMaxExtent();
+}
 
 // When the page is ready, add event handlers
 $(function() {
@@ -74,6 +86,21 @@ $(function() {
     // Show data table when button is clicked
     $('#hideTable').click(function() { $('table').toggle() });
 
+    // Fill in the default view form when the default view link is clicked
+    if ($('#set-default-view')) {
+        $('#set-default-view').attr('href', '#').click(function(e) {
+            // What stupid ids
+            var center = map.getCenter().transform(map.getProjectionObject(), standard_proj);
+            $('#default_view_default_view_geo_graph_default_zoom_level').val(map.getZoom());
+            $('#default_view_default_view_geo_graph_default_latitude').val(center.lat);
+            $('#default_view_default_view_geo_graph_default_longitude').val(center.lon);
+            $('#default_view_default_view_geo_graph_color_measure_id').val($('#geo_graph_color_measure_id').val());
+            $('#default_view_default_view_geo_graph_size_measure_id').val($('#geo_graph_size_measure_id').val());
+            $('#default_view_default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
+            $('#default_view_edit_geo_graph_1').submit();
+        });
+        $('#default_view_edit_geo_graph_1').bind('ajax:success', function(e) { alert('Successly set as default view'); });
+    }
 }); 
 
 // Put the spots on the map
@@ -87,8 +114,7 @@ function place_spots() {
             // Setup vars
             var coords, places, diameter,
                 legend_html = '',
-                spots = [],
-                standard_proj = new OpenLayers.Projection('EPSG:4326')
+                spots = []
             ;
 
             // Remove all spots
