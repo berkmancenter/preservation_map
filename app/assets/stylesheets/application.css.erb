@@ -30,7 +30,11 @@ body {
     margin: 0 auto;
     background-color: white;
     height: 100%;
+    -webkit-border-radius: 20px 20px 4px 4px;
+    -moz-border-radius: 20px 20px 4px 4px;
     border-radius: 20px 20px 4px 4px;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 a, a:visited {
@@ -59,11 +63,15 @@ h3 {
 }
 header {
     background-color: #A8C486;
+    -webkit-border-radius: 20px 20px 0 0;
+    -moz-border-radius: 20px 20px 0 0;
     border-radius: 20px 20px 0 0;
 }
 footer {
     height: 40px;
     background-color: #ddd;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
     border-radius: 0 0 4px 4px;
     text-align: center;
     padding: 15px;
@@ -84,7 +92,11 @@ nav {
 nav li {
     display: inline-block;
     background-image: -webkit-linear-gradient(#7A8C66, #647354);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7A8C66), color-stop(1, #647354));
     background-image: -moz-linear-gradient(#7A8C66, #647354);
+    background-image: -o-linear-gradient(#7A8C66, #647354);
+    filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr=#7A8C66, EndColorStr=#647354)";
+    background-image: linear-gradient(#7A8C66, #647354);
     padding: 10px;
 }
 nav a, nav a:visited {
@@ -101,6 +113,8 @@ table td {
 }
 .flash {
     padding: 15px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
     border-radius: 10px;
     margin-bottom: 25px;
 }
@@ -116,6 +130,8 @@ table td {
 }
 #content {
     padding: 25px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 #app-title {

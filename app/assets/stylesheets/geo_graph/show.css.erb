@@ -29,12 +29,18 @@ dt {
     left: 100px;
     top: 25px;
     width: 75%;
+    -webkit-box-shadow: 0 0 15px black;
+    -moz-box-shadow: 0 0 15px black;
     box-shadow: 0 0 15px black;
 }
 .overlay {
     z-index: 9999;
     background-color: #fff;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
     border-radius: 15px;
+     -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     padding: 15px;
     color: #d4d4d4;
@@ -55,7 +61,11 @@ dt {
 #geo_graph_title {
     margin-top: 0;
     padding-top: 5px;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topright: 0;
     border-top-right-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
 }
 #geo_graph_title h1 {
@@ -109,6 +119,8 @@ dt {
 .spot_circle {
     border: 2px solid #000;
     background-color: #aaa;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
     border-radius: 50%;
     margin: 0 auto;
     margin-bottom: 5px;
