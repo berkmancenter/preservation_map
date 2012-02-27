@@ -1,7 +1,15 @@
+<h3>Welcome!</h3>
+<p>
+This is Insite - a tool to help you visualize data that has a geographic component.
+We're calling the resulting maps &quot;GeoGraphs&quot; for right now.  Check out some
+examples below, or create an account <%= link_to 'here', new_user_registration_path %> to
+start making your own.
+</p>
+
 <h3>GeoGraphs</h3>
 <table>
     <thead>
-        <tr><th>Name</th><th>Last Updated</th><th>Actions</th></tr>
+        <tr><th>Name</th><th>Last Updated</th><th></th></tr>
     </thead>
     <tbody>
         <%= render :partial => 'shared/line_items/geo_graph', :collection => @geographs %>
