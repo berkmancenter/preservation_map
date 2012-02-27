@@ -4,6 +4,7 @@ html, body, #content, #map {
     width: 100%;
     height: 100%;
     font-size: 13px;
+    overflow-y: visible;
 }
 h1 {
     font-size: 3em;
@@ -83,23 +84,27 @@ dt {
 .overlay legend label {
     position: static !important;
 }
-.gradient label {
-    display: inline-block;
-}
-.gradient .choices-group li {
-    width: 100%;
-    height: 20px;
-}
-.gradient .choices-group {
-    width: 93%;
-    padding-left: 7%;
-}
-.gradient .choices-group label input {
-    margin: 4px 0 0 -7%;
-}
 #default-map-view {
     display: none;
 }
+#geo_graph_size_measure_input label, #geo_graph_color_measure_input label {
+    min-width: 90px;
+}
+#geo_graph_size_measure_input, #geo_graph_color_measure_input {
+    margin-bottom: 0.5em;
+}
+/*---- Color theme choices ----*/
+#geo_graph_color_theme_input .choices-group {
+    padding-left: 9%;
+    width: 88%;
+}
+#geo_graph_color_theme_input .choices-group label input {
+    margin: 4px 0 0 -9%;
+}
+#geo_graph_color_theme_input .choices-group li {
+    width: 100%;
+}
+/*---- [End] Color theme choices ----*/
 /*---- Legend ----*/
 #legend > div {
     text-align: center;
@@ -113,8 +118,11 @@ dt {
     margin: 0 5px;
 }
 .spot_swatch {
-    border: 2px solid #000;
     margin-bottom: 5px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    box-shadow: 2px 2px 3px black;
 }
 .spot_circle {
     border: 2px solid #000;

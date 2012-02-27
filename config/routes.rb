@@ -1,5 +1,9 @@
 Code::Application.routes.draw do
 
+    get "info/help"
+
+    get "info/faq"
+
     root :to => 'geo_graphs#index'
 
     match 'my_geo_graphs' => 'users#my_geo_graphs'

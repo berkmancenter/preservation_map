@@ -1,8 +1,7 @@
 <tr>
-    <td><%= geo_graph.name %></td>
+    <td><%= link_to geo_graph.name, geo_graph_path(geo_graph) %></td>
     <td><%= geo_graph.updated_at.to_formatted_s(:long_ordinal) %></td>
     <td>
-    <%= link_to "Show", geo_graph_path(geo_graph) %>
     <% if current_user == geo_graph.user %>
         <%= link_to "Edit", edit_geo_graph_path(geo_graph) %>
     <% end %>
