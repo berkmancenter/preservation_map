@@ -61,7 +61,7 @@ class GeoGraphsController < ApplicationController
                   if request.xhr?
                       head :no_content
                   else
-                      redirect_to(@geograph, :notice => 'Post was successfully updated.')
+                      redirect_to(edit_geo_graph_path(@geograph), :notice => 'Geograph was successfully updated.')
                   end
               }
               format.json  { head :no_content }

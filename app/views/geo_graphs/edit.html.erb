@@ -1,2 +1,3 @@
 <h3><%= @geograph.name %></h3>
 <%= render 'shared/forms/geo_graph' %>
+<%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
