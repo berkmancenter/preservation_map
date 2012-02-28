@@ -30,10 +30,13 @@
         <div class="sidebar">
             <div class="overlay" id="geo_graph_title">
                 <h1><%= @geograph.name %></h1>
-                <% if current_user == @geograph.user %>
-                    <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
-                    <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :id => 'set-default-view' %>
-                <% end %>
+                <div>
+                    <% if current_user == @geograph.user %>
+                        <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
+                        <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :id => 'set-default-view' %>
+                    <% end %>
+                    <%= link_to 'Home', root_path %>
+                </div>
             </div>
 
             <div class="overlay" id="geograph_settings">
