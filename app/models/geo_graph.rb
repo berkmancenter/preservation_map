@@ -8,7 +8,7 @@ class GeoGraph < ActiveRecord::Base
     belongs_to :color_theme
 
     has_many :places
-    has_many :measures
+    has_many :measures, :order => :name
     has_and_belongs_to_many :external_data_sources
     has_attached_file :import_data
 
@@ -29,6 +29,7 @@ class GeoGraph < ActiveRecord::Base
     validates :min_spot_size, :max_spot_size, :numericality => {
         :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0
     }
+    accepts_nested_attributes_for :measures
 
     after_initialize :add_defaults
 
