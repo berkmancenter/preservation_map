@@ -71,12 +71,12 @@ map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {toggle: true, a
 place_spots();
 
 // Set default map center
-if (geograph_default_latitude && geograph_default_longitude) {
+if (typeof geograph_default_latitude != 'undefined' && typeof geograph_default_longitude != 'undefined') {
     map.setCenter(new OpenLayers.LonLat(geograph_default_longitude, geograph_default_latitude).transform(standard_proj, map.getProjectionObject()));
 }
 
 // Zoom to default zoom level
-if (geograph_default_zoom) {
+if (typeof geograph_default_zoom != 'undefined') {
     map.zoomTo(geograph_default_zoom);
 }
 else {
@@ -102,9 +102,9 @@ $(function() {
             $('#default_view_default_view_geo_graph_color_measure_id').val($('#geo_graph_color_measure_id').val());
             $('#default_view_default_view_geo_graph_size_measure_id').val($('#geo_graph_size_measure_id').val());
             $('#default_view_default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
-            $('#default_view_edit_geo_graph_1').submit();
+            $('#default_view_edit_geo_graph_' + geograph_id).submit();
         });
-        $('#default_view_edit_geo_graph_1').bind('ajax:success', function(e) { alert('Successfully set as default view'); });
+        $('#default_view_edit_geo_graph_' + geograph_id).bind('ajax:success', function(e) { alert('Successfully set as default view'); });
     }
 }); 
 
