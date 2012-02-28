@@ -7,6 +7,7 @@
     <%= stylesheet_link_tag(params[:controller].singularize + '/' + params[:action], :media => 'all') %>
     <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
     <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
+    <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
     <%= csrf_meta_tags %>
     <style>
         .spot_swatch, .spot_circle {
