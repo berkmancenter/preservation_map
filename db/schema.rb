@@ -58,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.string   "api_url"
     t.integer  "geo_graph_id"
     t.integer  "external_data_source_id"
+    t.boolean  "yes_no_maybe"
+    t.boolean  "log_scale"
+    t.boolean  "reverse_color_theme"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end

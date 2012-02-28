@@ -12,12 +12,22 @@
             <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false, :label => 'Default color measure' %>
         <% end %>
     <% end %>
-    <%= f.inputs 'Advanced &raquo;', :id => 'advanced', :class => 'toggler' do %>
+    <%= f.inputs 'Advanced', :class => 'toggler' do %>
         <%= f.input :min_spot_size, :label => 'Minimum spot size', :hint => 'What should the radius of the smallest spot be (in pixels)?' %>
         <%= f.input :max_spot_size, :label => 'Maximum spot size', :hint => 'What should the radius of the largest spot be (pixels still)?' %>
         <%= f.input :num_legend_sizes, :label => 'Number of sizes in legend', :hint => 'The legend shows a few sample sizes.  How many should it show?' %>
         <%= f.input :num_legend_colors, :label => 'Number of colors in legend', :hint => 'Same deal as above, but with colors instead of sizes.' %>
         <%= f.input :num_zoom_levels, :label => 'Maximum zoom level', :hint => 'How far in should users be able to zoom? (For reference, Google Maps has a max of "20")' %>
+    <% end %>
+    <% unless @geograph.measures.empty? %>
+        <%= f.inputs 'Configure Measures', :class => 'toggler' do %>
+            <%= f.inputs :for => :measures do |measure, i| %>
+                <%= f.inputs :name => measure.object.name, :class => 'measure-config' do %>
+                    <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
+                    <%= measure.input :reverse_color_theme, :label => 'Reverse Color Theme' %>
+                <% end %>
+            <% end %>
+        <% end %>
     <% end %>
     <%= f.buttons %>
 <% end %>

@@ -61,6 +61,9 @@ class Measure < ActiveRecord::Base
     end
 
     def percent_to_color(percent, color_theme = nil)
+        if reverse_color_theme
+            percent = 1.0 - percent
+        end
         color_theme ||= geo_graph.color_theme
         gradient = color_theme.gradient
         percent_i = (percent * 100).floor
@@ -74,13 +77,29 @@ class Measure < ActiveRecord::Base
     def value_to_percent(value)
         min_value = place_measures.minimum(:value)
         max_value = place_measures.maximum(:value)
+        if log_scale
+            min_value = if min_value > 0 then Math::log10(min_value) else 0.0 end
+            max_value = if max_value > 0 then Math::log10(max_value) else 0.0 end
+            value = if value > 0 then Math::log10(value) else 0.0 end
+        end
         return (max_value - min_value) == 0 ? 1 : (value - min_value) / (max_value - min_value)
     end
 
     def percent_to_value(percent)
         min_value = place_measures.minimum(:value)
         max_value = place_measures.maximum(:value)
-        return (max_value - min_value) * percent + min_value
+        if log_scale
+            min_value = if min_value > 0 then Math::log10(min_value) else 0.0 end
+            max_value = if max_value > 0 then Math::log10(max_value) else 0.0 end
+            value = 10.0**((max_value - min_value) * percent + min_value)
+            if value == 1.0
+                return 0.0
+            else
+                return value
+            end
+        else
+            return (max_value - min_value) * percent + min_value
+        end
     end
 
     def num_unique_values
