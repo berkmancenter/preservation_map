@@ -153,18 +153,21 @@ p {
 form > fieldset > legend {
     font-weight: bold;
 }
-.flash {
+.flash, #error_explanation {
     padding: 15px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
     margin-bottom: 25px;
 }
-.flash.alert, .flash.error {
+.flash.alert, .flash.error, #error_explanation {
     background-color: #F5BABA;
 }
 .flash.notice {
     background-color: #BAF5BC;
+}
+#error_explanation h2 {
+    font-size: 1.4em;
 }
 
 #skip-link {
