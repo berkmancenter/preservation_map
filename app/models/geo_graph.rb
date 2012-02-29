@@ -142,13 +142,17 @@ class GeoGraph < ActiveRecord::Base
     end
 
     def is_numeric_column?(header)
-        self.table.values_at(header).each { |value| logger.debug(value.to_s)
-            return false if not is_numeric?(value[0]) }
+        self.table.values_at(header).each { |value| return false if not is_numeric?(value[0]) }
         return true
     end
 
     def is_numeric?(i)
         return true if Float(i) rescue false
+    end
+
+    def is_yes_no?(s)
+        Code::Application.config.yes_no.each { |type, words| words.each { |word| return true if s.casecmp(word) == 0 } }
+        return false
     end
 
     def table

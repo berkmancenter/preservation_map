@@ -8,4 +8,6 @@ Code::Application.configure do
         :longitude => 'Longitude',
         :api_abbr => 'API Code'
     }
+
+    config.yes_no = { :yes => [ 'yes', 'y' ], :no => [ 'no', 'n' ], :maybe => [ 'maybe', 'm' ] }
 end
