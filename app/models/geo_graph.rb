@@ -51,6 +51,7 @@ class GeoGraph < ActiveRecord::Base
                 :sizeMeasureValue => place.value(size_measure),
                 :color => place.color(color_measure, color_theme),
                 :colorMeasureValue => place.value(color_measure)
+                :metadata => place.metadata
             }
         end
         return hash
@@ -69,10 +70,13 @@ class GeoGraph < ActiveRecord::Base
                 )
             end
 
-
             table.headers.each do |header|
                 unless place_col_names.value? header
-                    measures << Measure.new(:name => header)
+                    if not is_numeric_column?(header)
+                        measures << Measure.new(:name => header, :is_metadata => true)
+                    else
+                        measures << Measure.new(:name => header)
+                    end
                 end
             end
 
@@ -83,15 +87,19 @@ class GeoGraph < ActiveRecord::Base
                 row.each do |column_name, value|
                     unless place_col_names.value? column_name
                         measure = measures.find_by_name(column_name)
-                        place_measure = PlaceMeasure.new(:value => value.to_f)
+                        if measure.is_metadata
+                            place_measure = PlaceMeasure.new(:metadata => value)
+                        else
+                            place_measure = PlaceMeasure.new(:value => value.to_f)
+                        end
                         measure.place_measures << place_measure
                         place.place_measures << place_measure
                     end
                 end
             end
 
-            self.color_measure_id ||= self.measures[3].id
-            self.size_measure_id ||= self.measures[3].id
+            self.color_measure_id ||= self.measures.numeric.first.id
+            self.size_measure_id ||= self.measures.numeric.last.id
         end
     end
 
@@ -131,6 +139,16 @@ class GeoGraph < ActiveRecord::Base
 
     def measures?
         return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
+    end
+
+    def is_numeric_column?(header)
+        self.table.values_at(header).each { |value| logger.debug(value.to_s)
+            return false if not is_numeric?(value[0]) }
+        return true
+    end
+
+    def is_numeric?(i)
+        return true if Float(i) rescue false
     end
 
     def table

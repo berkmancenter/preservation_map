@@ -4,6 +4,7 @@ class CreatePlaceMeasures < ActiveRecord::Migration
       t.float :value
       t.integer :place_id
       t.integer :measure_id
+      t.text :metadata
 
       t.timestamps
     end

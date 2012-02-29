@@ -16,4 +16,9 @@ class Place < ActiveRecord::Base
     def value(measure)
         measure.value(self)
     end
+
+    def metadata
+        measures.meta.map { |measure| return { measure.name => measure.metadata(self) } }
+    end
+
 end

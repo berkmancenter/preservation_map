@@ -3,6 +3,8 @@ class Measure < ActiveRecord::Base
     has_many :places, :through => :place_measures
     belongs_to :geo_graph
     belongs_to :external_data_source
+    scope :numeric, where(:is_metadata => false)
+    scope :meta, where(:is_metadata => true)
 
     def size(place)
         percent = value_to_percent(value(place))
@@ -20,6 +22,10 @@ class Measure < ActiveRecord::Base
         elsif external_data_source
             return external_data_source.value(place, self)
         end
+    end
+
+    def metadata(place)
+        return place_measures.find_by_place_id(place.id).metadata
     end
 
     def legend_sizes

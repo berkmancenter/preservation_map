@@ -96,15 +96,15 @@ $(function() {
         $('#set-default-view').attr('href', '#').click(function(e) {
             // What stupid ids
             var center = map.getCenter().transform(map.getProjectionObject(), standard_proj);
-            $('#default_view_default_view_geo_graph_default_zoom_level').val(map.getZoom());
-            $('#default_view_default_view_geo_graph_default_latitude').val(center.lat);
-            $('#default_view_default_view_geo_graph_default_longitude').val(center.lon);
-            $('#default_view_default_view_geo_graph_color_measure_id').val($('#geo_graph_color_measure_id').val());
-            $('#default_view_default_view_geo_graph_size_measure_id').val($('#geo_graph_size_measure_id').val());
-            $('#default_view_default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
-            $('#default_view_edit_geo_graph_' + geograph_id).submit();
+            $('#default_view_geo_graph_default_zoom_level').val(map.getZoom());
+            $('#default_view_geo_graph_default_latitude').val(center.lat);
+            $('#default_view_geo_graph_default_longitude').val(center.lon);
+            $('#default_view_geo_graph_color_measure_id').val($('#geo_graph_color_measure_id').val());
+            $('#default_view_geo_graph_size_measure_id').val($('#geo_graph_size_measure_id').val());
+            $('#default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
+            $('#default_view_form').submit();
         });
-        $('#default_view_edit_geo_graph_' + geograph_id).bind('ajax:success', function(e) { alert('Successfully set as default view'); });
+        $('#default_view_form').bind('ajax:success', function(e) { alert('Successfully set as default view'); });
     }
 }); 
 

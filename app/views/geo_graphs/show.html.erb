@@ -45,8 +45,8 @@
                 <% unless @geograph.measures.empty? %>
                     <%= semantic_form_for @geograph, :remote => true do |f| %>
                         <%= f.inputs do %>
-                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
-                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures, :include_blank => false %>
+                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false %>
+                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false %>
                             <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
                         <% end %>
                     <% end %>
@@ -69,7 +69,7 @@
 
         <% if current_user == @geograph.user %>
             <div id="default-map-view">
-                <%= semantic_form_for @geograph, :remote => true, :namespace => 'default_view' do |f| %>
+                <%= semantic_form_for @geograph, :remote => true, :html => { :id => 'default_view_form' }, :namespace => 'default_view' do |f| %>
                     <%= f.input :default_zoom_level %>
                     <%= f.input :default_latitude, :as => :string %>
                     <%= f.input :default_longitude, :as => :string %>
@@ -102,8 +102,7 @@
         </table>
     </div>
     <script>
-        var geograph_id = '<%= @geograph.id %>',
-            ajax_path = '<%= geo_graph_path(@geograph) %>.json',
+        var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
             ol_image_path = '<%= image_path('openlayers') %>/',
             geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
             <% if @geograph.default_zoom_level %>

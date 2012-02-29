@@ -58,17 +58,19 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.string   "api_url"
     t.integer  "geo_graph_id"
     t.integer  "external_data_source_id"
-    t.boolean  "yes_no_maybe"
-    t.boolean  "log_scale"
-    t.boolean  "reverse_color_theme"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.boolean  "yes_no_maybe",            :default => false
+    t.boolean  "log_scale",               :default => false
+    t.boolean  "reverse_color_theme",     :default => false
+    t.boolean  "is_metadata",             :default => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "place_measures", :force => true do |t|
     t.float    "value"
     t.integer  "place_id"
     t.integer  "measure_id"
+    t.text     "metadata"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
