@@ -42,7 +42,13 @@ spot_layer.events.on({
                     '<dt>' + $('#geo_graph_size_measure_id option:selected').text() + ' (size): </dt>' +
                         '<dd>' + spot_data.sizeMeasureValue + '</dd>' +
                     '<dt>' + $('#geo_graph_color_measure_id option:selected').text() + ' (color): </dt>' +
-                        '<dd>' + spot_data.colorMeasureValue + '</dd>' +
+                        '<dd>' + spot_data.colorMeasureValue + '</dd>';
+            for (i in spot_data.metadata) {
+                popup_html +=
+                    '<dt>' + i + '</dt>' +
+                        '<dd>' + spot_data.metadata[i] + '</dt>';
+            }
+            popup_html +=
                 '</dl>' +
              '</div>';
 
@@ -169,7 +175,8 @@ function place_spots() {
                         {
                             placeName: place.name,
                             colorMeasureValue: place.colorMeasureValue,
-                            sizeMeasureValue: place.sizeMeasureValue
+                            sizeMeasureValue: place.sizeMeasureValue,
+                            metadata: place.metadata
                         },
                         {
                             pointRadius: place.size,

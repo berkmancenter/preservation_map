@@ -50,7 +50,7 @@ class GeoGraph < ActiveRecord::Base
                 :size => place.size(size_measure),
                 :sizeMeasureValue => place.value(size_measure),
                 :color => place.color(color_measure, color_theme),
-                :colorMeasureValue => place.value(color_measure)
+                :colorMeasureValue => place.value(color_measure),
                 :metadata => place.metadata
             }
         end
