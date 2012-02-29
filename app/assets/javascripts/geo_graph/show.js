@@ -45,8 +45,8 @@ spot_layer.events.on({
                         '<dd>' + spot_data.colorMeasureValue + '</dd>';
             for (i in spot_data.metadata) {
                 popup_html +=
-                    '<dt>' + i + '</dt>' +
-                        '<dd>' + spot_data.metadata[i] + '</dt>';
+                    '<dt>' + spot_data.metadata[i].name + '</dt>' +
+                        '<dd>' + spot_data.metadata[i].data + '</dt>';
             }
             popup_html +=
                 '</dl>' +
