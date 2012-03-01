@@ -73,13 +73,14 @@ class GeoGraph < ActiveRecord::Base
             table.headers.each do |header|
                 unless place_col_names.value? header
                     if is_yes_no_column?(header)
-                        type = 'yes_no'
+                        attrs = { :datatype => 'yes_no', :reverse_color_theme => true }
                     elsif not is_numeric_column?(header)
-                        type = 'metadata'
+                        attrs = { :datatype => 'metadata' }
                     else
-                        type = 'numeric'
+                        attrs = { :datatype => 'numeric' }
                     end
-                    measures << Measure.new(:name => header, :datatype => type)
+                    attrs[:name] = header
+                    measures << Measure.new(attrs)
                 end
             end
 
