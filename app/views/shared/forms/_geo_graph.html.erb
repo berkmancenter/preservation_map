@@ -21,10 +21,12 @@
     <% end %>
     <% unless @geograph.measures.numeric.empty? %>
         <%= f.inputs 'Configure Measures', :class => 'toggler' do %>
-            <%= f.inputs :for => @geograph.measures.numeric do |measure, i| %>
-                <%= f.inputs :name => measure.object.name, :class => 'measure-config' do %>
-                    <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
-                    <%= measure.input :reverse_color_theme, :label => 'Reverse Color Theme' %>
+            <%= f.inputs :for => :measures do |measure, i| %>
+                <% unless measure.object.is_metadata or measure.object.is_yes_no %>
+                    <%= f.inputs :name => measure.object.name, :class => 'measure-config' do %>
+                        <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
+                        <%= measure.input :reverse_color_theme, :label => 'Reverse Color Theme' %>
+                    <% end %>
                 <% end %>
             <% end %>
         <% end %>
