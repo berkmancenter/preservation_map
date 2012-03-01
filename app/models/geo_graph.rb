@@ -48,9 +48,9 @@ class GeoGraph < ActiveRecord::Base
                 :latitude => place.latitude,
                 :longitude => place.longitude,
                 :size => place.size(size_measure),
-                :sizeMeasureValue => place.value(size_measure),
+                :sizeMeasureValue => place.display_value(size_measure),
                 :color => place.color(color_measure, color_theme),
-                :colorMeasureValue => place.value(color_measure),
+                :colorMeasureValue => place.display_value(color_measure),
                 :metadata => place.metadata
             }
         end
@@ -72,11 +72,14 @@ class GeoGraph < ActiveRecord::Base
 
             table.headers.each do |header|
                 unless place_col_names.value? header
-                    if not is_numeric_column?(header)
-                        measures << Measure.new(:name => header, :is_metadata => true)
+                    if is_yes_no_column?(header)
+                        type = 'yes_no'
+                    elsif not is_numeric_column?(header)
+                        type = 'metadata'
                     else
-                        measures << Measure.new(:name => header)
+                        type = 'numeric'
                     end
+                    measures << Measure.new(:name => header, :datatype => type)
                 end
             end
 
@@ -87,8 +90,11 @@ class GeoGraph < ActiveRecord::Base
                 row.each do |column_name, value|
                     unless place_col_names.value? column_name
                         measure = measures.find_by_name(column_name)
-                        if measure.is_metadata
+                        case measure.datatype
+                        when 'metadata'
                             place_measure = PlaceMeasure.new(:metadata => value)
+                        when 'yes_no'
+                            place_measure = PlaceMeasure.new(:value => yes_no_to_value(value))
                         else
                             place_measure = PlaceMeasure.new(:value => value.to_f)
                         end
@@ -123,6 +129,22 @@ class GeoGraph < ActiveRecord::Base
         end
     end
 
+    # These need to go into a module
+    def yes_no_to_value(s)
+        Code::Application.config.yes_no.each { |word, info| info[:possibilities].each { |possible| return info[:value] if s.casecmp(possible) == 0 } }
+        return false
+    end
+
+    def yes_no_to_word(s)
+        Code::Application.config.yes_no.each { |word, info| info[:possibilities].each { |possible| return word if s.casecmp(possible) == 0 } }
+        return false
+    end
+
+    def value_to_yes_no(f)
+        Code::Application.config.yes_no.each { |word, info| return word if info[:value] == f }
+        return false
+    end
+
     protected
     def add_defaults
         self.color_theme ||= ColorTheme.first
@@ -141,18 +163,22 @@ class GeoGraph < ActiveRecord::Base
         return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
     end
 
+    def is_numeric?(i)
+        return true if Float(i) rescue false
+    end
+
     def is_numeric_column?(header)
         self.table.values_at(header).each { |value| return false if not is_numeric?(value[0]) }
         return true
     end
 
-    def is_numeric?(i)
-        return true if Float(i) rescue false
+    def is_yes_no?(s)
+        return yes_no_to_word(s).kind_of? String
     end
 
-    def is_yes_no?(s)
-        Code::Application.config.yes_no.each { |type, words| words.each { |word| return true if s.casecmp(word) == 0 } }
-        return false
+    def is_yes_no_column?(header)
+        self.table.values_at(header).each { |value| return false if not is_yes_no?(value[0]) }
+        return true
     end
 
     def table

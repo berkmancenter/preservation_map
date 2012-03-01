@@ -3,8 +3,10 @@ class Measure < ActiveRecord::Base
     has_many :places, :through => :place_measures
     belongs_to :geo_graph
     belongs_to :external_data_source
-    scope :numeric, where(:is_metadata => false)
-    scope :meta, where(:is_metadata => true)
+    scope :numeric, where(:datatype => 'numeric')
+    scope :metadata, where(:datatype => 'metadata')
+    scope :yes_no, where(:datatype => 'yes_no')
+    scope :selectable, where(:datatype => ['numeric', 'yes_no'])
 
     def size(place)
         percent = value_to_percent(value(place))
@@ -17,11 +19,13 @@ class Measure < ActiveRecord::Base
     end
 
     def value(place)
-        if place_measures.find_by_place_id(place.id)
-            return place_measures.find_by_place_id(place.id).value
-        elsif external_data_source
-            return external_data_source.value(place, self)
-        end
+        return place_measures.find_by_place_id(place.id).value
+    end
+
+    def display_value(place)
+        value = value(place)
+        value = geo_graph.value_to_yes_no(value) if datatype == 'yes_no'
+        return value
     end
 
     def metadata(place)
@@ -37,9 +41,11 @@ class Measure < ActiveRecord::Base
             else
                 percent = i.to_f / (num_legend_sizes - 1)
             end
+            value = percent_to_value(percent)
+            value = value.round(2) if value.kind_of? Float
             sizes << {
                 :diameter => percent_to_size(percent) * 2,
-                :value => percent_to_value(percent).round(2)
+                :value => value
             }
         end
         return sizes
@@ -54,9 +60,11 @@ class Measure < ActiveRecord::Base
             else
                 percent = i.to_f / (num_legend_colors - 1)
             end
+            value = percent_to_value(percent)
+            value = value.round(2) if value.kind_of? Float
             colors << {
                 :color => percent_to_color(percent, color_theme),
-                :value => percent_to_value(percent).round(2)
+                :value => value
             }
         end
         return colors
@@ -94,7 +102,10 @@ class Measure < ActiveRecord::Base
     def percent_to_value(percent)
         min_value = place_measures.minimum(:value)
         max_value = place_measures.maximum(:value)
-        if log_scale
+        value = (max_value - min_value) * percent + min_value
+        if datatype == 'yes_no'
+            return geo_graph.value_to_yes_no(value)
+        elsif log_scale
             min_value = if min_value > 0 then Math::log10(min_value) else 0.0 end
             max_value = if max_value > 0 then Math::log10(max_value) else 0.0 end
             value = 10.0**((max_value - min_value) * percent + min_value)
@@ -104,7 +115,7 @@ class Measure < ActiveRecord::Base
                 return value
             end
         else
-            return (max_value - min_value) * percent + min_value
+            return value
         end
     end
 

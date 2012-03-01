@@ -9,5 +9,18 @@ Code::Application.configure do
         :api_abbr => 'API Code'
     }
 
-    config.yes_no = { :yes => [ 'yes', 'y' ], :no => [ 'no', 'n' ], :maybe => [ 'maybe', 'm' ] }
+    config.yes_no = {
+        'Yes' => {
+            :value => 2.0,
+            :possibilities => [ 'yes', 'y' ]
+        },
+        'No' => {
+            :value => 0.0,
+            :possibilities => [ 'no', 'n' ]
+        },
+        'Maybe' => {
+            :value => 1.0,
+            :possibilities => [ 'maybe', 'm' ],
+        }
+    }
 end

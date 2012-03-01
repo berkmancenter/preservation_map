@@ -7,9 +7,9 @@
         <% if ExternalDataSource.count %>
             <%= f.input :external_data_sources, :as => :check_boxes, :hint => 'Do you want to pull in data from somewhere else?' %>
         <% end %>
-        <% unless @geograph.measures.numeric.empty? %>
-            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false, :label => 'Default size measure' %>
-            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false, :label => 'Default color measure' %>
+        <% unless @geograph.measures.selectable.empty? %>
+            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false, :label => 'Default size measure' %>
+            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false, :label => 'Default color measure' %>
         <% end %>
     <% end %>
     <%= f.inputs 'Advanced', :class => 'toggler' do %>
@@ -19,12 +19,14 @@
         <%= f.input :num_legend_colors, :label => 'Number of colors in legend', :hint => 'Same deal as above, but with colors instead of sizes.' %>
         <%= f.input :num_zoom_levels, :label => 'Maximum zoom level', :hint => 'How far in should users be able to zoom? (For reference, Google Maps has a max of "20")' %>
     <% end %>
-    <% unless @geograph.measures.numeric.empty? %>
+    <% unless @geograph.measures.selectable.empty? %>
         <%= f.inputs 'Configure Measures', :class => 'toggler' do %>
             <%= f.inputs :for => :measures do |measure, i| %>
-                <% unless measure.object.is_metadata or measure.object.is_yes_no %>
+                <% if ['numeric', 'yes_no'].include? measure.object.datatype %>
                     <%= f.inputs :name => measure.object.name, :class => 'measure-config' do %>
-                        <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
+                        <% if measure.object.datatype == 'numeric' %>
+                            <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
+                        <% end %>
                         <%= measure.input :reverse_color_theme, :label => 'Reverse Color Theme' %>
                     <% end %>
                 <% end %>

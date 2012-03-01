@@ -45,8 +45,8 @@
                 <% unless @geograph.measures.empty? %>
                     <%= semantic_form_for @geograph, :remote => true do |f| %>
                         <%= f.inputs do %>
-                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false %>
-                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.numeric, :include_blank => false %>
+                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
                             <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
                         <% end %>
                     <% end %>
