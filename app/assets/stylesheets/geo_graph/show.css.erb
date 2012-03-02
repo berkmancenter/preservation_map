@@ -28,7 +28,7 @@ dt {
     font-style: normal;
 }
 .flash {
-    z-index: 9999;
+    z-index: 2000;
     position: absolute;
     left: 100px;
     top: 25px;
@@ -38,7 +38,7 @@ dt {
     box-shadow: 0 0 15px black;
 }
 .overlay {
-    z-index: 9999;
+    z-index: 2000;
     background-color: #fff;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
@@ -55,7 +55,7 @@ dt {
 }
 .sidebar {
     position: absolute;
-    z-index: 9999;
+    z-index: 2000;
     right: 25px;
     width: 25%;
     min-width: 290px;
@@ -90,11 +90,14 @@ dt {
 #default-map-view {
     display: none;
 }
+.formtastic li.input {
+    margin: 0.5em 0;
+}
+.formtastic fieldset.inputs {
+    overflow: visible;
+}
 #geo_graph_size_measure_input label, #geo_graph_color_measure_input label {
     min-width: 90px;
-}
-#geo_graph_size_measure_input, #geo_graph_color_measure_input {
-    margin-bottom: 0.5em;
 }
 /*---- Color theme choices ----*/
 #geo_graph_color_theme_input .choices-group {
@@ -111,7 +114,7 @@ dt {
 /*---- Legend ----*/
 #legend > div {
     text-align: center;
-    margin: 0 auto 25px auto;
+    margin: 0 auto 15px auto;
 }
 #legend {
     padding-bottom: 0;

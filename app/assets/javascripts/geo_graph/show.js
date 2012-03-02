@@ -92,35 +92,61 @@ else {
 
 // When the page is ready, add event handlers
 $(function() {
+
+    var qtipStyle = {
+        style: {
+            lineHeight: '14px',
+            zIndex: 20000,
+            border: {
+                radius: 4,
+                width: 4
+            },
+            tip: 'rightMiddle',
+            name: 'green'
+        },
+        position: {
+            corner: {
+                target: 'leftMiddle',
+                tooltip: 'rightMiddle'
+            }
+        }
+    };
+
     // Update spots on settings change
     $('#geograph_settings').find('input, select').change(function() { place_spots(); } );
 
     // Show data table when button is clicked
     $('#hideTable').click(function() { $('table').toggle() });
 
-    $('.help').each(function() {
-        $(this).attr('title', $('#' + $(this).children().first().attr('id') + '-help').text());
+    $('.help-texts').children().each(function() {
+        $('#' + $(this).attr('id').slice(0, -5)).addClass('help');
     });
 
-    // Show help text
-    $('.help').qtip({
-        position: {
-            corner: {
-                target: 'bottomLeft',
-                tooltip: 'topRight'
+    $('.help').each(function() {
+        $(this).attr('title', $('#' + $(this).attr('id') + '-help').text());
+    });
+
+    $('.help').hover(
+        function() {
+            var helpIsHidden = $('#blinder').css('opacity') == 0;
+            if (!helpIsHidden) {
+                $(this).trigger('help:show');
             }
         },
-        style: {
-            lineHeight: '14px',
-            zIndex: 10000,
-            border: {
-                radius: 4,
-                width: 4
-            },
-            tip: 'topRight',
-            name: 'green'
+        function() {
+            $(this).trigger('help:hide');
         }
+    );
+
+    $('.activate-help').click(function() {
+        $('.help').toggleClass('help-active');
+        $('#blinder').toggleClass('visible');
     });
+
+    $('.activate-help').qtip($.extend({content:{text:'Toggle Help Mode'}}, qtipStyle));
+
+    // Show help text
+    $('.help').qtip($.extend({show:{when:{event:'help:show'}},hide:{when:{event:'help:hide'}}}, qtipStyle));
 
     // Fill in the default view form when the default view link is clicked
     if ($('#set-default-view')) {

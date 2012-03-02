@@ -126,13 +126,15 @@ nav {
 }
 nav li {
     display: inline-block;
+    padding: 10px;
+}
+nav li, .activate-help {
     background-image: -webkit-linear-gradient(#7A8C66, #647354);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7A8C66), color-stop(1, #647354));
     background-image: -moz-linear-gradient(#7A8C66, #647354);
     background-image: -o-linear-gradient(#7A8C66, #647354);
     filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr=#7A8C66, EndColorStr=#647354)";
     background-image: linear-gradient(#7A8C66, #647354);
-    padding: 10px;
 }
 nav a, nav a:visited {
     color: white;
@@ -232,29 +234,66 @@ form .toggler > legend {
     margin-bottom: 0;
     padding: 0.3em 0;
 }
-.help-link {
+.activate-help {
     display: inline-block;
-    width: 15px;
-    height: 15px;
-    background-color: #5C0000;
-    border: 1px solid #800000;
-    border-radius: 2px;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
     color: white;
-    font-size: 11px;
+    font-size: 16px;
     text-align: center;
     font-weight: bold;
-    line-height: 15px;
+    line-height: 25px;
     cursor: pointer;
-    opacity: 0.4;
+    z-index: 2002;
 }
-.help-link:hover {
-    opacity: 1;
+a.activate-help, a.activate-help:visited {
+    color: #ddd;
 }
-.help-text {
+.activate-help:hover {
+}
+.help-active {
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-animation: pulse 700ms infinite alternate;
+    -moz-animation: pulse 700ms infinite alternate;
+}
+@-webkit-keyframes pulse {
+	from { box-shadow: 0 0 2px rgba(255, 255, 255, 0); }
+	to { box-shadow: 0 0 2px white; }
+}
+@-moz-keyframes pulse {
+	from { box-shadow: 0 0 2px rgba(255, 255, 255, 0); }
+	to { box-shadow: 0 0 2px white; }
+}
+.help-active:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.help {
+    border-radius: 4px;
+    -webkit-transition: background-color, box-shadow 200ms;
+    -moz-transition: background-color, box-shadow 200ms;
+}
+.help-texts {
     display: none;
 }
+#blinder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.0;
+    z-index: 0;
+    -webkit-transition: opacity 200ms;
+    -moz-transition: opacity 200ms;
+}
+.visible {
+    opacity: 0.6 !important;
+    z-index: 1999 !important;
+}
 .qtip {
-    z-index: 10000 !important;
+    z-index: 2002 !important;
     /*box-shadow: 0 0 40px black;*/
 }
 /*---- [End] Color theme choices ----*/

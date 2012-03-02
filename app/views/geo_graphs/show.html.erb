@@ -31,14 +31,12 @@
         <div class="sidebar">
             <div class="overlay" id="geo_graph_title">
                 <h1><%= @geograph.name %></h1>
+                <a href="#" class="activate-help inactive">?</a>
                 <div>
                     <%= link_to 'Home', root_path %>
                     <% if current_user == @geograph.user %>
                         <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
-                        <span class="help">
-                        <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :id => 'set-default-view' %>
-                        <!-- <span class="help-link">?</span> -->
-                        </span>
+                        <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :class => :help, :id => 'set-default-view' %>
                     <% end %>
                 </div>
             </div>
@@ -106,14 +104,15 @@
     </div>
 
     <div class="help-texts">
-        <div id="set-default-view-help">
-            <p>
-                You&apos;re the owner of this geograph, so you get to pick what people see
-                by default.  Arrange the map and settings however you like, and then click
-                this to save them as the default.
-            </p>
-        </div>
+        <div id="set-default-view-help">You&apos;re the owner of this geograph, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default.</div>
+        <div id="geo_graph_size_measure_input-help">Here is where you can pick which data determines the sizes of the spots on the map.</div>
+        <div id="geo_graph_color_measure_input-help">Use this to pick the data that determines the colors of the spots on the map.</div>
+        <div id="geo_graph_color_theme_input-help">This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others.</div>
+        <div id="sizes-help">So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes.</div>
+        <div id="colors-help">Look here to figure out how color maps to the data you&apos;ve selected (up in &quot;Settings&quot;).</div>
     </div>
+
+    <div id="blinder"></div>
 
     <script>
         var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
