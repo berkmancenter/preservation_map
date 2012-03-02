@@ -32,11 +32,14 @@
             <div class="overlay" id="geo_graph_title">
                 <h1><%= @geograph.name %></h1>
                 <div>
+                    <%= link_to 'Home', root_path %>
                     <% if current_user == @geograph.user %>
                         <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
+                        <span class="help">
                         <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :id => 'set-default-view' %>
+                        <!-- <span class="help-link">?</span> -->
+                        </span>
                     <% end %>
-                    <%= link_to 'Home', root_path %>
                 </div>
             </div>
 
@@ -101,6 +104,17 @@
             </tbody>
         </table>
     </div>
+
+    <div class="help-texts">
+        <div id="set-default-view-help">
+            <p>
+                You&apos;re the owner of this geograph, so you get to pick what people see
+                by default.  Arrange the map and settings however you like, and then click
+                this to save them as the default.
+            </p>
+        </div>
+    </div>
+
     <script>
         var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
             ol_image_path = '<%= image_path('openlayers') %>/',

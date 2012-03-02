@@ -1,6 +1,7 @@
 /*
  *= require application
  *= require openlayers/OpenLayers
+ *= require jquery.qtip-1.0.0-rc3.min
  *= require_self
 */
 
@@ -96,6 +97,30 @@ $(function() {
 
     // Show data table when button is clicked
     $('#hideTable').click(function() { $('table').toggle() });
+
+    $('.help').each(function() {
+        $(this).attr('title', $('#' + $(this).children().first().attr('id') + '-help').text());
+    });
+
+    // Show help text
+    $('.help').qtip({
+        position: {
+            corner: {
+                target: 'bottomLeft',
+                tooltip: 'topRight'
+            }
+        },
+        style: {
+            lineHeight: '14px',
+            zIndex: 10000,
+            border: {
+                radius: 4,
+                width: 4
+            },
+            tip: 'topRight',
+            name: 'green'
+        }
+    });
 
     // Fill in the default view form when the default view link is clicked
     if ($('#set-default-view')) {
