@@ -1,0 +1,61 @@
+<h3>Help</h3>
+<h4>Terminology</h4>
+<p>
+<dl>
+    <dt>Geograph</dt>
+    <dd>The visualization - it&apos;s kind of like a map, only with spots.</dd>
+    <dt>Measure</dt>
+    <dd>The column the data is coming from.</dd>
+    <dt>Spot/Circle<dt>
+    <dd></dd>
+    <dt>Place/Location</dt>
+    <dd></dd>
+    <dt>Color Theme</dt>
+    <dd></dd>
+</p>
+
+<h4>Process</h4>
+<h5>Creating a Geograph</h5>
+<p>
+    Here&apos;s how it works:
+    <ol>
+        <li>
+            Create a spreadsheet with three or four columns:
+            <ul>
+                <% Code::Application.config.place_column_names.each do |internal_name, name| %>
+                    <li>
+                    <% case internal_name %>
+                    <% when :name %>
+                    &quot;<%= name %>&quot; &ndash; The name of the location. This will be used throughout the geograph.
+                    <% when :latitude %>
+                    &quot;<%= name %>&quot; &ndash; The latitude the place. 
+                    <% when :longitude %>
+                    &quot;<%= name %>&quot; &ndash; The longitude the place. 
+                    <% when :api_abbr %>
+                        &quot;<%= name %>&quot; (optional) &ndash; If you&apos;re intending to pull in data from an external source, this has to be the identifier used by that external source for the place.
+                    <% end %>
+                    </li>
+                <% end %>
+            </ul>
+        </li>
+        <li>
+            Use information about your places to fill in the three (or four) columns to just created.
+        </li>
+        <li>
+            Add your own columns and data to this spreadsheet.  Title your columns logically and prettily, as they'll show up throughout your geograph.
+        </li>
+        <li>
+            Save your spreadsheet to your computer as a CSV (Comma-Separated Values) file.
+        </li>
+        <li>
+            <%= link_to 'Create', new_user_registration_path %> an Insite account, or <%= link_to 'login', user_session_path %> to an exising account.
+        </li> 
+        <li>
+            Upload your CSV file when you <%= link_to 'create', new_geo_graph_path %> a new geograph.
+        </li>
+    </ol>
+</p>
+<h5>Viewing a Geograph</h5>
+<p>
+</p>
+
