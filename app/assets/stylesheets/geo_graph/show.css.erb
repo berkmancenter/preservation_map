@@ -1,0 +1,148 @@
+/* = require jquery.qtip.min */
+
+html, body, #content, #map {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    overflow-y: visible;
+}
+h1 {
+    font-size: 3em;
+}
+h2 {
+    font-size: 2em;
+}
+h3 {
+    font-size: 1.3em;
+}
+table {
+    display: none;
+}
+dd {
+    margin: 2px 0 10px 15px;
+}
+dt {
+    font-weight: bold;
+    font-style: normal;
+}
+.flash {
+    z-index: 2000;
+    position: absolute;
+    left: 100px;
+    top: 25px;
+    width: 75%;
+    -webkit-box-shadow: 0 0 15px black;
+    -moz-box-shadow: 0 0 15px black;
+    box-shadow: 0 0 15px black;
+}
+.overlay {
+    z-index: 2000;
+    background-color: #fff;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+     -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    color: #d4d4d4;
+    background-image: url(<%= image_path 'background.png' %>);
+    margin: 15px 0;
+    overflow: auto;
+    position: relative;
+}
+.sidebar {
+    position: absolute;
+    z-index: 2000;
+    right: 25px;
+    width: 25%;
+    min-width: 290px;
+    max-width: 350px;
+    height: 100%;
+}
+#geo_graph_title {
+    margin-top: 0;
+    padding-top: 5px;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+}
+#geo_graph_title h1 {
+    display: inline-block;
+    margin: 0 15px 0.3em 0;
+}
+#geo_graph_title a {
+    margin-right: 10px;
+}
+.overlay legend {
+    color: #d4d4d4;
+    margin-bottom: 5px;
+    position: static !important;
+}
+.overlay legend label {
+    position: static !important;
+}
+#default-map-view {
+    display: none;
+}
+.formtastic li.input {
+    margin: 0.5em 0;
+}
+.formtastic fieldset.inputs {
+    overflow: visible;
+}
+#geo_graph_size_measure_input label, #geo_graph_color_measure_input label {
+    min-width: 90px;
+}
+/*---- Color theme choices ----*/
+#geo_graph_color_theme_input .choices-group {
+    padding-left: 9%;
+    width: 88%;
+}
+#geo_graph_color_theme_input .choices-group label input {
+    margin: 4px 0 0 -9%;
+}
+#geo_graph_color_theme_input .choices-group li {
+    width: 100%;
+}
+/*---- [End] Color theme choices ----*/
+/*---- Legend ----*/
+#legend > div {
+    text-align: center;
+    margin: 0 auto 15px auto;
+}
+#legend {
+    padding-bottom: 0;
+}
+.spot_size, .spot_color {
+    display: inline-block;
+    margin: 0 5px;
+}
+.spot_swatch {
+    margin-bottom: 5px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-box-shadow: 2px 2px 3px black;
+    -moz-box-shadow: 2px 2px 3px black;
+    box-shadow: 2px 2px 3px black;
+}
+.spot_circle {
+    border: 2px solid #000;
+    background-color: #aaa;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-bottom: 5px;
+}
+/*---- [End] Legend ----*/
+
+.olPopupCloseBox {
+    background: url(<%= image_path('openlayers/close.png') %>) no-repeat !important;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insite - <%= if content_for?(:title) then yield :title else 'Putting Spots on a Map' end %></title>
+  <%= stylesheet_link_tag 'application', :media => 'all' %>
+  <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
+  <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
+  <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
+  <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <header role="banner">
+        <hgroup>
+            <h1 id="app-title">Insite</h1>
+            <h2 id="app-subtitle">Putting spots on maps</h2>
+        </hgroup>
+        <nav role="navigation">
+            <a id="skip-link" href="#content" title="Skip to primary content">Skip to primary content</a>
+            <ul id="menu">
+                <li><%= link_to 'Home', root_path %></li>
+                <% if user_signed_in? %>
+                    <li><%= link_to 'Account', edit_user_registration_path %></li>
+                    <li><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></li>
+                <% else %>
+                    <li><%= link_to 'Sign In', new_user_session_path %></li>
+                <% end %>
+                <li><%= link_to 'Help', info_help_path %></li> 
+            </ul>
+        </nav>
+    </header>
+    <div id="content" role="main">
+        <% if flash[:notice] %>
+            <p class="flash notice"><%= flash[:notice] %></p>
+        <% end %>
+        <% if flash[:alert] %>
+            <p class="flash alert"><%= flash[:alert] %></p>
+        <% end %>
+        <% if flash[:error] %>
+            <p class="flash error"><%= flash[:error] %></p>
+        <% end %>
+        <%= yield %>
+    </div>
+    <footer>
+        <p id="copyright">&copy; 2012 - President and Fellows of Harvard College</p>
+    </footer>
+</body>
+</html>
