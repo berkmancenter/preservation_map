@@ -19,7 +19,11 @@ class Measure < ActiveRecord::Base
     end
 
     def value(place)
-        return place_measures.find_by_place_id(place.id).value
+        if place_measures.find_by_place_id(place.id)
+            return place_measures.find_by_place_id(place.id).value
+        elsif external_data_source
+            return external_data_source.value(place, self)
+        end
     end
 
     def display_value(place)

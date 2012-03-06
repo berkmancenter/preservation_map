@@ -58,20 +58,22 @@ class GeoGraph < ActiveRecord::Base
     end
 
     def import_data_from_attachment!
-        place_col_names = Code::Application.config.place_column_names
+        required_col_names = Code::Application.config.place_column_names[:required]
+        optional_col_names = Code::Application.config.place_column_names[:optional]
 
         if places? and measures?
             table.each do |row|
-                places << Place.new(
-                    :name => row[place_col_names[:name]],
-                    :latitude => row[place_col_names[:latitude]],
-                    :longitude => row[place_col_names[:longitude]],
-                    :api_abbr => row[place_col_names[:api_abbr]]
-                )
+                place_attrs = {
+                    :name => row[required_col_names[:name]],
+                    :latitude => row[required_col_names[:latitude]],
+                    :longitude => row[required_col_names[:longitude]]
+                }
+                place_attrs[:api_abbr] = row[optional_col_names[:api_abbr]]
+                places << Place.new(place_attrs)
             end
 
             table.headers.each do |header|
-                unless place_col_names.value? header
+                unless required_col_names.value? header or optional_col_names.value? header
                     if is_yes_no_column?(header)
                         attrs = { :datatype => 'yes_no', :reverse_color_theme => true }
                     elsif not is_numeric_column?(header)
@@ -87,10 +89,14 @@ class GeoGraph < ActiveRecord::Base
             self.save
 
             table.each do |row|
-                place = places.find_by_api_abbr(row[place_col_names[:api_abbr]])
+                place = places.select{ |place|
+                    place.name == row[required_col_names[:name]] and
+                    place.latitude == row[required_col_names[:latitude]].to_f and
+                    place.longitude == row[required_col_names[:longitude]].to_f
+                }.first
                 row.each do |column_name, value|
-                    unless place_col_names.value? column_name
-                        measure = measures.find_by_name(column_name)
+                    unless required_col_names.value? column_name or optional_col_names.value? column_name
+                        measure = measures.select{ |measure| measure.name == column_name }.first
                         case measure.datatype
                         when 'metadata'
                             place_measure = PlaceMeasure.new(:metadata => value)
@@ -105,8 +111,9 @@ class GeoGraph < ActiveRecord::Base
                 end
             end
 
-            self.color_measure_id ||= self.measures.numeric.first.id
-            self.size_measure_id ||= self.measures.numeric.last.id
+            self.color_measure ||= self.measures.numeric.first
+            self.size_measure ||= self.measures.numeric.last
+
         end
     end
 
@@ -157,11 +164,11 @@ class GeoGraph < ActiveRecord::Base
     end
 
     def places?
-        return (self.table.headers & Code::Application.config.place_column_names.values).count == Code::Application.config.place_column_names.count
+        return (self.table.headers & Code::Application.config.place_column_names[:required].values).count == Code::Application.config.place_column_names[:required].count
     end
 
     def measures?
-        return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names.values).count > 0
+        return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names[:required].values).count > 0
     end
 
     def is_numeric?(i)
