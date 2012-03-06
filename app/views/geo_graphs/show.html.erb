@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insite - <%= @geograph.name %></title>
+    <%= stylesheet_link_tag('application', :media => 'all') %>
+    <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
+    <%= stylesheet_link_tag(params[:controller].singularize + '/' + params[:action], :media => 'all') %>
+    <!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
+    <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
+    <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
+    <%= csrf_meta_tags %>
+    <style>
+        .spot_swatch, .spot_circle {
+            width: <%= (@geograph.max_spot_size * 2) - 2 %>px;
+            height: <%= (@geograph.max_spot_size * 2) - 2 %>px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" role="main">
+        <% if flash[:notice] %>
+            <p class="flash notice"><%= flash[:notice] %></p>
+        <% end %>
+        <% if flash[:alert] %>
+            <p class="flash alert"><%= flash[:alert] %></p>
+        <% end %>
+        <% if flash[:error] %>
+            <p class="flash error"><%= flash[:error] %></p>
+        <% end %>
+
+        <div class="sidebar">
+            <div class="overlay" id="geo_graph_title">
+                <h1><%= @geograph.name %></h1>
+                <a href="#" class="activate-help inactive">?</a>
+                <div>
+                    <%= link_to 'Home', root_path %>
+                    <% if current_user == @geograph.user %>
+                        <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
+                        <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :class => :help, :id => 'set-default-view' %>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="overlay" id="geograph_settings">
+                <h2>Settings</h2>
+                <% unless @geograph.measures.empty? %>
+                    <%= semantic_form_for @geograph, :remote => true do |f| %>
+                        <%= f.inputs do %>
+                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+                            <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+                <!-- <button id="hideTable">Toggle Data Table</button> -->
+            </div>
+
+            <div class="overlay" id="legend">
+                <h2>Legend</h2>
+                <div id="sizes">
+                    <h3 id="size-title"></h3>
+                </div>
+                <div id="colors">
+                    <h3 id="color-title"></h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <% if current_user == @geograph.user %>
+            <div id="default-map-view">
+                <%= semantic_form_for @geograph, :remote => true, :html => { :id => 'default_view_form' }, :namespace => 'default_view' do |f| %>
+                    <%= f.input :default_zoom_level %>
+                    <%= f.input :default_latitude, :as => :string %>
+                    <%= f.input :default_longitude, :as => :string %>
+                    <%= f.input :color_measure_id, :as => :string %>
+                    <%= f.input :size_measure_id, :as => :string %>
+                    <%= f.input :color_theme_id, :as => :string %>
+                <% end %>
+            </div>
+        <% end %>
+
+        <table> 
+            <thead>
+                <tr>
+                    <th>Place Name</th>
+                    <% @geograph.measures.each do |measure| %>
+                        <th><%= measure.name %></th>
+                    <% end %>
+                </tr>
+            </thead>
+            <tbody>
+                <% @geograph.places.each do |place| %>
+                    <tr>
+                        <td><%= place.name %></td>
+                        <% @geograph.measures.each do |measure| %>
+                            <td><%= measure.value(place) %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="help-texts">
+        <div id="set-default-view-help">You&apos;re the owner of this geograph, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default.</div>
+        <div id="geo_graph_size_measure_input-help">Here is where you can pick which data determines the sizes of the spots on the map.</div>
+        <div id="geo_graph_color_measure_input-help">Use this to pick the data that determines the colors of the spots on the map.</div>
+        <div id="geo_graph_color_theme_input-help">This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others.</div>
+        <div id="sizes-help">So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes.</div>
+        <div id="colors-help">Look here to figure out how color maps to the data you&apos;ve selected (up in &quot;Settings&quot;).</div>
+    </div>
+
+    <div id="blinder"></div>
+
+    <script>
+        var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
+            ol_image_path = '<%= image_path('openlayers') %>/',
+            geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
+            <% if @geograph.default_zoom_level %>
+                , geograph_default_zoom = <%= @geograph.default_zoom_level %>
+            <% end %>
+            <% if @geograph.default_latitude and @geograph.default_longitude %>
+                , geograph_default_latitude = <%= @geograph.default_latitude %>
+                , geograph_default_longitude = <%= @geograph.default_longitude %>
+            <% end %>
+        ;
+    </script>
+    <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
+    <%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
+</body>
+</html>
+
