@@ -2,7 +2,7 @@
     <%= f.inputs do %>
         <%= f.input :name, :hint => 'What do you want to call it?' %>
         <%= f.input :import_data, :label => 'Data',
-            :hint => "Make sure it's a CSV file with columns named: " + Code::Application.config.place_column_names.collect{ |k, v| "\"#{v}\"" }.join(', ') %>
+            :hint => "Make sure it's a CSV file with columns named: " + Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ') %>
         <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
         <% if ExternalDataSource.count %>
             <%= f.input :external_data_sources, :as => :check_boxes, :hint => 'Do you want to pull in data from somewhere else?' %>

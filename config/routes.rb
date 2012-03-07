@@ -1,16 +1,13 @@
 Code::Application.routes.draw do
 
-    get "info/help"
-
-    get "info/faq"
-
     root :to => 'geo_graphs#index'
 
+    match 'help' => 'info#help'
+    match 'faq' => 'info#faq'
     match 'my_geo_graphs' => 'users#my_geo_graphs'
 
     resources :geo_graphs do
     end
-
 
     devise_for :users, :path => 'accounts'
 

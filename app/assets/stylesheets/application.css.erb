@@ -128,7 +128,7 @@ nav li {
     display: inline-block;
     padding: 10px;
 }
-nav li, .activate-help {
+nav li {
     background-image: -webkit-linear-gradient(#7A8C66, #647354);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7A8C66), color-stop(1, #647354));
     background-image: -moz-linear-gradient(#7A8C66, #647354);
@@ -229,12 +229,17 @@ form .toggler > legend {
 }
 #geo_graph_color_theme_input label {
     display: inline-block;
+    margin: 0;
+    height: 25px;
 }
 .measure-config > ol > li.boolean.input {
     margin-bottom: 0;
     padding: 0.3em 0;
 }
 .activate-help {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     display: inline-block;
     width: 25px;
     height: 25px;
@@ -246,11 +251,15 @@ form .toggler > legend {
     line-height: 25px;
     cursor: pointer;
     z-index: 2002;
+    background-color: #666;
+    border: 1px solid #222;
 }
 a.activate-help, a.activate-help:visited {
     color: #ddd;
 }
-.activate-help:hover {
+.activate-help.active {
+    background-color: #222;
+    border: 1px solid #666;
 }
 .help-active {
     background-color: rgba(255, 255, 255, 0.1);
@@ -294,7 +303,8 @@ a.activate-help, a.activate-help:visited {
 }
 .qtip {
     z-index: 2002 !important;
-    /*box-shadow: 0 0 40px black;*/
+    font-size: 1em !important;
+    line-height: 1.1em !important;
 }
 /*---- [End] Color theme choices ----*/
 /* What an ugly, silly mess */
