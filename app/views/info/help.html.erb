@@ -7,11 +7,11 @@
     <dt>Measure</dt>
     <dd>The column the data is coming from.</dd>
     <dt>Spot/Circle<dt>
-    <dd></dd>
+    <dd>The actual colored circle that appears on the map.</dd>
     <dt>Place/Location</dt>
-    <dd></dd>
+    <dd>Something with a name, a latitude, and a longitude.</dd>
     <dt>Color Theme</dt>
-    <dd></dd>
+    <dd>The set of colors from which spot colors are selected.</dd>
 </p>
 
 <h4>Process</h4>
@@ -20,23 +20,31 @@
     Here&apos;s how it works:
     <ol>
         <li>
-            Create a spreadsheet with three or four columns:
+        <p>
+        Create a spreadsheet with at least <%= Code::Application.config.place_column_names[:required].count.to_s %> columns:
             <ul>
-                <% Code::Application.config.place_column_names.each do |internal_name, name| %>
+                <% Code::Application.config.place_column_names[:required].each do |internal_name, name| %>
                     <li>
                     <% case internal_name %>
                     <% when :name %>
                     &quot;<%= name %>&quot; &ndash; The name of the location. This will be used throughout the geograph.
                     <% when :latitude %>
-                    &quot;<%= name %>&quot; &ndash; The latitude the place. 
+                    &quot;<%= name %>&quot; &ndash; The latitude of the place. 
                     <% when :longitude %>
-                    &quot;<%= name %>&quot; &ndash; The longitude the place. 
-                    <% when :api_abbr %>
-                        &quot;<%= name %>&quot; (optional) &ndash; If you&apos;re intending to pull in data from an external source, this has to be the identifier used by that external source for the place.
+                    &quot;<%= name %>&quot; &ndash; The longitude of the place. 
                     <% end %>
                     </li>
                 <% end %>
             </ul>
+            </p>
+            <p>
+            You can also include one optional column:
+            <ul>
+                <li>
+                    &quot;<%= Code::Application.config.place_column_names[:optional][:api_abbr] %>&quot; (optional) &ndash; If you&apos;re intending to pull in data from an external source, this has to be the identifier used by that external source for the place.
+                </li>
+            </ul>
+            </p>
         </li>
         <li>
             Use information about your places to fill in the three (or four) columns to just created.
@@ -57,5 +65,6 @@
 </p>
 <h5>Viewing a Geograph</h5>
 <p>
+    The geograph display page has it&apos;s own help.  Click the question mark in the top-right hand corner to get help.
 </p>
 
