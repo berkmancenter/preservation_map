@@ -4,7 +4,7 @@
     <title>Insite - <%= @geograph.name %></title>
     <%= stylesheet_link_tag('application', :media => 'all') %>
     <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
-    <%= stylesheet_link_tag(params[:controller].singularize + '/' + params[:action], :media => 'all') %>
+    <%= stylesheet_link_tag('geo_graph/show', :media => 'all') %>
     <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
     <!--[if IE 7]><%# stylesheet_link_tag 'ie7' %><![endif]-->
     <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
@@ -30,8 +30,8 @@
 
         <div class="sidebar">
             <div class="overlay" id="geo_graph_title">
-                <h1><%= @geograph.name %></h1>
-                <a href="#" class="activate-help inactive">?</a>
+                <h1 title="<%= @geograph.name %>"><%= @geograph.name %></h1>
+                <a href="#" title="Toggle Help Mode" class="activate-help">?</a>
                 <div>
                     <%= link_to 'Home', root_path %>
                     <% if current_user == @geograph.user %>
@@ -116,7 +116,7 @@
 
     <script>
         var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
-            ol_image_path = '<%= image_path('openlayers') %>/',
+            asset_path = '<%= Code::Application.config.assets.prefix %>/',
             geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
             <% if @geograph.default_zoom_level %>
                 , geograph_default_zoom = <%= @geograph.default_zoom_level %>
@@ -127,8 +127,7 @@
             <% end %>
         ;
     </script>
-    <%= javascript_include_tag('http://maps.google.com/maps/api/js?v=3.5&sensor=false') %>
-    <%= javascript_include_tag(params[:controller].singularize + '/' + params[:action]) %>
+    <%= javascript_include_tag '//maps.google.com/maps/api/js?v=3.5&sensor=false' %>
+    <%= javascript_include_tag 'geo_graph/show' %>
 </body>
 </html>
-

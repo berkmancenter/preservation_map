@@ -10,10 +10,10 @@ var map, spot_layer,
 ;
 
 // Change OL theme
-OpenLayers.ImgPath = ol_image_path;
+OpenLayers.ImgPath = asset_path + 'openlayers/';
 
 // Create map in #map with controls
-map = new OpenLayers.Map('map', {
+map = new OpenLayers.Map('map', { theme: null, 
     controls: [
         new OpenLayers.Control.ArgParser(),
         new OpenLayers.Control.Attribution(),
@@ -122,10 +122,6 @@ $(function() {
         $('#' + $(this).attr('id').slice(0, -5)).addClass('help');
     });
 
-    $('.help').each(function() {
-        $(this).attr('title', $('#' + $(this).attr('id') + '-help').text());
-    });
-
     $('.help').hover(
         function() {
             var helpIsHidden = $('#blinder').css('opacity') == 0;
@@ -138,7 +134,16 @@ $(function() {
         }
     );
 
+    // Add titles to elements the first time help is loaded
+    // Race condition?
+    $('.activate-help').one('click', function() {
+        $('.help').each(function() {
+            $(this).attr('title', $('#' + $(this).attr('id') + '-help').text());
+        });
+    });
+
     $('.activate-help').click(function() {
+        $(this).toggleClass('active');
         $('.help').toggleClass('help-active');
         $('#blinder').toggleClass('visible');
     });

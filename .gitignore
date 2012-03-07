@@ -18,3 +18,6 @@
 
 # Ignore uploads
 /public/system
+
+# Ignore compiled assets
+/public/assets
