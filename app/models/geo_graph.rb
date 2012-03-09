@@ -113,8 +113,9 @@ class GeoGraph < ActiveRecord::Base
 
             self.color_measure ||= self.measures.numeric.first
             self.size_measure ||= self.measures.numeric.last
-
         end
+
+        return self
     end
 
     def import_data_from_external_sources!
