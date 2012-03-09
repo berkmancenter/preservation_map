@@ -153,6 +153,10 @@ class GeoGraph < ActiveRecord::Base
         return false
     end
 
+    def has_api_abbrs?
+        return !(self.table.headers & [Code::Application.config.place_column_names[:optional][:api_abbr]]).empty?
+    end
+
     protected
     def add_defaults
         self.color_theme ||= ColorTheme.first
