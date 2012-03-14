@@ -1,3 +1,21 @@
+Feature: Reversible Color Themes
+
+Feature: Log Scale
+
+Feature: Additional Place Metadata
+
+Feature: Yes/No/Maybe Data
+
+Feature: Set Default Geograph View
+
+Feature: Configurable Spot Sizes
+
+Feature: Configurable Legend
+
+Feature: Help Mode
+
+Feature: Geograph Deletion
+
 Feature: Geograph Creation
     In order to see meaningful spots on a map
     As a connoisseur of map spots
