@@ -1,26 +1,9 @@
-Feature: Reversible Color Themes
-
-Feature: Log Scale
-
-Feature: Additional Place Metadata
-
-Feature: Yes/No/Maybe Data
-
-Feature: Set Default Geograph View
-
-Feature: Configurable Spot Sizes
-
-Feature: Configurable Legend
-
-Feature: Help Mode
-
-Feature: Geograph Deletion
-
 Feature: Geograph Creation
     In order to see meaningful spots on a map
     As a connoisseur of map spots
     I want to be able to create new geographs
-
+    
+    @wip
     Scenario: Creating an invalid geograph
         Given I am logged in as an authorized user
         And I am at the "new geo graph" page
@@ -29,6 +12,7 @@ Feature: Geograph Creation
         Then I should get an alert message
         And I should get an inline error message
 
+    @wip
     Scenario: Creating a geograph using a CSV file with specifically named columns
         Given I am logged in as an authorized user
         And I am at the "new geo graph" page
@@ -38,6 +22,9 @@ Feature: Geograph Creation
         Then the "Preservation Map" geograph should contain places
         And the "Preservation Map" geograph should contain data for its places
         And I should be redirected to the "show" page for the "Preservation Map" geograph
+
+    @wip
+    Scenario: Pulling in data from a CSV with both yes/no/maybe data and non-numeric metadata
 
     @wip
     Scenario: Creating a geograph using a CSV file and an API module
