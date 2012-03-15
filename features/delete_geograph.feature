@@ -7,6 +7,9 @@ Feature: Geograph Deletion
         Given I am an authorized user
         And I have a geograph
         When I delete my geograph
+        Then my geograph should no longer exist
+
+    @wip
     Scenario: Deleting a geograph I don't own
         Given a geograph exists
         And I am an authorized user

@@ -9,6 +9,7 @@ Feature: Yes/No/Maybe Data
 
     Scenario: Including yes/no/maybe data in a CSV
         When I create a new geograph with a CSV that has yes/no/maybe data
+        Then that geograph should contain yes/no/maybe data
 
     @wip
     Scenario: Pulling yes/no/maybe data from an API 

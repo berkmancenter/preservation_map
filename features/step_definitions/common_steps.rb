@@ -23,7 +23,7 @@ end
 
 Given /^I have a geograph$/ do
     @geograph_name = 'Testing'
-    step %{I create a new geograph named "#{@geograph_name}" with a CSV file named #{File.dirname(__FILE__) + '/../upload_files/valid.csv'}}
+    step %{I create a new geograph named "#{@geograph_name}" with a CSV file named "#{File.dirname(__FILE__) + '/../upload_files/valid.csv'}"}
 end
 
 Given /^I am creating a new geograph$/ do
