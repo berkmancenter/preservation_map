@@ -66,9 +66,9 @@ When /^I create a new geograph named "([^"]*)" with a CSV file named "([^"]*)"$/
 end
 
 Then /^I should get an error message$/ do
-    page.find('p.flash').text.should_not be_empty
+    page.should have_selector('p.flash.alert, p.flash.error')
 end
 
 Then /^I should get an inline error message$/ do
-    page.all('p.inline-errors').count.should be > 0
+    page.should have_selector('p.inline-errors')
 end
