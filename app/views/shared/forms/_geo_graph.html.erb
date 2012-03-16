@@ -1,10 +1,12 @@
 <%= semantic_form_for @geograph do |f| %>
     <%= f.inputs do %>
         <%= f.input :name, :hint => 'What do you want to call it?' %>
+        <% if @geograph.measures.empty? %>
         <%= f.input :import_data, :label => 'Data',
             :hint => "Make sure it's a CSV file with columns named: " + Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ') %>
+        <% end %>
         <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
-        <% if ExternalDataSource.count %>
+        <% if ExternalDataSource.count > 0 and (@geograph.measures.empty? or @geograph.has_api_abbrs?) %>
             <%= f.input :external_data_sources, :as => :check_boxes, :hint => 'Do you want to pull in data from somewhere else?' %>
         <% end %>
         <% unless @geograph.measures.selectable.empty? %>
@@ -33,5 +35,5 @@
             <% end %>
         <% end %>
     <% end %>
-    <%= f.buttons %>
+    <%= f.actions %>
 <% end %>

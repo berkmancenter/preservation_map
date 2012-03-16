@@ -20,7 +20,7 @@ class GeoGraph < ActiveRecord::Base
               :num_legend_colors, 
     :presence => true
 
-    validates_attachment_content_type :import_data, :content_type => 'text/csv'
+    # validates_attachment_content_type :import_data, :content_type => 'text/csv'
     validates_attachment_size :import_data, :in => 1..1.megabyte
     validates :name, :length => { :in => 3..50 }
     validates :num_legend_sizes, :num_legend_colors, :numericality => {
@@ -113,8 +113,9 @@ class GeoGraph < ActiveRecord::Base
 
             self.color_measure ||= self.measures.numeric.first
             self.size_measure ||= self.measures.numeric.last
-
         end
+
+        return self
     end
 
     def import_data_from_external_sources!
@@ -151,6 +152,10 @@ class GeoGraph < ActiveRecord::Base
     def value_to_yes_no(f)
         Code::Application.config.yes_no.each { |word, info| return word if info[:value] == f }
         return false
+    end
+
+    def has_api_abbrs?
+        return !(self.table.headers & [Code::Application.config.place_column_names[:optional][:api_abbr]]).empty?
     end
 
     protected

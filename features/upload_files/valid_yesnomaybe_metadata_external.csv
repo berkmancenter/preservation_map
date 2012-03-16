@@ -1,0 +1,57 @@
+Place Name,Latitude,Longitude,API Code,Collection Content,Education and Training,Environment,Treatment,Continuum,Constant,Yes/No/Maybe,Metadata
+Afro-American Studies Reading Room,42.372601,-71.114521,AFR,5,2.5,3.2857142857,4,2,1,N,Hello
+Andover-Harvard Theological Library,42.379597,-71.1133,DIV,5,3,3.8571428571,5,4,1,No,Test
+Baker Library (Knowledge and Library Services),42.366412,-71.122798,BAK,5,2.5,4.1428571429,5,6,1,M,Hello
+Biblioteca Berenson,43.786579,11.309685,BER,5,4.5,3,4,8,1,Y,Test
+George David Birkhoff Mathematical Library,42.376181,-71.116701,BIR,3,3,2.1428571429,5,10,1,n,Hello
+Blue Hill Meteorological Observatory Library,42.378206,-71.117114,BLH,5,2.5,1.2857142857,1,12,1,Yes,Test
+Botany Libraries,42.379058,-71.11455,ORC,5,4,2.4285714286,4,14,1,y,Hello
+Arnold Arboretum Horticultural Library (Jamaica Plain),42.307364,-71.120805,AJP,1,1,2.7142857143,5,16,1,yes,Test
+Botany Libraries,42.379058,-71.11455,ARG,3,3,3,4,18,1,no,Hello
+Cabot Science Library,42.376187,-71.116425,CAB,5,2.5,3,5,20,1,N,Test
+Chemistry and Chemical Biology Library,42.377319,-71.115285,CHE,5,4.5,1.5714285714,2,22,1,Maybe,Hello
+Child Memorial Library,42.373768,-71.116669,CHI,4,3.5,4.1428571429,4,24,1,N,Test
+Countway Library of Medicine,42.335108,-71.103585,MED,5,2,3.5714285714,5,26,1,Y,Hello
+Center for Hellenic Studies Library,38.91833,-77.063223,HEL,5,5,1,4,28,1,Y,Test
+Center for Research Libraries (CRL),41.784585,-87.593544,CRL,5,2.5,4.1428571429,4,30,1,m,Hello
+Derek Bok Center for Teaching and Learning,42.376645,-71.116181,DAN,5,3.5,4.7142857143,2,32,1,Y,Test
+Harvard University Development Office Library,42.372732,-71.123875,DEV,5,3.5,4.1428571429,5,34,1,Y,Hello
+Government Documents and Microforms Collection,42.372735,-71.115441,DOC,3,3.5,3.2857142857,5,36,1,N,Test
+Dumbarton Oaks Research Library,38.914544,-77.063985,DDO,4,3,3.2857142857,5,38,1,maybe,Hello
+Environmental Information Services,42.372735,-71.115441,ENV,3,2.5,3.5714285714,1,40,1,Y,Test
+Fine Arts Library (Littauer and Sackler Locations),42.376184,-71.118328,FOG,3,2.5,4.4285714286,5,42,1,Y,Hello
+Fung Library,42.375533,-71.113359,FUN,4,2.5,1.2857142857,4,44,1,M,Test
+Gibb Islamic Seminar Library,42.373189,-71.116814,GIB,5,2.5,4.1428571429,5,46,1,Y,Hello
+Grossman Library and Resource Center for the Harvard Extension School,42.374374,-71.115478,GRO,5,3.5,1,4,48,1,N,Test
+Gutman Library,42.374881,-71.121749,GUT,4,3,5,5,50,1,Y,Hello
+Harvard University Archives,42.373288,-71.115599,HUA,5,3.5,3.2857142857,4,52,1,N,Test
+Harvard Forest Library,42.508363,-72.207813,FOR,4,2.5,1,3,54,1,N,Hello
+Harvard-Yenching Library,42.3776,-71.113732,HYL,4,2.5,4.4285714286,5,56,1,M,Test
+History Departmental Library,42.374719,-71.11492,HIS,5,4,3.5714285714,4,58,1,N,Hello
+History of Science Library,42.373524,-71.116498,HSL,4,1.5,3,4,60,1,Y,Test
+Houghton Library,42.373183,-71.115915,HOU,3,2.5,4.1428571429,4,62,1,N,Hello
+Harvard Kennedy School Library,42.37091,-71.121953,KSG,3,3.5,4.7142857143,5,64,1,Y,Test
+Lamont Library,42.372735,-71.115441,LAM,5,3.5,1.5714285714,5,66,1,M,Hello
+Harvard Law School Library,42.377913,-71.118493,LAW,4,3.5,1.2857142857,4,68,1,Y,Test
+Linguistics Library,42.373639,-71.116489,LIN,4,1.5,3.5714285714,4,70,1,N,Hello
+Frances Loeb Library,42.375844,-71.113992,DES,3,4,4.4285714286,5,72,1,N,Test
+Loeb Music Library,42.376827,-71.116988,MUS,5,2.5,4.7142857143,3,74,1,N,Hello
+Harvard Map Collection,42.373201,-71.115602,MAP,3,2.5,3.2857142857,5,76,1,M,Test
+Master Microforms,42.373433,-71.116656,MMF,3,4,3.5714285714,3,78,1,Y,Hello
+Gordon McKay Library of Engineering and Applied Sciences,42.378218,-71.117125,MCK,3,2.5,1,1,80,1,Y,Test
+Medieval Studies Library,42.373593,-71.116296,PAL,5,2.5,2.1428571429,5,82,1,M,Hello
+Government Documents and Microforms Collection,42.372735,-71.115441,MIC,5,2,2.1428571429,5,84,1,M,Test
+Ernst Mayr Library of the Museum of Comparative Zoology,42.378912,-71.115215,MCZ,5,3.5,2.7142857143,4,86,1,Y,Hello
+Near Eastern Languages and Literatures Library,42.373413,-71.116235,NEL,5,3,1.8571428571,5,88,1,N,Test
+Physics Research Library,42.377223,-71.11756,PHY,5,2,5,5,90,1,Y,Hello
+Primate Center Library,42.325888,-71.500263,PRI,4,1.5,3.5714285714,4,92,1,Y,Test
+Robbins Library of Philosophy,42.373857,-71.115194,PHI,3,4,4.4285714286,5,94,1,Y,Hello
+Fred Norris Robinson Celtic Seminar Library,42.373203,-71.116444,CEL,5,2.5,4.7142857143,3,96,1,N,Test
+Fine Arts Library (Littauer and Sackler Locations),42.376184,-71.118328,RUB,3,2.5,3.2857142857,5,98,1,Y,Hello
+Sanskrit Library,42.373657,-71.116575,SAN,3,4,3.5714285714,3,100,1,N,Test
+Arthur and Elizabeth Schlesinger Library on the History of Women in America,42.375729,-71.123123,SCH,3,2.5,1,1,102,1,Y,Hello
+Statistics Library,42.376379,-71.117206,STA,5,2.5,2.1428571429,5,104,1,M,Test
+Tozzer Library,42.378547,-71.114792,TOZ,5,2,2.1428571429,5,106,1,N,Hello
+Ukrainian Research Institute Reference Library,42.376526,-71.11306,URI,5,3.5,2.7142857143,4,108,1,Y,Test
+Widener Library,42.373397,-71.11653,WID,5,3,1.8571428571,5,110,1,Y,Hello
+Wolbach Library,42.381151,-71.127725,WOL,5,2,5,5,112,1,Y,Test

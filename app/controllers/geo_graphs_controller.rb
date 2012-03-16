@@ -1,5 +1,7 @@
 class GeoGraphsController < ApplicationController
     before_filter :authenticate_user!, :except => [:index, :show]
+    before_filter :load_geograph, :except => [:index, :new, :create]
+    before_filter :authorize_user!, :except => [:index, :show, :new, :create]
 
     def index
         @geographs = GeoGraph.all
@@ -12,20 +14,15 @@ class GeoGraphsController < ApplicationController
     def create
         @geograph = GeoGraph.new(params[:geo_graph])
         @geograph.user = current_user
-        @geograph.import_data_from_attachment!
-        @geograph.import_data_from_external_sources!
-        respond_to do |format|
-            if @geograph.save
-                format.html {redirect_to geo_graph_path(@geograph)}
-            else
-                flash[:alert] = 'Could not add that GeoGraph.'
-                format.html { render 'new' }
-            end
+        @geograph.import_data_from_attachment!.import_data_from_external_sources!
+        if @geograph.save
+            redirect_to geo_graph_path(@geograph)
+        else
+            redirect_to(new_geo_graph_path, :alert => 'Could not add that GeoGraph.')
         end
     end
 
     def show
-        @geograph = GeoGraph.find(params[:id])
         if params[:color_measure]
             @geograph.color_measure = Measure.find(params[:color_measure])
         end
@@ -42,19 +39,9 @@ class GeoGraphsController < ApplicationController
     end
 
     def edit
-        @geograph = GeoGraph.find(params[:id])
-        unless @geograph.user == current_user
-            flash[:alert] = 'You do not have access to that geograph.'
-            redirect_to geo_graph_path(@geograph)
-        end
     end
 
     def update
-        @geograph = GeoGraph.find(params[:id])
-        unless @geograph.user == current_user
-            flash[:alert] = 'You do not have access to that geograph.'
-            redirect_to geo_graph_path(@geograph)
-        end
         respond_to do |format|
             if @geograph.update_attributes(params[:geo_graph])
               format.html  {
@@ -74,5 +61,20 @@ class GeoGraphsController < ApplicationController
     end
 
     def destroy
+        if @geograph.destroy
+            redirect_to(geo_graphs_path, :notice => "Geograph \"#{@geograph.name}\" successfully deleted." )
+        else
+            redirect_to(geo_graphs_path, :alert => "Could not delete geograph \"#{@geograph.name}\"." )
+        end
+    end
+
+    def authorize_user!
+        unless @geograph.user == current_user
+            redirect_to(geo_graphs_path, :alert => 'You do not have access to that geograph.')
+        end
+    end
+
+    def load_geograph
+        @geograph = GeoGraph.find(params[:id])
     end
 end
