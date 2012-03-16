@@ -65,6 +65,10 @@ When /^I create a new geograph named "([^"]*)" with a CSV file named "([^"]*)"$/
     click_button('Create')
 end
 
+When /^I refresh the page$/ do
+    visit current_path
+end
+
 Then /^I should get an error message$/ do
     page.should have_selector('p.flash.alert, p.flash.error')
 end
