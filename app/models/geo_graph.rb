@@ -20,7 +20,7 @@ class GeoGraph < ActiveRecord::Base
               :num_legend_colors, 
     :presence => true
 
-    validates_attachment_content_type :import_data, :content_type => 'text/csv'
+    # validates_attachment_content_type :import_data, :content_type => 'text/csv'
     validates_attachment_size :import_data, :in => 1..1.megabyte
     validates :name, :length => { :in => 3..50 }
     validates :num_legend_sizes, :num_legend_colors, :numericality => {
