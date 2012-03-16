@@ -11,8 +11,8 @@
     <%= csrf_meta_tags %>
     <style>
         .spot_swatch, .spot_circle {
-            width: <%= (@geograph.max_spot_size * 2) - 2 %>px;
-            height: <%= (@geograph.max_spot_size * 2) - 2 %>px;
+            width: <%= ([@geograph.max_spot_size, @geograph.min_spot_size].max * 2) - 2 %>px;
+            height: <%= ([@geograph.max_spot_size, @geograph.min_spot_size].max * 2) - 2 %>px;
         }
     </style>
 </head>
