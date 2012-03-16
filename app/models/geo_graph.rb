@@ -29,6 +29,7 @@ class GeoGraph < ActiveRecord::Base
     validates :min_spot_size, :max_spot_size, :numericality => {
         :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0
     }
+    validate :min_spot_size_and_max_spot_size_are_not_both_zero
     accepts_nested_attributes_for :measures
 
     after_initialize :add_defaults
@@ -156,6 +157,13 @@ class GeoGraph < ActiveRecord::Base
 
     def has_api_abbrs?
         return !(self.table.headers & [Code::Application.config.place_column_names[:optional][:api_abbr]]).empty?
+    end
+
+    def min_spot_size_and_max_spot_size_are_not_both_zero
+        if min_spot_size == 0 and max_spot_size == 0
+            errors.add(:min_spot_size, %{can't be zero while "Maximum spot size" is zero})
+            errors.add(:max_spot_size, %{can't be zero while "Minimum spot size" is zero})
+        end
     end
 
     protected
