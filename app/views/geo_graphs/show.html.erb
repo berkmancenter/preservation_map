@@ -55,15 +55,21 @@
                 <!-- <button id="hideTable">Toggle Data Table</button> -->
             </div>
 
-            <div class="overlay" id="legend">
-                <h2>Legend</h2>
-                <div id="sizes">
-                    <h3 id="size-title"></h3>
+            <% unless @geograph.num_legend_sizes == 0 and @geograph.num_legend_colors == 0 %>
+                <div class="overlay" id="legend">
+                    <h2>Legend</h2>
+                    <% if @geograph.num_legend_sizes > 0 %>
+                        <div id="sizes">
+                            <h3 id="size-title"></h3>
+                        </div>
+                    <% end %>
+                    <% if @geograph.num_legend_colors > 0 %>
+                        <div id="colors">
+                            <h3 id="color-title"></h3>
+                        </div>
+                    <% end %>
                 </div>
-                <div id="colors">
-                    <h3 id="color-title"></h3>
-                </div>
-            </div>
+            <% end %>
         </div>
 
         <div id="map"></div>
