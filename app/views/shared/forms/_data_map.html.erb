@@ -1,17 +1,17 @@
-<%= semantic_form_for @geograph do |f| %>
+<%= semantic_form_for @datamap do |f| %>
     <%= f.inputs do %>
         <%= f.input :name %>
-        <% if @geograph.measures.empty? %>
+        <% if @datamap.measures.empty? %>
         <%= f.input :import_data, :label => 'Data',
-          :hint => t('formtastic.hints.geo_graph.import_data', :column_names => Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ')) %>
+          :hint => t('formtastic.hints.data_map.import_data', :column_names => Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ')) %>
         <% end %>
         <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
-        <% if ExternalDataSource.count > 0 and (@geograph.measures.empty? or @geograph.has_api_abbrs?) %>
+        <% if ExternalDataSource.count > 0 and (@datamap.measures.empty? or @datamap.has_api_abbrs?) %>
             <%= f.input :external_data_sources, :as => :check_boxes %>
         <% end %>
-        <% unless @geograph.measures.selectable.empty? %>
-            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
-            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+        <% unless @datamap.measures.selectable.empty? %>
+            <%= f.input :size_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false %>
+            <%= f.input :color_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false %>
         <% end %>
     <% end %>
     <%= f.inputs 'Advanced', :class => 'toggler' do %>
@@ -21,7 +21,7 @@
         <%= f.input :num_legend_colors %>
         <%= f.input :num_zoom_levels %>
     <% end %>
-    <% unless @geograph.measures.selectable.empty? %>
+    <% unless @datamap.measures.selectable.empty? %>
         <%= f.inputs 'Configure Measures', :class => 'toggler' do %>
             <%= f.inputs :for => :measures do |measure, i| %>
                 <% if ['numeric', 'yes_no'].include? measure.object.datatype %>

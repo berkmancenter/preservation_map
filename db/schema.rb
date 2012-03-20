@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "external_data_sources_geo_graphs", :id => false, :force => true do |t|
+  create_table "external_data_sources_data_maps", :id => false, :force => true do |t|
     t.integer "external_data_source_id"
-    t.integer "geo_graph_id"
+    t.integer "data_map_id"
   end
 
-  create_table "geo_graphs", :force => true do |t|
+  create_table "data_maps", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
     t.integer  "color_measure_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
   create_table "measures", :force => true do |t|
     t.string   "name"
     t.string   "api_url"
-    t.integer  "geo_graph_id"
+    t.integer  "data_map_id"
     t.integer  "external_data_source_id"
     t.string   "datatype",                :default => "numeric"
     t.boolean  "log_scale",               :default => false
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "api_abbr"
-    t.integer  "geo_graph_id"
+    t.integer  "data_map_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end

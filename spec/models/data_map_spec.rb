@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GeoGraph do
+describe DataMap do
     it "has a name" do
     end
 

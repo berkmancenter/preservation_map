@@ -5,8 +5,8 @@ Feature: Log Scale
 
     Background:
         Given I am an authorized user
-        And I have a geograph
-        And I am editing my geograph
+        And I have a datamap
+        And I am editing my datamap
 
     Scenario: Setting a measure to use a logarithmic scale
         When I set a measure to use a logarithmic scale

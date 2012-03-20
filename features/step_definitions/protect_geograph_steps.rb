@@ -20,8 +20,8 @@ When /^I enter incorrect credentials$/ do
     click_button('Sign in')
 end
 
-Then /^I should see a list of my geographs$/ do
-    page.find('h1').text.should eq('My GeoGraphs')
+Then /^I should see a list of my datamaps$/ do
+    page.find('h1').text.should eq('My DataMaps')
 end
 
 Then /^I should be given a chance to enter new credentials$/ do

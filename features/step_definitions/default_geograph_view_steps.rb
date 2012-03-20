@@ -7,7 +7,7 @@ When /^I change the map zoom$/ do
 end
 
 When /^I change the color theme$/ do
-    page.choose 'geo_graph_color_theme_id_4'
+    page.choose 'data_map_color_theme_id_4'
 end
 
 When /^I change the size criteria$/ do

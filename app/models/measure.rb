@@ -1,7 +1,7 @@
 class Measure < ActiveRecord::Base
     has_many :place_measures
     has_many :places, :through => :place_measures
-    belongs_to :geo_graph
+    belongs_to :data_map
     belongs_to :external_data_source
     scope :numeric, where(:datatype => 'numeric')
     scope :metadata, where(:datatype => 'metadata')
@@ -28,7 +28,7 @@ class Measure < ActiveRecord::Base
 
     def display_value(place)
         value = value(place)
-        value = geo_graph.value_to_yes_no(value) if datatype == 'yes_no'
+        value = data_map.value_to_yes_no(value) if datatype == 'yes_no'
         return value
     end
 
@@ -38,7 +38,7 @@ class Measure < ActiveRecord::Base
 
     def legend_sizes
         sizes = []
-        num_legend_sizes = [geo_graph.num_legend_sizes, num_unique_values].min
+        num_legend_sizes = [data_map.num_legend_sizes, num_unique_values].min
         num_legend_sizes.times do |i|
             if num_legend_sizes == 1 
                 percent = 1
@@ -57,7 +57,7 @@ class Measure < ActiveRecord::Base
 
     def legend_colors(color_theme = nil)
         colors = []
-        num_legend_colors = [geo_graph.num_legend_colors, num_unique_values].min
+        num_legend_colors = [data_map.num_legend_colors, num_unique_values].min
         num_legend_colors.times do |i|
             if num_legend_colors == 1 
                 percent = 1
@@ -75,14 +75,14 @@ class Measure < ActiveRecord::Base
     end
 
     def percent_to_size(percent)
-        return (geo_graph.max_spot_size - geo_graph.min_spot_size) * percent + geo_graph.min_spot_size
+        return (data_map.max_spot_size - data_map.min_spot_size) * percent + data_map.min_spot_size
     end
 
     def percent_to_color(percent, color_theme = nil)
         if reverse_color_theme
             percent = 1.0 - percent
         end
-        color_theme ||= geo_graph.color_theme
+        color_theme ||= data_map.color_theme
         gradient = color_theme.gradient
         percent_i = (percent * 100).floor
         lower_color = percent_i > 0 ? gradient[gradient.keys[gradient.keys.push(percent_i).sort!.index(percent_i) - 1]] : gradient[0]
@@ -108,7 +108,7 @@ class Measure < ActiveRecord::Base
         max_value = place_measures.maximum(:value)
         value = (max_value - min_value) * percent + min_value
         if datatype == 'yes_no'
-            return geo_graph.value_to_yes_no(value)
+            return data_map.value_to_yes_no(value)
         elsif log_scale
             min_value = if min_value > 0 then Math::log10(min_value) else 0.0 end
             max_value = if max_value > 0 then Math::log10(max_value) else 0.0 end

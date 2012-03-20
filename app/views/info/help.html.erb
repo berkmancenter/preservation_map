@@ -2,8 +2,8 @@
 <h4><%= t '.terms' %></h4>
 <p>
 <dl>
-    <dt><%= GeoGraph.model_name.human %></dt>
-    <dd><%= t '.geo_graph_def' %></dd>
+    <dt><%= DataMap.model_name.human %></dt>
+    <dd><%= t '.data_map_def' %></dd>
     <dt><%= Measure.model_name.human %></dt>
     <dd><%= t '.measure_def' %></dd>
     <dt><%= PlaceMeasure.model_name.human %><dt>
@@ -15,7 +15,7 @@
 </p>
 
 <h4><%= t '.process' %></h4>
-<h5><%= t '.creating', :geo_graph => GeoGraph.model_name.human %></h5>
+<h5><%= t '.creating', :data_map => DataMap.model_name.human %></h5>
 <p>
     <%= t '.creating_intro' %>
     <ol>
@@ -59,11 +59,11 @@
         <%= t '.create_account_html', :create_link => link_to(t('.create'), new_user_registration_path), :login_link => link_to(t('.login'), user_session_path) %>
         </li> 
         <li>
-            <%= t '.create_geo_graph_html', :create_link => link_to(t('.create').downcase, new_geo_graph_path) %>
+            <%= t '.create_data_map_html', :create_link => link_to(t('.create').downcase, new_data_map_path) %>
         </li>
     </ol>
 </p>
-<h5><%= t '.viewing', :geo_graph => GeoGraph.model_name.human %></h5>
+<h5><%= t '.viewing', :data_map => DataMap.model_name.human %></h5>
 <p>
     <%= t '.viewing_text' %> 
 </p>

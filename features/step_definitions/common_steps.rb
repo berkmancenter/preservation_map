@@ -21,45 +21,45 @@ Given /^I am an anonymous user$/ do
     visit destroy_user_session_path
 end
 
-Given /^I have a geograph$/ do
-    @geograph_name = 'Testing'
-    step %{I create a new geograph named "#{@geograph_name}" with a CSV file named "#{File.dirname(__FILE__) + '/../upload_files/valid.csv'}"}
+Given /^I have a datamap$/ do
+    @datamap_name = 'Testing'
+    step %{I create a new datamap named "#{@datamap_name}" with a CSV file named "#{File.dirname(__FILE__) + '/../upload_files/valid.csv'}"}
 end
 
-Given /^I am creating a new geograph$/ do
-    visit new_geo_graph_path
+Given /^I am creating a new datamap$/ do
+    visit new_data_map_path
 end
 
-Given /^a geograph exists$/ do
+Given /^a datamap exists$/ do
     email = 'test2@example.com'
     password = 'secretpass'
     step %{a user exists with email "#{email}" and password "#{password}"}
     step %{I am signed in as "#{email}" with password "#{password}"}
-    step 'I have a geograph'
+    step 'I have a datamap'
     step 'I am an anonymous user'
 end
 
-Given /^I am editing my geograph$/ do
+Given /^I am editing my datamap$/ do
     visit root_path
     click_link 'Edit'
 end
 
-Given /^I am viewing a geograph$/ do
-    step 'a geograph exists'
-    step 'I view my geograph'
+Given /^I am viewing a datamap$/ do
+    step 'a datamap exists'
+    step 'I view my datamap'
 end
 
-Given /^I am viewing my geograph$/ do
-    step 'I view my geograph'
+Given /^I am viewing my datamap$/ do
+    step 'I view my datamap'
 end
 
-When /^I view my geograph$/ do
+When /^I view my datamap$/ do
     visit root_path
-    click_link @geograph_name
+    click_link @datamap_name
 end
 
-When /^I create a new geograph named "([^"]*)" with a CSV file named "([^"]*)"$/ do |name, filename|
-    visit new_geo_graph_path
+When /^I create a new datamap named "([^"]*)" with a CSV file named "([^"]*)"$/ do |name, filename|
+    visit new_data_map_path
     fill_in('Name', :with => name)
     attach_file('Data', filename)
     click_button('Create')

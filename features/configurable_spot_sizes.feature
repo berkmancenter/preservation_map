@@ -5,19 +5,19 @@ Feature: Configurable Spot Sizes
 
     Background:
         Given I am an authorized user
-        And I have a geograph
-        And I am editing my geograph
+        And I have a datamap
+        And I am editing my datamap
 
     @javascript
     Scenario: Setting the minimum and maximum spot sizes to reasonable numbers
         When I set the minimum and maximum spot sizes to reasonable numbers
-        And I view my geograph
+        And I view my datamap
         Then the minimum and maximum spot sizes should be those numbers
 
     @javascript
     Scenario: Setting the minimum spot size to something larger than the maximum spot size
         When I set the minimum spot size to a value larger than the maximum spot size
-        And I view my geograph
+        And I view my datamap
         Then spots with greater values should be smaller than spots with lesser values
 
     @javascript

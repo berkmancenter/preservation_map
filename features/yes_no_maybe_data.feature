@@ -5,12 +5,12 @@ Feature: Yes/No/Maybe Data
 
     Background:
         Given I am an authorized user
-        And I am creating a new geograph
+        And I am creating a new datamap
 
     Scenario: Including yes/no/maybe data in a CSV
-        When I create a new geograph with a CSV that has yes/no/maybe data
-        Then that geograph should contain yes/no/maybe data
+        When I create a new datamap with a CSV that has yes/no/maybe data
+        Then that datamap should contain yes/no/maybe data
 
     @wip
     Scenario: Pulling yes/no/maybe data from an API 
-        When I create a new geograph with an external data source that provides yes/no/maybe data
+        When I create a new datamap with an external data source that provides yes/no/maybe data

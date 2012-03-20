@@ -6,21 +6,21 @@
     <%= t '.call_to_action_html', :signup_link => link_to(t('.create_account'), new_user_registration_path) %>
 </p>
 
-<h3><%= GeoGraph.model_name.human :count => 2 %></h3>
+<h3><%= DataMap.model_name.human :count => 2 %></h3>
 <table>
     <thead>
         <tr>
-            <th><%= GeoGraph.human_attribute_name(:name) %></th>
-            <th><%= GeoGraph.human_attribute_name(:updated) %></th>
+            <th><%= DataMap.human_attribute_name(:name) %></th>
+            <th><%= DataMap.human_attribute_name(:updated) %></th>
             <% if user_signed_in? %>
                 <th></th>
             <% end %>
         </tr>
     </thead>
     <tbody>
-        <%= render :partial => 'shared/line_items/geo_graph', :collection => @geographs %>
+        <%= render :partial => 'shared/line_items/data_map', :collection => @datamaps %>
     </tbody>
 </table>
 <% if user_signed_in? %>
-    <%= link_to "Create a new geograph", new_geo_graph_path %>
+    <%= link_to "Create a new datamap", new_data_map_path %>
 <% end %>

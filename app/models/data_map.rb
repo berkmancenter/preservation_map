@@ -1,7 +1,7 @@
 require 'csv'
 require 'json'
 
-class GeoGraph < ActiveRecord::Base
+class DataMap < ActiveRecord::Base
     belongs_to :user
     belongs_to :size_measure, :class_name => 'Measure'
     belongs_to :color_measure, :class_name => 'Measure'

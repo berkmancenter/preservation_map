@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= t :app_title %> - <%= @geograph.name %></title>
+    <title><%= t :app_title %> - <%= @datamap.name %></title>
     <%= stylesheet_link_tag('application', :media => 'all') %>
     <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
-    <%= stylesheet_link_tag('geo_graph/show', :media => 'all') %>
+    <%= stylesheet_link_tag('data_map/show', :media => 'all') %>
     <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
     <!--[if IE 7]><%# stylesheet_link_tag 'ie7' %><![endif]-->
     <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
     <%= csrf_meta_tags %>
     <style>
         .spot_swatch, .spot_circle {
-            width: <%= ([@geograph.max_spot_size, @geograph.min_spot_size].max * 2) - 2 %>px;
-            height: <%= ([@geograph.max_spot_size, @geograph.min_spot_size].max * 2) - 2 %>px;
+            width: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
+            height: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
         }
     </style>
 </head>
@@ -29,25 +29,25 @@
         <% end %>
 
         <div class="sidebar">
-            <div class="overlay" id="geo_graph_title">
-                <h1 title="<%= @geograph.name %>"><%= @geograph.name %></h1>
+            <div class="overlay" id="data_map_title">
+                <h1 title="<%= @datamap.name %>"><%= @datamap.name %></h1>
                 <a href="#" title="<%= t '.help_toggle' %>" class="activate-help"><%= t '.help_button' %></a>
                 <div>
                     <%= link_to t(:home), root_path %>
-                    <% if current_user == @geograph.user %>
-                        <%= link_to t('.edit'), edit_geo_graph_path(@geograph) %>
-                        <%= link_to t('.default_view'), edit_geo_graph_path(@geograph), :class => :help, :id => 'set-default-view' %>
+                    <% if current_user == @datamap.user %>
+                        <%= link_to t('.edit'), edit_data_map_path(@datamap) %>
+                        <%= link_to t('.default_view'), edit_data_map_path(@datamap), :class => :help, :id => 'set-default-view' %>
                     <% end %>
                 </div>
             </div>
 
-            <div class="overlay" id="geograph_settings">
+            <div class="overlay" id="datamap_settings">
                 <h2><%= t '.settings' %></h2>
-                <% unless @geograph.measures.empty? %>
-                    <%= semantic_form_for @geograph, :remote => true do |f| %>
+                <% unless @datamap.measures.empty? %>
+                    <%= semantic_form_for @datamap, :remote => true do |f| %>
                         <%= f.inputs do %>
-                            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
-                            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+                            <%= f.input :size_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false, :label => t('.size_measure', :measure => Measure.model_name.human) %>
+                            <%= f.input :color_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false, :label => t('.color_measure', :measure => Measure.model_name.human) %>
                             <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
                         <% end %>
                     <% end %>
@@ -55,15 +55,15 @@
                 <!-- <button id="hideTable">Toggle Data Table</button> -->
             </div>
 
-            <% unless @geograph.num_legend_sizes == 0 and @geograph.num_legend_colors == 0 %>
+            <% unless @datamap.num_legend_sizes == 0 and @datamap.num_legend_colors == 0 %>
                 <div class="overlay" id="legend">
                     <h2><%= t '.legend' %></h2>
-                    <% if @geograph.num_legend_sizes > 0 %>
+                    <% if @datamap.num_legend_sizes > 0 %>
                         <div id="sizes">
                             <h3 id="size-title"></h3>
                         </div>
                     <% end %>
-                    <% if @geograph.num_legend_colors > 0 %>
+                    <% if @datamap.num_legend_colors > 0 %>
                         <div id="colors">
                             <h3 id="color-title"></h3>
                         </div>
@@ -74,9 +74,9 @@
 
         <div id="map"></div>
 
-        <% if current_user == @geograph.user %>
+        <% if current_user == @datamap.user %>
             <div id="default-map-view">
-                <%= semantic_form_for @geograph, :remote => true, :html => { :id => 'default_view_form' }, :namespace => 'default_view' do |f| %>
+                <%= semantic_form_for @datamap, :remote => true, :html => { :id => 'default_view_form' }, :namespace => 'default_view' do |f| %>
                     <%= f.input :default_zoom_level %>
                     <%= f.input :default_latitude, :as => :string %>
                     <%= f.input :default_longitude, :as => :string %>
@@ -91,16 +91,16 @@
         #    <thead>
         #        <tr>
         #            <th>Place Name</th>
-        #            <% @geograph.measures.each do |measure| 
+        #            <% @datamap.measures.each do |measure| 
         #                <th><%= measure.name </th>
         #            <% end 
         #        </tr>
         #    </thead>
         #    <tbody>
-        #        <% @geograph.places.each do |place| 
+        #        <% @datamap.places.each do |place| 
         #            <tr>
         #                <td><%= place.name </td>
-        #                <% @geograph.measures.each do |measure| 
+        #                <% @datamap.measures.each do |measure| 
         #                    <td><%= measure.value(place) </td>
         #                <% end 
         #            </tr>
@@ -111,30 +111,30 @@
     </div>
 
     <div class="help-texts">
-        <div id="set-default-view-help"><%= t '.default_view_help' %></div>
-        <div id="geo_graph_size_measure_input-help"><%= t '.size_measure_help' %></div>
-        <div id="geo_graph_color_measure_input-help"><%= t '.color_measure_help' %></div>
-        <div id="geo_graph_color_theme_input-help"><%= t '.color_theme_help' %></div>
-        <div id="sizes-help"><%= t '.sizes_help' %></div>
-        <div id="colors-help"><%= t '.colors_help' %></div>
+        <div id="set-default-view-help"><%= t '.help.default_view' %></div>
+        <div id="data_map_size_measure_input-help"><%= t '.help.size_measure' %></div>
+        <div id="data_map_color_measure_input-help"><%= t '.help.color_measure' %></div>
+        <div id="data_map_color_theme_input-help"><%= t '.help.color_theme' %></div>
+        <div id="sizes-help"><%= t '.help.sizes' %></div>
+        <div id="colors-help"><%= t '.help.colors' %></div>
     </div>
 
     <div id="blinder"></div>
 
     <script>
-        var ajax_path = '<%= geo_graph_path(@geograph) %>.json',
+        var ajax_path = '<%= data_map_path(@datamap) %>.json',
             asset_path = '<%= Code::Application.config.assets.prefix %>/',
-            geograph_zoom_levels = <%= @geograph.num_zoom_levels %>
-            <% if @geograph.default_zoom_level %>
-                , geograph_default_zoom = <%= @geograph.default_zoom_level %>
+            datamap_zoom_levels = <%= @datamap.num_zoom_levels %>
+            <% if @datamap.default_zoom_level %>
+                , datamap_default_zoom = <%= @datamap.default_zoom_level %>
             <% end %>
-            <% if @geograph.default_latitude and @geograph.default_longitude %>
-                , geograph_default_latitude = <%= @geograph.default_latitude %>
-                , geograph_default_longitude = <%= @geograph.default_longitude %>
+            <% if @datamap.default_latitude and @datamap.default_longitude %>
+                , datamap_default_latitude = <%= @datamap.default_latitude %>
+                , datamap_default_longitude = <%= @datamap.default_longitude %>
             <% end %>
         ;
     </script>
     <%= javascript_include_tag '//maps.google.com/maps/api/js?v=3.5&sensor=false' %>
-    <%= javascript_include_tag 'geo_graph/show' %>
+    <%= javascript_include_tag 'data_map/show' %>
 </body>
 </html>

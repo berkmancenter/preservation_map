@@ -5,12 +5,12 @@ Feature: Reversible Color Themes
 
     Background:
         Given I am an authorized user
-        And I have a geograph
-        And I am editing my geograph
+        And I have a datamap
+        And I am editing my datamap
 
     Scenario: Setting a measure to use a reversed color theme
         When I set a measure to use a reversed color theme
-        And I view my geograph
+        And I view my datamap
     Scenario: Setting a yes/no/maybe measure to use a reversed color theme
         When I set a "yes/no/maybe" measure to use a reversed color theme
-        And I view my geograph
+        And I view my datamap

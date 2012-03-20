@@ -1,6 +1,6 @@
-class CreateGeoGraphs < ActiveRecord::Migration
+class CreateDataMaps < ActiveRecord::Migration
   def up 
-    create_table :geo_graphs do |t|
+    create_table :data_maps do |t|
       t.string :name
       t.integer :user_id
       t.integer :color_measure_id
@@ -21,7 +21,7 @@ class CreateGeoGraphs < ActiveRecord::Migration
   end
 
   def down
-    drop_attached_file :geo_graphs, :import_data
-    drop_table :geo_graphs
+    drop_attached_file :data_maps, :import_data
+    drop_table :data_maps
   end
 end

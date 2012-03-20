@@ -5,15 +5,15 @@ en:
   account: 'Account'
   help: 'Help'
 
-  geo_graphs:
+  data_maps:
     alerts:
-        could_not_add: 'Could not add that %{geo_graph}.' 
-        could_not_delete: 'Could not delete %{geo_graph} "%{name}".' 
-        successfully_updated: '%{geo_graph} "%{name}" was successfully updated.'
-        successfully_deleted: '%{geo_graph} "%{name}" was successfully deleted.'
-        access_denied: 'You do not have access to that %{geo_graph}.'
+        could_not_add: 'Could not add that %{data_map}.' 
+        could_not_delete: 'Could not delete %{data_map} "%{name}".' 
+        successfully_updated: '%{data_map} "%{name}" was successfully updated.'
+        successfully_deleted: '%{data_map} "%{name}" was successfully deleted.'
+        access_denied: 'You do not have access to that %{data_map}.'
     new:
-      new_title: 'New %{geo_graph}'
+      new_title: 'New %{data_map}'
     index:
       welcome: "Welcome!"
       intro: 'This is Insite - a tool to help you visualize data that has a geographic component.'
@@ -26,50 +26,53 @@ en:
       default_view: 'Set as default view'
       settings: 'Settings'
       legend: 'Legend'
-      default_view_help: "You're the owner of this geograph, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default."
-      size_measure_help: "Here is where you can pick which data determines the sizes of the spots on the map."
-      color_measure_help: "Use this to pick the data that determines the colors of the spots on the map."
-      color_theme_help: "This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others."
-      sizes_help: "So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes."
-      colors_help: "Look here to figure out how color maps to the data you've selected (up in \"Settings\")."
+      size_measure: 'Size %{measure}'
+      color_measure: 'Color %{measure}'
+      help:
+          default_view: "You're the owner of this datamap, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default."
+          size_measure: "Here is where you can pick which data determines the sizes of the spots on the map."
+          color_measure: "Use this to pick the data that determines the colors of the spots on the map."
+          color_theme: "This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others."
+          sizes: "So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes."
+          colors: "Look here to figure out how color maps to the data you've selected (up in \"Settings\")."
 
   info:
     help:
       terms: 'Terminology'
-      geo_graph_def: "The visualization - it's kind of like a map, only with spots." 
+      data_map_def: "The visualization - it's kind of like a map, only with spots." 
       measure_def: "The column the data is coming from."
       spot_def: "The actual colored circle that appears on the map."
       place_def: "Something with a name, a latitude, and a longitude."
       color_theme_def: "The set of colors from which spot colors are selected."
       process: 'Process'
-      creating: 'Creating a %{geo_graph}'
+      creating: 'Creating a %{data_map}'
       creating_intro: "Here's how it works:"
       req_column_intro: "Create a spreadsheet with at least %{req_column_count} columns:"
-      name_column: '"%{name}" - The name of the location. This will be used throughout the geograph.'
+      name_column: '"%{name}" - The name of the location. This will be used throughout the datamap.'
       lat_column: '"%{name}" - The latitude of the place.'
       lon_column: '"%{name}" - The longitude of the place.'
       opt_column_intro: "You can also include one optional column:"
       api_abbr_column: "\"%{name}\" (optional) - If you're intending to pull in data from an external source, this has to be the identifier used by that external source for the place."
       fill_in_data: 'Use information about your places to fill in the three (or four) columns to just created.'
-      user_data: "Add your own columns and data to this spreadsheet.  Title your columns logically and prettily, as they'll show up throughout your geograph."
+      user_data: "Add your own columns and data to this spreadsheet.  Title your columns logically and prettily, as they'll show up throughout your datamap."
       save_csv: "Save your spreadsheet to your computer as a CSV (Comma-Separated Values) file."
       create: 'Create'
       login: 'login'
       create_account_html: "%{create_link} an Insite account, or %{login_link} to an exising account."
-      create_geo_graph_html: "Upload your CSV file when you %{create_link} a new geograph."
-      viewing: 'Viewing a %{geo_graph}'
-      viewing_text: "The geograph display page has it's own help.  Click the question mark in the top-right hand corner to get help."
+      create_data_map_html: "Upload your CSV file when you %{create_link} a new datamap."
+      viewing: 'Viewing a %{data_map}'
+      viewing_text: "The datamap display page has it's own help.  Click the question mark in the top-right hand corner to get help."
 
   shared:
     line_items:
-      geo_graph:
-        confirm: 'Are you sure you want to delete this %{geo_graph}?'
+      data_map:
+        confirm: 'Are you sure you want to delete this %{data_map}?'
 
   activerecord:
     models:
-      geo_graph:
-        one: 'GeoGraph'
-        other: 'GeoGraphs'
+      data_map:
+        one: 'DataMap'
+        other: 'DataMaps'
       measure:
         one: 'Measure'
         other: 'Measures'
@@ -83,7 +86,7 @@ en:
         one: 'Color Theme'
         other: 'Color Themes'
     attributes:
-      geo_graph:
+      data_map:
         name: 'Name'
         updated: 'Last Updated'
         size_measure: 'Size Measure'
@@ -97,7 +100,7 @@ en:
 
   formtastic:
     labels:
-      geo_graph:
+      data_map:
         size_measure: 'Default size measure' 
         color_measure: 'Default color measure' 
         min_spot_size: 'Minimum spot size'
@@ -109,7 +112,7 @@ en:
         log_scale: 'Use Logarithmic Scale' 
         reverse_color_theme: 'Reverse Color Theme'
     hints:
-      geo_graph:
+      data_map:
         name: 'What do you want to call it?'
         import_data: "Make sure it's a CSV file with columns named: %{column_names}"
         external_data_sources: 'Do you want to pull in data from somewhere else?' 

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :geo_graphs
+  has_many :data_maps
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable

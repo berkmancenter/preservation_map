@@ -2,7 +2,7 @@ When /^I set the minimum spot size to "([^"]*)" and the maximum spot size to "([
     click_link "Advanced \u00BB"
     fill_in 'Minimum spot size', :with => minimum
     fill_in 'Maximum spot size', :with => maximum
-    click_button 'Update Geo graph'
+    click_button 'Update DataMap'
 end
 
 When /^I set the minimum and maximum spot sizes to reasonable numbers$/ do
