@@ -18,7 +18,7 @@ class GeoGraphsController < ApplicationController
         if @geograph.save
             redirect_to geo_graph_path(@geograph)
         else
-            redirect_to(new_geo_graph_path, :alert => 'Could not add that GeoGraph.')
+            redirect_to(new_geo_graph_path, :alert => t('geo_graphs.alerts.could_not_add', :geo_graph => GeoGraph.model_name.human.downcase))
         end
     end
 
@@ -48,29 +48,28 @@ class GeoGraphsController < ApplicationController
                   if request.xhr?
                       head :no_content
                   else
-                      redirect_to(edit_geo_graph_path(@geograph), :notice => 'Geograph was successfully updated.')
+                      redirect_to(edit_geo_graph_path(@geograph), :notice => t('geo_graphs.alerts.successfully_updated', :geo_graph => GeoGraph.model_name.human, :name => @geograph.name))
                   end
               }
               format.json  { head :no_content }
             else
               format.html  { render "edit" }
-              format.json  { render :json => @geograph.errors,
-                            :status => :unprocessable_entity }
+              format.json  { render :json => @geograph.errors, :status => :unprocessable_entity }
             end
         end
     end
 
     def destroy
         if @geograph.destroy
-            redirect_to(geo_graphs_path, :notice => "Geograph \"#{@geograph.name}\" successfully deleted." )
+            redirect_to(geo_graphs_path, :notice => t('geo_graphs.alerts.successfully_deleted', :geo_graph => GeoGraph.model_name.human, :name => @geograph.name))
         else
-            redirect_to(geo_graphs_path, :alert => "Could not delete geograph \"#{@geograph.name}\"." )
+            redirect_to(geo_graphs_path, :alert => t('geo_graphs.alerts.could_not_delete', :geo_graph => GeoGraph.model_name.human, :name => @geograph.name))
         end
     end
 
     def authorize_user!
         unless @geograph.user == current_user
-            redirect_to(geo_graphs_path, :alert => 'You do not have access to that geograph.')
+            redirect_to(geo_graphs_path, :alert => t('geo_graphs.alerts.access_denied', :geo_graph => GeoGraph.model_name.human))
         end
     end
 

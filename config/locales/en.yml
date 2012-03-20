@@ -4,7 +4,14 @@ en:
   home: 'Home'
   account: 'Account'
   help: 'Help'
+
   geo_graphs:
+    alerts:
+        could_not_add: 'Could not add that %{geo_graph}.' 
+        could_not_delete: 'Could not delete %{geo_graph} "%{name}".' 
+        successfully_updated: '%{geo_graph} "%{name}" was successfully updated.'
+        successfully_deleted: '%{geo_graph} "%{name}" was successfully deleted.'
+        access_denied: 'You do not have access to that %{geo_graph}.'
     new:
       new_title: 'New %{geo_graph}'
     index:
@@ -25,6 +32,7 @@ en:
       color_theme_help: "This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others."
       sizes_help: "So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes."
       colors_help: "Look here to figure out how color maps to the data you've selected (up in \"Settings\")."
+
   info:
     help:
       terms: 'Terminology'
@@ -51,10 +59,12 @@ en:
       create_geo_graph_html: "Upload your CSV file when you %{create_link} a new geograph."
       viewing: 'Viewing a %{geo_graph}'
       viewing_text: "The geograph display page has it's own help.  Click the question mark in the top-right hand corner to get help."
+
   shared:
     line_items:
       geo_graph:
         confirm: 'Are you sure you want to delete this %{geo_graph}?'
+
   activerecord:
     models:
       geo_graph:
@@ -79,10 +89,12 @@ en:
         size_measure: 'Size Measure'
         color_measure: 'Color Measure'
         color_theme: 'Color Theme'
+
   layouts:
     application:
       skip_link: 'Skip to primary content'
       footer_html: '&copy; 2012 - President and Fellows of Harvard College'
+
   formtastic:
     labels:
       geo_graph:
