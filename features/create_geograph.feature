@@ -1,4 +1,4 @@
-Feature: Geograph Creation
+Feature: GeoGraph Creation
     In order to see meaningful spots on a map
     As a connoisseur of map spots
     I want to be able to create new geographs

@@ -1,4 +1,4 @@
-Feature: Geograph Deletion
+Feature: GeoGraph Deletion
     In order to get rid of geographs I don't want up on the internet anymore
     As an owner of a geograph
     I want delete geographs

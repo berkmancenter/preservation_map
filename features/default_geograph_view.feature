@@ -1,4 +1,4 @@
-Feature: Set Default Geograph View
+Feature: Set Default GeoGraph View
     In order to make it easier to "show" aspects of the data to other users
     As a creator
     I want to set the default view for geographs
