@@ -4,7 +4,7 @@
     <td>
     <% if current_user == geo_graph.user %>
         <%= link_to 'Edit', edit_geo_graph_path(geo_graph) %>
-        <%= link_to 'Delete', geo_graph_path(geo_graph), :method => :delete, :confirm => 'Are you sure you want to delete this geograph?' %>
+        <%= link_to 'Delete', geo_graph_path(geo_graph), :method => :delete, :confirm => t('.confirm', :geo_graph => GeoGraph.model_name.human.downcase) %>
     <% end %>
     </td>
 </tr>

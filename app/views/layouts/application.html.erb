@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insite - <%= if content_for?(:title) then yield :title else 'Putting Spots on a Map' end %></title>
+  <title><%= t :app_title %> - <%= if content_for?(:title) then yield :title else t :app_subtitle end %></title>
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
   <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
@@ -13,20 +13,20 @@
 <body>
     <header role="banner">
         <hgroup>
-            <h1 id="app-title">Insite</h1>
-            <h2 id="app-subtitle">Putting spots on maps</h2>
+            <h1 id="app-title"><%= t :app_title %></h1>
+            <h2 id="app-subtitle"><%= t :app_subtitle %></h2>
         </hgroup>
         <nav role="navigation">
-            <a id="skip-link" href="#content" title="Skip to primary content">Skip to primary content</a>
+            <a id="skip-link" href="#content" title="<%= t '.skip_link' %>"><%= t '.skip_link' %></a>
             <ul id="menu">
-                <li><%= link_to 'Home', root_path %></li>
+                <li><%= link_to t('home'), root_path %></li>
                 <% if user_signed_in? %>
-                    <li><%= link_to 'Account', edit_user_registration_path %></li>
-                    <li><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></li>
+                    <li><%= link_to t('account'), edit_user_registration_path %></li>
+                    <li><%= link_to t('devise.sign_out'), destroy_user_session_path, :method => :delete %></li>
                 <% else %>
-                    <li><%= link_to 'Sign In', new_user_session_path %></li>
+                    <li><%= link_to t('devise.sign_in'), new_user_session_path %></li>
                 <% end %>
-                <li><%= link_to 'Help', help_path %></li> 
+                <li><%= link_to t('help'), help_path %></li> 
             </ul>
         </nav>
     </header>
@@ -43,7 +43,7 @@
         <%= yield %>
     </div>
     <footer>
-        <p id="copyright">&copy; 2012 - President and Fellows of Harvard College</p>
+        <p id="copyright"><%= t '.footer_html'%></p>
     </footer>
 </body>
 </html>

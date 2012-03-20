@@ -1,16 +1,21 @@
-<h3>Welcome!</h3>
+<h3><%= t '.welcome' %></h3>
 <p>
-    This is Insite - a tool to help you visualize data that has a geographic component.
+    <%= t '.intro' %> 
 </p>
 <p>
-    Check out some examples below, or 
-    <%= link_to 'create an account', new_user_registration_path %> and start making your own.
+    <%= t '.call_to_action_html', :signup_link => link_to(t('.create_account'), new_user_registration_path) %>
 </p>
 
-<h3>GeoGraphs</h3>
+<h3><%= GeoGraph.model_name.human :count => 2 %></h3>
 <table>
     <thead>
-        <tr><th>Name</th><th>Last Updated</th><th></th></tr>
+        <tr>
+            <th><%= GeoGraph.human_attribute_name(:name) %></th>
+            <th><%= GeoGraph.human_attribute_name(:updated) %></th>
+            <% if user_signed_in? %>
+                <th></th>
+            <% end %>
+        </tr>
     </thead>
     <tbody>
         <%= render :partial => 'shared/line_items/geo_graph', :collection => @geographs %>

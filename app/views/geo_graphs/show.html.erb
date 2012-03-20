@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insite - <%= @geograph.name %></title>
+    <title><%= t :app_title %> - <%= @geograph.name %></title>
     <%= stylesheet_link_tag('application', :media => 'all') %>
-    <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
+    <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
     <%= stylesheet_link_tag('geo_graph/show', :media => 'all') %>
     <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
     <!--[if IE 7]><%# stylesheet_link_tag 'ie7' %><![endif]-->
@@ -31,18 +31,18 @@
         <div class="sidebar">
             <div class="overlay" id="geo_graph_title">
                 <h1 title="<%= @geograph.name %>"><%= @geograph.name %></h1>
-                <a href="#" title="Toggle Help Mode" class="activate-help">?</a>
+                <a href="#" title="<%= t '.help_toggle' %>" class="activate-help"><%= t '.help_button' %></a>
                 <div>
-                    <%= link_to 'Home', root_path %>
+                    <%= link_to t(:home), root_path %>
                     <% if current_user == @geograph.user %>
-                        <%= link_to 'Edit', edit_geo_graph_path(@geograph) %>
-                        <%= link_to 'Set as default view', edit_geo_graph_path(@geograph), :class => :help, :id => 'set-default-view' %>
+                        <%= link_to t('.edit'), edit_geo_graph_path(@geograph) %>
+                        <%= link_to t('.default_view'), edit_geo_graph_path(@geograph), :class => :help, :id => 'set-default-view' %>
                     <% end %>
                 </div>
             </div>
 
             <div class="overlay" id="geograph_settings">
-                <h2>Settings</h2>
+                <h2><%= t '.settings' %></h2>
                 <% unless @geograph.measures.empty? %>
                     <%= semantic_form_for @geograph, :remote => true do |f| %>
                         <%= f.inputs do %>
@@ -57,7 +57,7 @@
 
             <% unless @geograph.num_legend_sizes == 0 and @geograph.num_legend_colors == 0 %>
                 <div class="overlay" id="legend">
-                    <h2>Legend</h2>
+                    <h2><%= t '.legend' %></h2>
                     <% if @geograph.num_legend_sizes > 0 %>
                         <div id="sizes">
                             <h3 id="size-title"></h3>
@@ -86,36 +86,37 @@
                 <% end %>
             </div>
         <% end %>
-
-        <table> 
-            <thead>
-                <tr>
-                    <th>Place Name</th>
-                    <% @geograph.measures.each do |measure| %>
-                        <th><%= measure.name %></th>
-                    <% end %>
-                </tr>
-            </thead>
-            <tbody>
-                <% @geograph.places.each do |place| %>
-                    <tr>
-                        <td><%= place.name %></td>
-                        <% @geograph.measures.each do |measure| %>
-                            <td><%= measure.value(place) %></td>
-                        <% end %>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
+<%
+        #<table> 
+        #    <thead>
+        #        <tr>
+        #            <th>Place Name</th>
+        #            <% @geograph.measures.each do |measure| 
+        #                <th><%= measure.name </th>
+        #            <% end 
+        #        </tr>
+        #    </thead>
+        #    <tbody>
+        #        <% @geograph.places.each do |place| 
+        #            <tr>
+        #                <td><%= place.name </td>
+        #                <% @geograph.measures.each do |measure| 
+        #                    <td><%= measure.value(place) </td>
+        #                <% end 
+        #            </tr>
+        #        <% end 
+        #    </tbody>
+        #</table>
+%>
     </div>
 
     <div class="help-texts">
-        <div id="set-default-view-help">You&apos;re the owner of this geograph, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default.</div>
-        <div id="geo_graph_size_measure_input-help">Here is where you can pick which data determines the sizes of the spots on the map.</div>
-        <div id="geo_graph_color_measure_input-help">Use this to pick the data that determines the colors of the spots on the map.</div>
-        <div id="geo_graph_color_theme_input-help">This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others.</div>
-        <div id="sizes-help">So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes.</div>
-        <div id="colors-help">Look here to figure out how color maps to the data you&apos;ve selected (up in &quot;Settings&quot;).</div>
+        <div id="set-default-view-help"><%= t '.default_view_help' %></div>
+        <div id="geo_graph_size_measure_input-help"><%= t '.size_measure_help' %></div>
+        <div id="geo_graph_color_measure_input-help"><%= t '.color_measure_help' %></div>
+        <div id="geo_graph_color_theme_input-help"><%= t '.color_theme_help' %></div>
+        <div id="sizes-help"><%= t '.sizes_help' %></div>
+        <div id="colors-help"><%= t '.colors_help' %></div>
     </div>
 
     <div id="blinder"></div>

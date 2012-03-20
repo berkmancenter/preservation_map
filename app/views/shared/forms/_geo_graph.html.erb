@@ -1,25 +1,25 @@
 <%= semantic_form_for @geograph do |f| %>
     <%= f.inputs do %>
-        <%= f.input :name, :hint => 'What do you want to call it?' %>
+        <%= f.input :name %>
         <% if @geograph.measures.empty? %>
         <%= f.input :import_data, :label => 'Data',
-            :hint => "Make sure it's a CSV file with columns named: " + Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ') %>
+          :hint => t('formtastic.hints.geo_graph.import_data', :column_names => Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ')) %>
         <% end %>
         <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
         <% if ExternalDataSource.count > 0 and (@geograph.measures.empty? or @geograph.has_api_abbrs?) %>
-            <%= f.input :external_data_sources, :as => :check_boxes, :hint => 'Do you want to pull in data from somewhere else?' %>
+            <%= f.input :external_data_sources, :as => :check_boxes %>
         <% end %>
         <% unless @geograph.measures.selectable.empty? %>
-            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false, :label => 'Default size measure' %>
-            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false, :label => 'Default color measure' %>
+            <%= f.input :size_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
+            <%= f.input :color_measure, :as => :select, :collection => @geograph.measures.selectable, :include_blank => false %>
         <% end %>
     <% end %>
     <%= f.inputs 'Advanced', :class => 'toggler' do %>
-        <%= f.input :min_spot_size, :label => 'Minimum spot size', :hint => 'What should the radius of the smallest spot be (in pixels)?' %>
-        <%= f.input :max_spot_size, :label => 'Maximum spot size', :hint => 'What should the radius of the largest spot be (pixels still)?' %>
-        <%= f.input :num_legend_sizes, :label => 'Number of sizes in legend', :hint => 'The legend shows a few sample sizes.  How many should it show?' %>
-        <%= f.input :num_legend_colors, :label => 'Number of colors in legend', :hint => 'Same deal as above, but with colors instead of sizes.' %>
-        <%= f.input :num_zoom_levels, :label => 'Maximum zoom level', :hint => 'How far in should users be able to zoom? (For reference, Google Maps has a max of "20")' %>
+        <%= f.input :min_spot_size %>
+        <%= f.input :max_spot_size %>
+        <%= f.input :num_legend_sizes %>
+        <%= f.input :num_legend_colors %>
+        <%= f.input :num_zoom_levels %>
     <% end %>
     <% unless @geograph.measures.selectable.empty? %>
         <%= f.inputs 'Configure Measures', :class => 'toggler' do %>
@@ -27,9 +27,9 @@
                 <% if ['numeric', 'yes_no'].include? measure.object.datatype %>
                     <%= f.inputs :name => measure.object.name, :class => 'measure-config' do %>
                         <% if measure.object.datatype == 'numeric' %>
-                            <%= measure.input :log_scale, :label => 'Use Logarithmic Scale' %>
+                            <%= measure.input :log_scale %>
                         <% end %>
-                        <%= measure.input :reverse_color_theme, :label => 'Reverse Color Theme' %>
+                        <%= measure.input :reverse_color_theme %>
                     <% end %>
                 <% end %>
             <% end %>
