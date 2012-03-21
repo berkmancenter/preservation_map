@@ -2,7 +2,7 @@ When /^I name the datamap "([^"]*)"$/ do |datamap_name|
     fill_in('Name', :with => datamap_name)
 end
 
-When /^I upload a CSV file containing places and measures with specific column names$/ do
+When /^I upload a CSV file containing places and fields with specific column names$/ do
     attach_file("Import data", File.dirname(__FILE__) + '/../../../library2.csv')
 end
 
@@ -27,6 +27,6 @@ Then /^the "([^"]*)" datamap should contain places$/ do |datamap_name|
 end
 
 Then /^the "([^"]*)" datamap should contain data for its places$/ do |datamap_name|
-    PlaceMeasure.find_by_place_id_and_measure_id(DataMap.find_by_name(datamap_name).places.first.id, Measure.find_by_name('Environment').id).value.should be_between(1, 5)
+    PlaceField.find_by_place_id_and_field_id(DataMap.find_by_name(datamap_name).places.first.id, Field.find_by_name('Environment').id).value.should be_between(1, 5)
 end
 

@@ -1,6 +1,6 @@
-class Measure < ActiveRecord::Base
-    has_many :place_measures
-    has_many :places, :through => :place_measures
+class Field < ActiveRecord::Base
+    has_many :place_fields
+    has_many :places, :through => :place_fields
     belongs_to :data_map
     belongs_to :external_data_source
     scope :numeric, where(:datatype => 'numeric')
@@ -19,8 +19,8 @@ class Measure < ActiveRecord::Base
     end
 
     def value(place)
-        if place_measures.find_by_place_id(place.id)
-            return place_measures.find_by_place_id(place.id).value
+        if place_fields.find_by_place_id(place.id)
+            return place_fields.find_by_place_id(place.id).value
         elsif external_data_source
             return external_data_source.value(place, self)
         end
@@ -33,7 +33,7 @@ class Measure < ActiveRecord::Base
     end
 
     def metadata(place)
-        return place_measures.find_by_place_id(place.id).metadata
+        return place_fields.find_by_place_id(place.id).metadata
     end
 
     def legend_sizes
@@ -93,8 +93,8 @@ class Measure < ActiveRecord::Base
     end
 
     def value_to_percent(value)
-        min_value = place_measures.minimum(:value)
-        max_value = place_measures.maximum(:value)
+        min_value = place_fields.minimum(:value)
+        max_value = place_fields.maximum(:value)
         if log_scale
             min_value = if min_value > 0 then Math::log10(min_value) else 0.0 end
             max_value = if max_value > 0 then Math::log10(max_value) else 0.0 end
@@ -104,8 +104,8 @@ class Measure < ActiveRecord::Base
     end
 
     def percent_to_value(percent)
-        min_value = place_measures.minimum(:value)
-        max_value = place_measures.maximum(:value)
+        min_value = place_fields.minimum(:value)
+        max_value = place_fields.maximum(:value)
         value = (max_value - min_value) * percent + min_value
         if datatype == 'yes_no'
             return data_map.value_to_yes_no(value)
@@ -124,6 +124,6 @@ class Measure < ActiveRecord::Base
     end
 
     def num_unique_values
-        return place_measures.select(:value).count(:distinct => true)
+        return place_fields.select(:value).count(:distinct => true)
     end
 end

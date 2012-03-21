@@ -43,11 +43,11 @@
 
             <div class="overlay" id="datamap_settings">
                 <h2><%= t '.settings' %></h2>
-                <% unless @datamap.measures.empty? %>
+                <% unless @datamap.fields.empty? %>
                     <%= semantic_form_for @datamap, :remote => true do |f| %>
                         <%= f.inputs do %>
-                            <%= f.input :size_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false, :label => t('.size_measure', :measure => Measure.model_name.human) %>
-                            <%= f.input :color_measure, :as => :select, :collection => @datamap.measures.selectable, :include_blank => false, :label => t('.color_measure', :measure => Measure.model_name.human) %>
+                            <%= f.input :size_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false, :label => t('.size_field', :field => Field.model_name.human) %>
+                            <%= f.input :color_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false, :label => t('.color_field', :field => Field.model_name.human) %>
                             <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
                         <% end %>
                     <% end %>
@@ -80,8 +80,8 @@
                     <%= f.input :default_zoom_level %>
                     <%= f.input :default_latitude, :as => :string %>
                     <%= f.input :default_longitude, :as => :string %>
-                    <%= f.input :color_measure_id, :as => :string %>
-                    <%= f.input :size_measure_id, :as => :string %>
+                    <%= f.input :color_field_id, :as => :string %>
+                    <%= f.input :size_field_id, :as => :string %>
                     <%= f.input :color_theme_id, :as => :string %>
                 <% end %>
             </div>
@@ -91,8 +91,8 @@
         #    <thead>
         #        <tr>
         #            <th>Place Name</th>
-        #            <% @datamap.measures.each do |measure| 
-        #                <th><%= measure.name </th>
+        #            <% @datamap.fields.each do |field| 
+        #                <th><%= field.name </th>
         #            <% end 
         #        </tr>
         #    </thead>
@@ -100,8 +100,8 @@
         #        <% @datamap.places.each do |place| 
         #            <tr>
         #                <td><%= place.name </td>
-        #                <% @datamap.measures.each do |measure| 
-        #                    <td><%= measure.value(place) </td>
+        #                <% @datamap.fields.each do |field| 
+        #                    <td><%= field.value(place) </td>
         #                <% end 
         #            </tr>
         #        <% end 
@@ -112,8 +112,8 @@
 
     <div class="help-texts">
         <div id="set-default-view-help"><%= t '.help.default_view' %></div>
-        <div id="data_map_size_measure_input-help"><%= t '.help.size_measure' %></div>
-        <div id="data_map_color_measure_input-help"><%= t '.help.color_measure' %></div>
+        <div id="data_map_size_field_input-help"><%= t '.help.size_field' %></div>
+        <div id="data_map_color_field_input-help"><%= t '.help.color_field' %></div>
         <div id="data_map_color_theme_input-help"><%= t '.help.color_theme' %></div>
         <div id="sizes-help"><%= t '.help.sizes' %></div>
         <div id="colors-help"><%= t '.help.colors' %></div>

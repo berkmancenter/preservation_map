@@ -4,7 +4,7 @@ When /^I create a new datamap with a CSV that has yes\/no\/maybe data$/ do
 end
 
 Then /^that datamap should contain yes\/no\/maybe data$/ do
-    DataMap.find_by_name(@datamap_name).measures.yes_no.should_not be_empty
+    DataMap.find_by_name(@datamap_name).fields.yes_no.should_not be_empty
 end
 
 When /^I create a new datamap with an external data source that provides yes\/no\/maybe data$/ do

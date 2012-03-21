@@ -3,8 +3,8 @@ class CreateDataMaps < ActiveRecord::Migration
     create_table :data_maps do |t|
       t.string :name
       t.integer :user_id
-      t.integer :color_measure_id
-      t.integer :size_measure_id
+      t.integer :color_field_id
+      t.integer :size_field_id
       t.integer :max_spot_size
       t.integer :min_spot_size
       t.integer :num_legend_sizes

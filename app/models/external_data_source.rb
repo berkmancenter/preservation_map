@@ -11,7 +11,7 @@ class ExternalDataSource < ActiveRecord::Base
     end
 
     def respond_to?(method)
-        if ['name', 'measures', 'value'].include? method.to_s
+        if ['name', 'fields', 'value'].include? method.to_s
             true 
         else
             super

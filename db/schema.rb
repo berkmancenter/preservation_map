@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
   create_table "data_maps", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.integer  "color_measure_id"
-    t.integer  "size_measure_id"
+    t.integer  "color_field_id"
+    t.integer  "size_field_id"
     t.integer  "max_spot_size"
     t.integer  "min_spot_size"
     t.integer  "num_legend_sizes"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at",               :null => false
   end
 
-  create_table "measures", :force => true do |t|
+  create_table "fields", :force => true do |t|
     t.string   "name"
     t.string   "api_url"
     t.integer  "data_map_id"
@@ -65,10 +65,10 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at",                                     :null => false
   end
 
-  create_table "place_measures", :force => true do |t|
+  create_table "place_fields", :force => true do |t|
     t.float    "value"
     t.integer  "place_id"
-    t.integer  "measure_id"
+    t.integer  "field_id"
     t.text     "metadata"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

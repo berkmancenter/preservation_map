@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Measure do
+describe Field do
     it "belongs to a datamap" do
     end
 

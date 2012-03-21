@@ -26,12 +26,12 @@ en:
       default_view: 'Set as default view'
       settings: 'Settings'
       legend: 'Legend'
-      size_measure: 'Size %{measure}'
-      color_measure: 'Color %{measure}'
+      size_field: 'Size %{field}'
+      color_field: 'Color %{field}'
       help:
           default_view: "You're the owner of this datamap, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default."
-          size_measure: "Here is where you can pick which data determines the sizes of the spots on the map."
-          color_measure: "Use this to pick the data that determines the colors of the spots on the map."
+          size_field: "Here is where you can pick which data determines the sizes of the spots on the map."
+          color_field: "Use this to pick the data that determines the colors of the spots on the map."
           color_theme: "This determines which colors get used on the spots.  Play around, some color themes make trends more apparent than others."
           sizes: "So your spots are a bunch of different sizes, but what does that mean?  Look here to figure that out - it shows you how the data translates to spot sizes."
           colors: "Look here to figure out how color maps to the data you've selected (up in \"Settings\")."
@@ -40,7 +40,7 @@ en:
     help:
       terms: 'Terminology'
       data_map_def: "The visualization - it's kind of like a map, only with spots." 
-      measure_def: "The column the data is coming from."
+      field_def: "The column the data is coming from.  This is a slight misuse of the term \"field.\"  It is not a spreadsheet cell as usual, but instead the entire column of data."
       spot_def: "The actual colored circle that appears on the map."
       place_def: "Something with a name, a latitude, and a longitude."
       color_theme_def: "The set of colors from which spot colors are selected."
@@ -73,12 +73,12 @@ en:
       data_map:
         one: 'DataMap'
         other: 'DataMaps'
-      measure:
-        one: 'Measure'
-        other: 'Measures'
-      place_measure:
-        one: 'Dot'
-        other: 'Dots'
+      field:
+        one: 'Field'
+        other: 'Fields'
+      place_field:
+        one: 'Spot'
+        other: 'Spots'
       place:
         one: 'Place'
         other: 'Places'
@@ -89,8 +89,8 @@ en:
       data_map:
         name: 'Name'
         updated: 'Last Updated'
-        size_measure: 'Size Measure'
-        color_measure: 'Color Measure'
+        size_field: 'Size Field'
+        color_field: 'Color Field'
         color_theme: 'Color Theme'
 
   layouts:
@@ -101,14 +101,14 @@ en:
   formtastic:
     labels:
       data_map:
-        size_measure: 'Default size measure' 
-        color_measure: 'Default color measure' 
+        size_field: 'Default size field' 
+        color_field: 'Default color field' 
         min_spot_size: 'Minimum spot size'
         max_spot_size: 'Maximum spot size'
         num_legend_sizes: 'Number of sizes in legend' 
         num_legend_colors: 'Number of colors in legend'
         num_zoom_levels: 'Maximum zoom level'
-      measure:
+      field:
         log_scale: 'Use Logarithmic Scale' 
         reverse_color_theme: 'Reverse Color Theme'
     hints:

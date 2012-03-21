@@ -10,16 +10,16 @@ describe DataMap do
     it "is owned by a user" do
     end
 
-    it "has at least one measure" do
+    it "has at least one field" do
     end
 
     it "has a color theme" do
     end
 
-    it "has a color-determining measure" do
+    it "has a color-determining field" do
     end
 
-    it "has a size-determining measure" do
+    it "has a size-determining field" do
     end
 
     it "has a certain number of spot sizes" do

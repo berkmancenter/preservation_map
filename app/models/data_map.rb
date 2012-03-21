@@ -3,12 +3,12 @@ require 'json'
 
 class DataMap < ActiveRecord::Base
     belongs_to :user
-    belongs_to :size_measure, :class_name => 'Measure'
-    belongs_to :color_measure, :class_name => 'Measure'
+    belongs_to :size_field, :class_name => 'Field'
+    belongs_to :color_field, :class_name => 'Field'
     belongs_to :color_theme
 
     has_many :places
-    has_many :measures, :order => :name
+    has_many :fields, :order => :name
     has_and_belongs_to_many :external_data_sources
     has_attached_file :import_data
 
@@ -30,7 +30,7 @@ class DataMap < ActiveRecord::Base
         :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0
     }
     validate :min_spot_size_and_max_spot_size_are_not_both_zero
-    accepts_nested_attributes_for :measures
+    accepts_nested_attributes_for :fields
 
     after_initialize :add_defaults
 
@@ -38,8 +38,8 @@ class DataMap < ActiveRecord::Base
         hash = {
             :name => name,
             :color_theme => { :gradient => color_theme.gradient },
-            :legend_sizes => size_measure.legend_sizes,
-            :legend_colors => color_measure.legend_colors(color_theme),
+            :legend_sizes => size_field.legend_sizes,
+            :legend_colors => color_field.legend_colors(color_theme),
             :min_spot_size => min_spot_size,
             :max_spot_size => max_spot_size
         }
@@ -48,10 +48,10 @@ class DataMap < ActiveRecord::Base
                 :name => place.name,
                 :latitude => place.latitude,
                 :longitude => place.longitude,
-                :size => place.size(size_measure),
-                :sizeMeasureValue => place.display_value(size_measure),
-                :color => place.color(color_measure, color_theme),
-                :colorMeasureValue => place.display_value(color_measure),
+                :size => place.size(size_field),
+                :sizeFieldValue => place.display_value(size_field),
+                :color => place.color(color_field, color_theme),
+                :colorFieldValue => place.display_value(color_field),
                 :metadata => place.metadata
             }
         end
@@ -62,7 +62,7 @@ class DataMap < ActiveRecord::Base
         required_col_names = Code::Application.config.place_column_names[:required]
         optional_col_names = Code::Application.config.place_column_names[:optional]
 
-        if places? and measures?
+        if places? and fields?
             table.each do |row|
                 place_attrs = {
                     :name => row[required_col_names[:name]],
@@ -83,7 +83,7 @@ class DataMap < ActiveRecord::Base
                         attrs = { :datatype => 'numeric' }
                     end
                     attrs[:name] = header
-                    measures << Measure.new(attrs)
+                    fields << Field.new(attrs)
                 end
             end
 
@@ -97,23 +97,23 @@ class DataMap < ActiveRecord::Base
                 }.first
                 row.each do |column_name, value|
                     unless required_col_names.value? column_name or optional_col_names.value? column_name
-                        measure = measures.select{ |measure| measure.name == column_name }.first
-                        case measure.datatype
+                        field = fields.select{ |field| field.name == column_name }.first
+                        case field.datatype
                         when 'metadata'
-                            place_measure = PlaceMeasure.new(:metadata => value)
+                            place_field = PlaceField.new(:metadata => value)
                         when 'yes_no'
-                            place_measure = PlaceMeasure.new(:value => yes_no_to_value(value))
+                            place_field = PlaceField.new(:value => yes_no_to_value(value))
                         else
-                            place_measure = PlaceMeasure.new(:value => value.to_f)
+                            place_field = PlaceField.new(:value => value.to_f)
                         end
-                        measure.place_measures << place_measure
-                        place.place_measures << place_measure
+                        field.place_fields << place_field
+                        place.place_fields << place_field
                     end
                 end
             end
 
-            self.color_measure ||= self.measures.numeric.first
-            self.size_measure ||= self.measures.numeric.last
+            self.color_field ||= self.fields.numeric.first
+            self.size_field ||= self.fields.numeric.last
         end
 
         return self
@@ -121,8 +121,8 @@ class DataMap < ActiveRecord::Base
 
     def import_data_from_external_sources!
         external_data_sources.each do |eds|
-            eds.measures.each do |measure|
-                measures << measure
+            eds.fields.each do |field|
+                fields << field
             end
         end
 
@@ -130,10 +130,10 @@ class DataMap < ActiveRecord::Base
 
         external_data_sources.each do |eds|
             places.each do |place|
-                measures.where(:external_data_source_id => eds.id).each do |measure|
-                    place_measure = PlaceMeasure.new(:value => measure.value(place))
-                    place.place_measures << place_measure
-                    measure.place_measures << place_measure
+                fields.where(:external_data_source_id => eds.id).each do |field|
+                    place_field = PlaceField.new(:value => field.value(place))
+                    place.place_fields << place_field
+                    field.place_fields << place_field
                 end
             end
         end
@@ -180,7 +180,7 @@ class DataMap < ActiveRecord::Base
         return (self.table.headers & Code::Application.config.place_column_names[:required].values).count == Code::Application.config.place_column_names[:required].count
     end
 
-    def measures?
+    def fields?
         return self.table.headers.count - (self.table.headers & Code::Application.config.place_column_names[:required].values).count > 0
     end
 

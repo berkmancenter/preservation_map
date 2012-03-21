@@ -1,6 +1,6 @@
-class CreateMeasures < ActiveRecord::Migration
+class CreateFields < ActiveRecord::Migration
   def change
-    create_table :measures do |t|
+    create_table :fields do |t|
       t.string :name
       t.string :api_url
       t.integer :data_map_id

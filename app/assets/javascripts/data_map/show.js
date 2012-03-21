@@ -40,10 +40,10 @@ spot_layer.events.on({
                 '<dl>' +
                     '<dt>Place: </dt>' +
                         '<dd>' + spot_data.placeName +'</dd>' +
-                    '<dt>' + $('#data_map_size_measure_id option:selected').text() + ' (size): </dt>' +
-                        '<dd>' + spot_data.sizeMeasureValue + '</dd>' +
-                    '<dt>' + $('#data_map_color_measure_id option:selected').text() + ' (color): </dt>' +
-                        '<dd>' + spot_data.colorMeasureValue + '</dd>';
+                    '<dt>' + $('#data_map_size_field_id option:selected').text() + ' (size): </dt>' +
+                        '<dd>' + spot_data.sizeFieldValue + '</dd>' +
+                    '<dt>' + $('#data_map_color_field_id option:selected').text() + ' (color): </dt>' +
+                        '<dd>' + spot_data.colorFieldValue + '</dd>';
             for (i in spot_data.metadata) {
                 popup_html +=
                     '<dt>' + spot_data.metadata[i].name + '</dt>' +
@@ -161,8 +161,8 @@ $(function() {
             $('#default_view_data_map_default_zoom_level').val(map.getZoom());
             $('#default_view_data_map_default_latitude').val(center.lat);
             $('#default_view_data_map_default_longitude').val(center.lon);
-            $('#default_view_data_map_color_measure_id').val($('#data_map_color_measure_id').val());
-            $('#default_view_data_map_size_measure_id').val($('#data_map_size_measure_id').val());
+            $('#default_view_data_map_color_field_id').val($('#data_map_color_field_id').val());
+            $('#default_view_data_map_size_field_id').val($('#data_map_size_field_id').val());
             $('#default_view_data_map_color_theme_id').val($('#data_map_color_theme_input input:checked').val());
             $('#default_view_form').submit();
         });
@@ -173,8 +173,8 @@ $(function() {
 // Put the spots on the map
 function place_spots() {
     $.getJSON(ajax_path, {
-            color_measure: $('#data_map_color_measure_id').val(),
-            size_measure: $('#data_map_size_measure_id').val(),
+            color_field: $('#data_map_color_field_id').val(),
+            size_field: $('#data_map_size_field_id').val(),
             color_theme: $('#data_map_color_theme_input :checked').val()
         },
         function(datamap) {
@@ -187,7 +187,7 @@ function place_spots() {
             // Remove all spots
             spot_layer.removeAllFeatures();
 
-            // Create legend html for size measure
+            // Create legend html for size field
             for (i in datamap.legend_sizes) {
                 // Remove the border pixels from diameter so they match those on the map
                 diameter = datamap.legend_sizes[i].diameter - 1 * 2;
@@ -199,14 +199,14 @@ function place_spots() {
                 ;
             }
 
-            // Remove size measure legend items and add new ones
+            // Remove size field legend items and add new ones
             $('#sizes .spot_size').remove();
-            $('#sizes').append(legend_html).find('#size-title').text( $('#data_map_size_measure_id :selected').text() );
+            $('#sizes').append(legend_html).find('#size-title').text( $('#data_map_size_field_id :selected').text() );
 
             // Reset to add color info
             legend_html = '';
 
-            // Create legend html for color measure
+            // Create legend html for color field
             for (i in datamap.legend_colors) {
                 legend_html +=
                     '<div class="spot_color">' +
@@ -216,9 +216,9 @@ function place_spots() {
                 ;
             }
 
-            // Remove color measure legend items and add new ones
+            // Remove color field legend items and add new ones
             $('#colors .spot_color').remove();
-            $('#colors').append(legend_html).find('#color-title').text( $('#data_map_color_measure_id :selected').text() );
+            $('#colors').append(legend_html).find('#color-title').text( $('#data_map_color_field_id :selected').text() );
 
             // Add a spot for each place
             for(i in datamap.places) {
@@ -230,8 +230,8 @@ function place_spots() {
                         new OpenLayers.Geometry.Point(coords.lon, coords.lat),
                         {
                             placeName: place.name,
-                            colorMeasureValue: place.colorMeasureValue,
-                            sizeMeasureValue: place.sizeMeasureValue,
+                            colorFieldValue: place.colorFieldValue,
+                            sizeFieldValue: place.sizeFieldValue,
                             metadata: place.metadata
                         },
                         {

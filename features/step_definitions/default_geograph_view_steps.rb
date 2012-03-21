@@ -11,11 +11,11 @@ When /^I change the color theme$/ do
 end
 
 When /^I change the size criteria$/ do
-    page.select 'Continuum', :from => 'Size measure'
+    page.select 'Continuum', :from => 'Size field'
 end
 
 When /^I change the color criteria$/ do
-    page.select 'Constant', :from => 'Color measure'
+    page.select 'Constant', :from => 'Color field'
 end
 
 When /^I set the default view$/ do

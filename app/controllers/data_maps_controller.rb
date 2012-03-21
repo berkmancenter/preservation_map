@@ -23,11 +23,11 @@ class DataMapsController < ApplicationController
     end
 
     def show
-        if params[:color_measure]
-            @datamap.color_measure = Measure.find(params[:color_measure])
+        if params[:color_field]
+            @datamap.color_field = Field.find(params[:color_field])
         end
-        if params[:size_measure]
-            @datamap.size_measure = Measure.find(params[:size_measure])
+        if params[:size_field]
+            @datamap.size_field = Field.find(params[:size_field])
         end
         if params[:color_theme]
             @datamap.color_theme = ColorTheme.find(params[:color_theme])
