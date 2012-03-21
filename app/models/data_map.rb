@@ -30,6 +30,8 @@ class DataMap < ActiveRecord::Base
         :less_than_or_equal_to => 100, :greater_than_or_equal_to => 0
     }
     validate :min_spot_size_and_max_spot_size_are_not_both_zero
+
+    scope :with_external_data, :conditions => 'id in (SELECT DISTINCT data_map_id FROM data_maps_external_data_sources)'
     accepts_nested_attributes_for :fields
 
     after_initialize :add_defaults
@@ -119,22 +121,24 @@ class DataMap < ActiveRecord::Base
         return self
     end
 
-    def import_data_from_external_sources!
+    def retrieve_external_data!
         external_data_sources.each do |eds|
             eds.fields.each do |field|
-                fields << field
+                fields.where(:name => field.name, :external_data_source_id => field.external_data_source_id).first_or_create(
+                    field.attributes.keep_if do |key, v|
+                        ['name', 'api_url', 'datatype', 'log_scale', 'reverse_color_theme', 'external_data_source_id'].include? key
+                    end
+                )
             end
         end
 
         self.save
 
-        external_data_sources.each do |eds|
+        fields.from_external_source.each do |field|
             places.each do |place|
-                fields.where(:external_data_source_id => eds.id).each do |field|
-                    place_field = PlaceField.new(:value => field.value(place))
-                    place.place_fields << place_field
-                    field.place_fields << place_field
-                end
+                place_field = PlaceField.where(:place_id => place.id, :field_id => field.id).first_or_initialize
+                place_field.value = field.external_data_source.value(place, field)
+                place_field.save!
             end
         end
     end

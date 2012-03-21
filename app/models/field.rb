@@ -6,7 +6,8 @@ class Field < ActiveRecord::Base
     scope :numeric, where(:datatype => 'numeric')
     scope :metadata, where(:datatype => 'metadata')
     scope :yes_no, where(:datatype => 'yes_no')
-    scope :selectable, where(:datatype => ['numeric', 'yes_no'])
+    scope :selectable, where("datatype IN ('numeric', 'yes_no') AND (SELECT (SELECT COUNT(*) FROM place_fields WHERE field_id = fields.id) = (SELECT COUNT(*) FROM places WHERE data_map_id = fields.data_map_id))") 
+    scope :from_external_source, where('external_data_source_id IS NOT NULL')
 
     def size(place)
         percent = value_to_percent(value(place))
@@ -19,11 +20,7 @@ class Field < ActiveRecord::Base
     end
 
     def value(place)
-        if place_fields.find_by_place_id(place.id)
-            return place_fields.find_by_place_id(place.id).value
-        elsif external_data_source
-            return external_data_source.value(place, self)
-        end
+        return place_fields.find_by_place_id(place.id).value
     end
 
     def display_value(place)

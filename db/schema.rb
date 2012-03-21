@@ -19,18 +19,6 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "external_data_sources", :force => true do |t|
-    t.string   "name"
-    t.string   "class_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "external_data_sources_data_maps", :id => false, :force => true do |t|
-    t.integer "external_data_source_id"
-    t.integer "data_map_id"
-  end
-
   create_table "data_maps", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -51,6 +39,18 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "import_data_updated_at"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+  end
+
+  create_table "data_maps_external_data_sources", :id => false, :force => true do |t|
+    t.integer "external_data_source_id"
+    t.integer "data_map_id"
+  end
+
+  create_table "external_data_sources", :force => true do |t|
+    t.string   "name"
+    t.string   "class_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "fields", :force => true do |t|
@@ -80,8 +80,8 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.float    "longitude"
     t.string   "api_abbr"
     t.integer  "data_map_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|

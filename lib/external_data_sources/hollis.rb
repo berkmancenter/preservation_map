@@ -41,10 +41,15 @@ class Hollis
     end
 
     def value(place, field) 
-        url = field.api_url.sub('{place-id}', place.api_abbr)
-        p url
-        doc = Nokogiri::XML(open(url))
-        result = doc.css('totalResults').first.content
-        p result
+        begin
+            url = field.api_url.sub('{place-id}', place.api_abbr)
+            Rails.logger.debug('Fetching data from ' + url)
+            doc = Nokogiri::XML(open(url))
+            result = doc.css('totalResults').first.content
+            rescue
+                Rails.logger.error("Failed fetching from #{url} for place: #{place.id.to_s} and field: #{field.id.to_s}. Returned 0.0")
+                return 0.0
+        end
+        return result
     end
 end

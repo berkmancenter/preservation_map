@@ -14,7 +14,7 @@ class DataMapsController < ApplicationController
     def create
         @datamap = DataMap.new(params[:data_map])
         @datamap.user = current_user
-        @datamap.import_data_from_attachment!.import_data_from_external_sources!
+        @datamap.import_data_from_attachment!
         if @datamap.save
             redirect_to data_map_path(@datamap)
         else

@@ -6,8 +6,7 @@ Code::Application.routes.draw do
     match 'faq' => 'info#faq'
     match 'my_data_maps' => 'users#my_data_maps'
 
-    resources :data_maps do
-    end
+    resources :data_maps 
 
     devise_for :users, :path => 'accounts'
 
