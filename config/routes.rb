@@ -1,13 +1,14 @@
 Code::Application.routes.draw do
 
-    root :to => 'geo_graphs#index'
+    root :to => 'data_maps#index'
 
     match 'help' => 'info#help'
     match 'faq' => 'info#faq'
-    match 'my_geo_graphs' => 'users#my_geo_graphs'
+    match 'my_data_maps' => 'users#my_data_maps'
 
-    resources :geo_graphs do
-    end
+    resources :data_maps 
+
+    post 'tasks/retrieve_external_data'
 
     devise_for :users, :path => 'accounts'
 

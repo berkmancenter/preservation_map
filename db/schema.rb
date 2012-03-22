@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120215223534) do
+ActiveRecord::Schema.define(:version => 20120322142255) do
 
   create_table "color_themes", :force => true do |t|
     t.text     "gradient"
@@ -19,23 +19,11 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "external_data_sources", :force => true do |t|
-    t.string   "name"
-    t.string   "class_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "external_data_sources_geo_graphs", :id => false, :force => true do |t|
-    t.integer "external_data_source_id"
-    t.integer "geo_graph_id"
-  end
-
-  create_table "geo_graphs", :force => true do |t|
+  create_table "data_maps", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.integer  "color_measure_id"
-    t.integer  "size_measure_id"
+    t.integer  "color_field_id"
+    t.integer  "size_field_id"
     t.integer  "max_spot_size"
     t.integer  "min_spot_size"
     t.integer  "num_legend_sizes"
@@ -53,10 +41,38 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at",               :null => false
   end
 
-  create_table "measures", :force => true do |t|
+  create_table "data_maps_external_data_sources", :id => false, :force => true do |t|
+    t.integer "external_data_source_id"
+    t.integer "data_map_id"
+  end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "external_data_sources", :force => true do |t|
+    t.string   "name"
+    t.string   "class_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "fields", :force => true do |t|
     t.string   "name"
     t.string   "api_url"
-    t.integer  "geo_graph_id"
+    t.integer  "data_map_id"
     t.integer  "external_data_source_id"
     t.string   "datatype",                :default => "numeric"
     t.boolean  "log_scale",               :default => false
@@ -65,10 +81,10 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.datetime "updated_at",                                     :null => false
   end
 
-  create_table "place_measures", :force => true do |t|
+  create_table "place_fields", :force => true do |t|
     t.float    "value"
     t.integer  "place_id"
-    t.integer  "measure_id"
+    t.integer  "field_id"
     t.text     "metadata"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -79,9 +95,9 @@ ActiveRecord::Schema.define(:version => 20120215223534) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "api_abbr"
-    t.integer  "geo_graph_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "data_map_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|

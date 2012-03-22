@@ -26,7 +26,7 @@ map = new OpenLayers.Map('map', { theme: null,
 // Add base layer(s)
 map.addLayer(new OpenLayers.Layer.Google('Google Streets', {
     isBaseLayer: true,
-    numZoomLevels: geograph_zoom_levels
+    numZoomLevels: datamap_zoom_levels
 }));
 
 // Add feature layer (with spots)
@@ -40,10 +40,10 @@ spot_layer.events.on({
                 '<dl>' +
                     '<dt>Place: </dt>' +
                         '<dd>' + spot_data.placeName +'</dd>' +
-                    '<dt>' + $('#geo_graph_size_measure_id option:selected').text() + ' (size): </dt>' +
-                        '<dd>' + spot_data.sizeMeasureValue + '</dd>' +
-                    '<dt>' + $('#geo_graph_color_measure_id option:selected').text() + ' (color): </dt>' +
-                        '<dd>' + spot_data.colorMeasureValue + '</dd>';
+                    '<dt>' + $('#data_map_size_field_id option:selected').text() + ' (size): </dt>' +
+                        '<dd>' + spot_data.sizeFieldValue + '</dd>' +
+                    '<dt>' + $('#data_map_color_field_id option:selected').text() + ' (color): </dt>' +
+                        '<dd>' + spot_data.colorFieldValue + '</dd>';
             for (i in spot_data.metadata) {
                 popup_html +=
                     '<dt>' + spot_data.metadata[i].name + '</dt>' +
@@ -78,13 +78,13 @@ map.addControl(new OpenLayers.Control.SelectFeature(spot_layer, {toggle: true, a
 place_spots();
 
 // Set default map center
-if (typeof geograph_default_latitude != 'undefined' && typeof geograph_default_longitude != 'undefined') {
-    map.setCenter(new OpenLayers.LonLat(geograph_default_longitude, geograph_default_latitude).transform(standard_proj, map.getProjectionObject()));
+if (typeof datamap_default_latitude != 'undefined' && typeof datamap_default_longitude != 'undefined') {
+    map.setCenter(new OpenLayers.LonLat(datamap_default_longitude, datamap_default_latitude).transform(standard_proj, map.getProjectionObject()));
 }
 
 // Zoom to default zoom level
-if (typeof geograph_default_zoom != 'undefined') {
-    map.zoomTo(geograph_default_zoom);
+if (typeof datamap_default_zoom != 'undefined') {
+    map.zoomTo(datamap_default_zoom);
 }
 else {
     map.zoomToMaxExtent();
@@ -113,7 +113,7 @@ $(function() {
     };
 
     // Update spots on settings change
-    $('#geograph_settings').find('input, select').change(function() { place_spots(); } );
+    $('#datamap_settings').find('input, select').change(function() { place_spots(); } );
 
     // Show data table when button is clicked
     $('#hideTable').click(function() { $('table').toggle() });
@@ -158,12 +158,12 @@ $(function() {
         $('#set-default-view').attr('href', '#').click(function(e) {
             // What stupid ids
             var center = map.getCenter().transform(map.getProjectionObject(), standard_proj);
-            $('#default_view_geo_graph_default_zoom_level').val(map.getZoom());
-            $('#default_view_geo_graph_default_latitude').val(center.lat);
-            $('#default_view_geo_graph_default_longitude').val(center.lon);
-            $('#default_view_geo_graph_color_measure_id').val($('#geo_graph_color_measure_id').val());
-            $('#default_view_geo_graph_size_measure_id').val($('#geo_graph_size_measure_id').val());
-            $('#default_view_geo_graph_color_theme_id').val($('#geo_graph_color_theme_input input:checked').val());
+            $('#default_view_data_map_default_zoom_level').val(map.getZoom());
+            $('#default_view_data_map_default_latitude').val(center.lat);
+            $('#default_view_data_map_default_longitude').val(center.lon);
+            $('#default_view_data_map_color_field_id').val($('#data_map_color_field_id').val());
+            $('#default_view_data_map_size_field_id').val($('#data_map_size_field_id').val());
+            $('#default_view_data_map_color_theme_id').val($('#data_map_color_theme_input input:checked').val());
             $('#default_view_form').submit();
         });
         $('#default_view_form').bind('ajax:success', function(e) { alert('Successfully set as default view'); });
@@ -173,11 +173,11 @@ $(function() {
 // Put the spots on the map
 function place_spots() {
     $.getJSON(ajax_path, {
-            color_measure: $('#geo_graph_color_measure_id').val(),
-            size_measure: $('#geo_graph_size_measure_id').val(),
-            color_theme: $('#geo_graph_color_theme_input :checked').val()
+            color_field: $('#data_map_color_field_id').val(),
+            size_field: $('#data_map_size_field_id').val(),
+            color_theme: $('#data_map_color_theme_input :checked').val()
         },
-        function(geograph) {
+        function(datamap) {
             // Setup vars
             var coords, places, diameter,
                 legend_html = '',
@@ -187,42 +187,42 @@ function place_spots() {
             // Remove all spots
             spot_layer.removeAllFeatures();
 
-            // Create legend html for size measure
-            for (i in geograph.legend_sizes) {
+            // Create legend html for size field
+            for (i in datamap.legend_sizes) {
                 // Remove the border pixels from diameter so they match those on the map
-                diameter = geograph.legend_sizes[i].diameter - 1 * 2;
+                diameter = datamap.legend_sizes[i].diameter - 1 * 2;
                 legend_html +=
                     '<div class="spot_size">' +
                         '<div class="spot_circle" style="width:' + diameter + 'px;height:' + diameter + 'px;"></div>' +
-                        '<div class="spot_value">' + geograph.legend_sizes[i].value + '</div>' +
+                        '<div class="spot_value">' + datamap.legend_sizes[i].value + '</div>' +
                     '</div>'
                 ;
             }
 
-            // Remove size measure legend items and add new ones
+            // Remove size field legend items and add new ones
             $('#sizes .spot_size').remove();
-            $('#sizes').append(legend_html).find('#size-title').text( $('#geo_graph_size_measure_id :selected').text() );
+            $('#sizes').append(legend_html).find('#size-title').text( $('#data_map_size_field_id :selected').text() );
 
             // Reset to add color info
             legend_html = '';
 
-            // Create legend html for color measure
-            for (i in geograph.legend_colors) {
+            // Create legend html for color field
+            for (i in datamap.legend_colors) {
                 legend_html +=
                     '<div class="spot_color">' +
-                        '<div class="spot_swatch" style="background-color:' + geograph.legend_colors[i].color + '"></div>' +
-                        '<div class="spot_value">' + geograph.legend_colors[i].value + '</div>' +
+                        '<div class="spot_swatch" style="background-color:' + datamap.legend_colors[i].color + '"></div>' +
+                        '<div class="spot_value">' + datamap.legend_colors[i].value + '</div>' +
                     '</div>'
                 ;
             }
 
-            // Remove color measure legend items and add new ones
+            // Remove color field legend items and add new ones
             $('#colors .spot_color').remove();
-            $('#colors').append(legend_html).find('#color-title').text( $('#geo_graph_color_measure_id :selected').text() );
+            $('#colors').append(legend_html).find('#color-title').text( $('#data_map_color_field_id :selected').text() );
 
             // Add a spot for each place
-            for(i in geograph.places) {
-                place = geograph.places[i];
+            for(i in datamap.places) {
+                place = datamap.places[i];
                 // Calculate the latlong for the spot
                 coords = new OpenLayers.LonLat(place.longitude, place.latitude).transform(standard_proj, map.getProjectionObject()); 
                 spots.push(
@@ -230,8 +230,8 @@ function place_spots() {
                         new OpenLayers.Geometry.Point(coords.lon, coords.lat),
                         {
                             placeName: place.name,
-                            colorMeasureValue: place.colorMeasureValue,
-                            sizeMeasureValue: place.sizeMeasureValue,
+                            colorFieldValue: place.colorFieldValue,
+                            sizeFieldValue: place.sizeFieldValue,
                             metadata: place.metadata
                         },
                         {

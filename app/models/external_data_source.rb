@@ -1,5 +1,5 @@
 class ExternalDataSource < ActiveRecord::Base
-    has_and_belongs_to_many :geo_graphs
+    has_and_belongs_to_many :data_maps
 
     def method_missing(method, *args, &block)
         provider = class_name.constantize.new(self)
@@ -11,7 +11,7 @@ class ExternalDataSource < ActiveRecord::Base
     end
 
     def respond_to?(method)
-        if ['name', 'measures', 'value'].include? method.to_s
+        if ['name', 'fields', 'value'].include? method.to_s
             true 
         else
             super

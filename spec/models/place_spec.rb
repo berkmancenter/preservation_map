@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Place do
-    it "has at least one place-measure" do
+    it "has at least one place-field" do
     end
 
     it "has a valid longitude" do
@@ -10,7 +10,7 @@ describe Place do
     it "has a valid latitude" do
     end
 
-    context "given a measure" do
+    context "given a field" do
         it "returns a spot" do
         end
     end

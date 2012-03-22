@@ -2,7 +2,7 @@ When /^I set the number of sample sizes to "([^"]*)" and the number of color swa
     click_link "Advanced \u00BB"
     fill_in 'Number of sizes in legend', :with => sample_sizes
     fill_in 'Number of colors in legend', :with => color_swatches
-    click_button 'Update Geo graph'
+    click_button 'Update DataMap'
 end
 
 When /^I set the number of sample sizes and color swatches to reasonable numbers$/ do

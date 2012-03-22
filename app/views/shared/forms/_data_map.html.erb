@@ -1,0 +1,39 @@
+<%= semantic_form_for @datamap do |f| %>
+    <%= f.inputs do %>
+        <%= f.input :name %>
+        <% if @datamap.fields.empty? %>
+        <%= f.input :import_data, :label => 'Data',
+          :hint => t('formtastic.hints.data_map.import_data', :column_names => Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ')) %>
+        <% end %>
+        <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => :gradient } %>
+        <% if ExternalDataSource.count > 0 and (@datamap.fields.empty? or @datamap.has_api_abbrs?) %>
+            <%= f.input :external_data_sources, :as => :check_boxes %>
+        <% end %>
+        <% unless @datamap.fields.selectable.empty? %>
+            <%= f.input :size_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false %>
+            <%= f.input :color_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false %>
+        <% end %>
+    <% end %>
+    <%= f.inputs 'Advanced', :class => 'toggler' do %>
+        <%= f.input :min_spot_size %>
+        <%= f.input :max_spot_size %>
+        <%= f.input :num_legend_sizes %>
+        <%= f.input :num_legend_colors %>
+        <%= f.input :num_zoom_levels %>
+    <% end %>
+    <% unless @datamap.fields.selectable.empty? %>
+        <%= f.inputs 'Configure Fields', :class => 'toggler' do %>
+            <%= f.inputs :for => :fields do |field, i| %>
+                <% if ['numeric', 'yes_no'].include? field.object.datatype %>
+                    <%= f.inputs :name => field.object.name, :class => 'field-config' do %>
+                        <% if field.object.datatype == 'numeric' %>
+                            <%= field.input :log_scale %>
+                        <% end %>
+                        <%= field.input :reverse_color_theme %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+    <%= f.actions %>
+<% end %>
