@@ -222,7 +222,7 @@ function place_spots() {
             for (i in datamap.legend_colors) {
                 legend_html +=
                     '<div class="spot_color">' +
-                        '<div class="spot_swatch" style="background-color:' + datamap.legend_colors[i].color + '"></div>' +
+                        '<div class="spot_swatch" style="background-color:' + datamap.legend_colors[i].color + '; border-color:' + datamap.legend_colors[i].color + '"></div>' +
                         '<div class="spot_value">' + datamap.legend_colors[i].value + '</div>' +
                     '</div>'
                 ;

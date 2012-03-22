@@ -1,0 +1,11 @@
+#blinder, #datamap_settings, .olControlPanZoomBar, .activate-help, .links {
+    display: none;
+}
+.spot_swatch {
+    width: 0 !important;
+    height: 0 !important;
+    border-style: solid;
+    box-shadow: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
