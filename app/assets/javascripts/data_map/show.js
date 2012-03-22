@@ -6,7 +6,8 @@
 */
 
 var map, spot_layer, 
-    standard_proj = new OpenLayers.Projection('EPSG:4326')
+    standard_proj = new OpenLayers.Projection('EPSG:4326'),
+    default_opacity = 0.85
 ;
 
 // Change OL theme
@@ -150,6 +151,17 @@ $(function() {
 
     $('.activate-help').qtip($.extend({content:{text:'Toggle Help Mode'}}, qtipStyle));
 
+    $('#opacity-slider').slider({
+        value: 100,
+        min: 25,
+        slide: function(e, ui) {
+            spot_layer.setOpacity(ui.value / 100.);
+        },
+        change: function(e, ui) {
+            default_opacity = ui.value / 100.
+        }
+    });
+
     // Show help text
     $('.help').qtip($.extend({show:{when:{event:'help:show'}},hide:{when:{event:'help:hide'}}}, qtipStyle));
 
@@ -236,7 +248,8 @@ function place_spots() {
                         },
                         {
                             pointRadius: place.size,
-                            fillColor: place.color
+                            fillColor: place.color,
+                            fillOpacity: default_opacity
                         }
                     )
                 );
