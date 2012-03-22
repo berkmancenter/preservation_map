@@ -137,11 +137,23 @@ class DataMap < ActiveRecord::Base
         fields.from_external_source.each do |field|
             places.each do |place|
                 place_field = PlaceField.where(:place_id => place.id, :field_id => field.id).first_or_initialize
-                place_field.value = field.external_data_source.value(place, field)
-                place_field.save!
+                begin
+                    place_field.value = field.external_data_source.value(place, field)
+                    rescue
+                        if place_field.new_record?
+                            logger.error("Failed on new record - setting value to 0.0")
+                            place_field.value = 0.0
+                        end
+                end
+                unless place_field.changed?
+                    place_field.touch
+                end
+                place_field.save
+                sleep(0.2)
             end
         end
     end
+    handle_asynchronously :retrieve_external_data!
 
     # These need to go into a module
     def yes_no_to_value(s)

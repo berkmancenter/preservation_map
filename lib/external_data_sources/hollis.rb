@@ -47,8 +47,8 @@ class Hollis
             doc = Nokogiri::XML(open(url))
             result = doc.css('totalResults').first.content
             rescue
-                Rails.logger.error("Failed fetching from #{url} for place: #{place.id.to_s} and field: #{field.id.to_s}. Returned 0.0")
-                return 0.0
+                Rails.logger.error("Failed fetching from #{url} for place: #{place.id.to_s} and field: #{field.id.to_s}")
+                raise
         end
         return result
     end

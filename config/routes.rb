@@ -8,6 +8,8 @@ Code::Application.routes.draw do
 
     resources :data_maps 
 
+    post 'tasks/retrieve_external_data'
+
     devise_for :users, :path => 'accounts'
 
   # The priority is based upon order of creation:
