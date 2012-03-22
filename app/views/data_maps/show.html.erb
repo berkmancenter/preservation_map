@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= t :app_title %> - <%= @datamap.name %></title>
+    <%= stylesheet_link_tag('application', :media => 'all') %>
+    <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
+    <%= stylesheet_link_tag('data_map/show', :media => 'all') %>
+    <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
+    <!--[if IE 7]><%# stylesheet_link_tag 'ie7' %><![endif]-->
+    <!--[if lt IE 9]><%= javascript_include_tag "//html5shiv.googlecode.com/svn/trunk/html5.js"%><![endif]-->
+    <%= csrf_meta_tags %>
+    <style>
+        .spot_swatch, .spot_circle {
+            width: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
+            height: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" role="main">
+        <% if flash[:notice] %>
+            <p class="flash notice"><%= flash[:notice] %></p>
+        <% end %>
+        <% if flash[:alert] %>
+            <p class="flash alert"><%= flash[:alert] %></p>
+        <% end %>
+        <% if flash[:error] %>
+            <p class="flash error"><%= flash[:error] %></p>
+        <% end %>
+
+        <div class="sidebar">
+            <div class="overlay" id="data_map_title">
+                <h1 title="<%= @datamap.name %>"><%= @datamap.name %></h1>
+                <a href="#" title="<%= t '.help_toggle' %>" class="activate-help"><%= t '.help_button' %></a>
+                <div>
+                    <%= link_to t(:home), root_path %>
+                    <% if current_user == @datamap.user %>
+                        <%= link_to t('.edit'), edit_data_map_path(@datamap) %>
+                        <%= link_to t('.default_view'), edit_data_map_path(@datamap), :class => :help, :id => 'set-default-view' %>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="overlay" id="datamap_settings">
+                <h2><%= t '.settings' %></h2>
+                <% unless @datamap.fields.empty? %>
+                    <%= semantic_form_for @datamap, :remote => true do |f| %>
+                        <%= f.inputs do %>
+                            <%= f.input :size_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false, :label => t('.size_field', :field => Field.model_name.human) %>
+                            <%= f.input :color_field, :as => :select, :collection => @datamap.fields.selectable, :include_blank => false, :label => t('.color_field', :field => Field.model_name.human) %>
+                            <%= f.input :color_theme, :as => :radio, :value_as_class => true, :member_label => '', :wrapper_html => { :class => 'show-gradient' } %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+                <!-- <button id="hideTable">Toggle Data Table</button> -->
+            </div>
+
+            <% unless @datamap.num_legend_sizes == 0 and @datamap.num_legend_colors == 0 %>
+                <div class="overlay" id="legend">
+                    <h2><%= t '.legend' %></h2>
+                    <% if @datamap.num_legend_sizes > 0 %>
+                        <div id="sizes">
+                            <h3 id="size-title"></h3>
+                        </div>
+                    <% end %>
+                    <% if @datamap.num_legend_colors > 0 %>
+                        <div id="colors">
+                            <h3 id="color-title"></h3>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+
+        <div id="map"></div>
+
+        <% if current_user == @datamap.user %>
+            <div id="default-map-view">
+                <%= semantic_form_for @datamap, :remote => true, :html => { :id => 'default_view_form' }, :namespace => 'default_view' do |f| %>
+                    <%= f.input :default_zoom_level %>
+                    <%= f.input :default_latitude, :as => :string %>
+                    <%= f.input :default_longitude, :as => :string %>
+                    <%= f.input :color_field_id, :as => :string %>
+                    <%= f.input :size_field_id, :as => :string %>
+                    <%= f.input :color_theme_id, :as => :string %>
+                <% end %>
+            </div>
+        <% end %>
+<%
+        #<table> 
+        #    <thead>
+        #        <tr>
+        #            <th>Place Name</th>
+        #            <% @datamap.fields.each do |field| 
+        #                <th><%= field.name </th>
+        #            <% end 
+        #        </tr>
+        #    </thead>
+        #    <tbody>
+        #        <% @datamap.places.each do |place| 
+        #            <tr>
+        #                <td><%= place.name </td>
+        #                <% @datamap.fields.each do |field| 
+        #                    <td><%= field.value(place) </td>
+        #                <% end 
+        #            </tr>
+        #        <% end 
+        #    </tbody>
+        #</table>
+%>
+    </div>
+
+    <div class="help-texts">
+        <div id="set-default-view-help"><%= t '.help.default_view' %></div>
+        <div id="data_map_size_field_input-help"><%= t '.help.size_field' %></div>
+        <div id="data_map_color_field_input-help"><%= t '.help.color_field' %></div>
+        <div id="data_map_color_theme_input-help"><%= t '.help.color_theme' %></div>
+        <div id="sizes-help"><%= t '.help.sizes' %></div>
+        <div id="colors-help"><%= t '.help.colors' %></div>
+    </div>
+
+    <div id="blinder"></div>
+
+    <script>
+        var ajax_path = '<%= data_map_path(@datamap) %>.json',
+            asset_path = '<%= Code::Application.config.assets.prefix %>/',
+            datamap_zoom_levels = <%= @datamap.num_zoom_levels %>
+            <% if @datamap.default_zoom_level %>
+                , datamap_default_zoom = <%= @datamap.default_zoom_level %>
+            <% end %>
+            <% if @datamap.default_latitude and @datamap.default_longitude %>
+                , datamap_default_latitude = <%= @datamap.default_latitude %>
+                , datamap_default_longitude = <%= @datamap.default_longitude %>
+            <% end %>
+        ;
+    </script>
+    <%= javascript_include_tag '//maps.google.com/maps/api/js?v=3.5&sensor=false' %>
+    <%= javascript_include_tag 'data_map/show' %>
+</body>
+</html>

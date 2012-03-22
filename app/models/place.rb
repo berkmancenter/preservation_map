@@ -1,26 +1,26 @@
 class Place < ActiveRecord::Base
-    has_many :place_measures
-    has_many :measures, :through => :place_measures
-    belongs_to :geo_graph
+    has_many :place_fields
+    has_many :fields, :through => :place_fields
+    belongs_to :data_map
 
-    def size(measure)
-        measure.size(self)
+    def size(field)
+        field.size(self)
     end
 
-    def color(measure, color_theme = nil)
-        measure.color(self, color_theme)
+    def color(field, color_theme = nil)
+        field.color(self, color_theme)
     end
 
-    def value(measure)
-        measure.value(self)
+    def value(field)
+        field.value(self)
     end
 
-    def display_value(measure)
-        measure.display_value(self)
+    def display_value(field)
+        field.display_value(self)
     end
 
     def metadata
-        return measures.metadata.map { |measure| { :name => measure.name, :data => measure.metadata(self) } }
+        return fields.metadata.map { |field| { :name => field.name, :data => field.metadata(self) } }
     end
 
 end

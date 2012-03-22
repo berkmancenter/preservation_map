@@ -1,70 +1,70 @@
-<h3>Help</h3>
-<h4>Terminology</h4>
+<h3><%= t :help %></h3>
+<h4><%= t '.terms' %></h4>
 <p>
 <dl>
-    <dt>Geograph</dt>
-    <dd>The visualization - it&apos;s kind of like a map, only with spots.</dd>
-    <dt>Measure</dt>
-    <dd>The column the data is coming from.</dd>
-    <dt>Spot/Circle<dt>
-    <dd>The actual colored circle that appears on the map.</dd>
-    <dt>Place/Location</dt>
-    <dd>Something with a name, a latitude, and a longitude.</dd>
-    <dt>Color Theme</dt>
-    <dd>The set of colors from which spot colors are selected.</dd>
+    <dt><%= DataMap.model_name.human %></dt>
+    <dd><%= t '.data_map_def' %></dd>
+    <dt><%= Field.model_name.human %></dt>
+    <dd><%= t '.field_def' %></dd>
+    <dt><%= PlaceField.model_name.human %><dt>
+    <dd><%= t '.spot_def' %></dd>
+    <dt><%= Place.model_name.human %></dt>
+    <dd><%= t '.place_def' %></dd>
+    <dt><%= ColorTheme.model_name.human %></dt>
+    <dd><%= t '.color_theme_def' %></dd>
 </p>
 
-<h4>Process</h4>
-<h5>Creating a Geograph</h5>
+<h4><%= t '.process' %></h4>
+<h5><%= t '.creating', :data_map => DataMap.model_name.human %></h5>
 <p>
-    Here&apos;s how it works:
+    <%= t '.creating_intro' %>
     <ol>
         <li>
         <p>
-        Create a spreadsheet with at least <%= Code::Application.config.place_column_names[:required].count.to_s %> columns:
+        <%= t '.req_column_intro', :req_column_count => Code::Application.config.place_column_names[:required].count.to_s %>
             <ul>
                 <% Code::Application.config.place_column_names[:required].each do |internal_name, name| %>
                     <li>
                     <% case internal_name %>
                     <% when :name %>
-                    &quot;<%= name %>&quot; &ndash; The name of the location. This will be used throughout the geograph.
+                      <%= t '.name_column', :name => name %>
                     <% when :latitude %>
-                    &quot;<%= name %>&quot; &ndash; The latitude of the place. 
+                      <%= t '.lat_column', :name => name %>
                     <% when :longitude %>
-                    &quot;<%= name %>&quot; &ndash; The longitude of the place. 
+                      <%= t '.lon_column', :name => name %>
                     <% end %>
                     </li>
                 <% end %>
             </ul>
             </p>
             <p>
-            You can also include one optional column:
+            <%= t '.opt_column_intro' %>
             <ul>
                 <li>
-                    &quot;<%= Code::Application.config.place_column_names[:optional][:api_abbr] %>&quot; (optional) &ndash; If you&apos;re intending to pull in data from an external source, this has to be the identifier used by that external source for the place.
+                <%= t '.api_abbr_column', :name => Code::Application.config.place_column_names[:optional][:api_abbr] %>
                 </li>
             </ul>
             </p>
         </li>
         <li>
-            Use information about your places to fill in the three (or four) columns to just created.
+            <%= t '.fill_in_data' %>
         </li>
         <li>
-            Add your own columns and data to this spreadsheet.  Title your columns logically and prettily, as they'll show up throughout your geograph.
+            <%= t '.user_data' %>
         </li>
         <li>
-            Save your spreadsheet to your computer as a CSV (Comma-Separated Values) file.
+            <%= t '.save_csv' %>
         </li>
         <li>
-            <%= link_to 'Create', new_user_registration_path %> an Insite account, or <%= link_to 'login', user_session_path %> to an exising account.
+        <%= t '.create_account_html', :create_link => link_to(t('.create'), new_user_registration_path), :login_link => link_to(t('.login'), user_session_path) %>
         </li> 
         <li>
-            Upload your CSV file when you <%= link_to 'create', new_geo_graph_path %> a new geograph.
+            <%= t '.create_data_map_html', :create_link => link_to(t('.create').downcase, new_data_map_path) %>
         </li>
     </ol>
 </p>
-<h5>Viewing a Geograph</h5>
+<h5><%= t '.viewing', :data_map => DataMap.model_name.human %></h5>
 <p>
-    The geograph display page has it&apos;s own help.  Click the question mark in the top-right hand corner to get help.
+    <%= t '.viewing_text' %> 
 </p>
 

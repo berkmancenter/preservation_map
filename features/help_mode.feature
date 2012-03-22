@@ -5,9 +5,9 @@ Feature: Help Mode
 
     Background:
         Given I am an anonymous user
-        And I am viewing a geograph
+        And I am viewing a datamap
 
-    Scenario: Looking for help on the geograph "show" page
+    Scenario: Looking for help on the datamap "show" page
         When I start help mode 
-    Scenario: Finished getting help on the geograph "show" page
+    Scenario: Finished getting help on the datamap "show" page
         When I exit help mode

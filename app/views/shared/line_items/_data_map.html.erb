@@ -1,0 +1,10 @@
+<tr>
+    <td><%= link_to data_map.name, data_map_path(data_map) %></td>
+    <td><%= data_map.updated_at.to_formatted_s(:long_ordinal) %></td>
+    <td>
+    <% if current_user == data_map.user %>
+        <%= link_to 'Edit', edit_data_map_path(data_map) %>
+        <%= link_to 'Delete', data_map_path(data_map), :method => :delete, :confirm => t('.confirm', :data_map => DataMap.model_name.human.downcase) %>
+    <% end %>
+    </td>
+</tr>

@@ -5,9 +5,9 @@ Feature: Additional Place Metadata
 
     Background:
         Given I am an authorized user
-        And I am creating a new geograph
+        And I am creating a new datamap
 
     Scenario: Including non-numerical data in a CSV
-        When I create a new geograph with a CSV that has non-numerical data
+        When I create a new datamap with a CSV that has non-numerical data
     Scenario: Pulling non-numerical data from an API
-        When I create a new geograph with an external data source that provides non-numerical data
+        When I create a new datamap with an external data source that provides non-numerical data

@@ -21,6 +21,8 @@ gem 'devise'
 gem 'formtastic'
 gem 'paperclip'
 gem 'color'
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 group :development do
     gem 'rspec-rails'

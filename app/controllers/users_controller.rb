@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    def my_geo_graphs
-        @geographs = current_user.geo_graphs
+    def my_data_maps
+        @datamaps = current_user.data_maps
     end
 end

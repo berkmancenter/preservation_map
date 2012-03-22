@@ -1,9 +1,9 @@
-class CreatePlaceMeasures < ActiveRecord::Migration
+class CreatePlaceFields < ActiveRecord::Migration
   def change
-    create_table :place_measures do |t|
+    create_table :place_fields do |t|
       t.float :value
       t.integer :place_id
-      t.integer :measure_id
+      t.integer :field_id
       t.text :metadata
 
       t.timestamps
