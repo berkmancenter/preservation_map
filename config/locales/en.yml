@@ -28,7 +28,7 @@ en:
       legend: 'Legend'
       size_field: 'Size %{field}'
       color_field: 'Color %{field}'
-      opacity_label: '%{spot} opacity'
+      opacity_label: '%{spot} Opacity'
       help:
           default_view: "You're the owner of this datamap, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default."
           size_field: "Here is where you can pick which data determines the sizes of the spots on the map."
