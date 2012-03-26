@@ -1,6 +1,8 @@
 class ExternalDataSource < ActiveRecord::Base
     has_and_belongs_to_many :data_maps
 
+    attr_accessible :name
+
     def method_missing(method, *args, &block)
         provider = class_name.constantize.new(self)
         if provider.respond_to?(method)

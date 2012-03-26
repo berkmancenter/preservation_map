@@ -42,9 +42,9 @@ spot_layer.events.on({
                     '<dt>Place: </dt>' +
                         '<dd>' + spot_data.placeName +'</dd>' +
                     '<dt>' + $('#data_map_size_field_id option:selected').text() + ' (size): </dt>' +
-                        '<dd>' + spot_data.sizeFieldValue + '</dd>' +
+                        '<dd>' + spot_data.sizeFieldValue + ' <br /><span class="updated">Updated ' + spot_data.sizeFieldUpdated + '</span></dd>' +
                     '<dt>' + $('#data_map_color_field_id option:selected').text() + ' (color): </dt>' +
-                        '<dd>' + spot_data.colorFieldValue + '</dd>';
+                        '<dd>' + spot_data.colorFieldValue + ' <br /><span class="updated">Updated ' + spot_data.colorFieldUpdated + '</span></dd>';
             for (i in spot_data.metadata) {
                 popup_html +=
                     '<dt>' + spot_data.metadata[i].name + '</dt>' +
@@ -243,7 +243,9 @@ function place_spots() {
                         {
                             placeName: place.name,
                             colorFieldValue: place.colorFieldValue,
+                            colorFieldUpdated: place.colorFieldUpdated,
                             sizeFieldValue: place.sizeFieldValue,
+                            sizeFieldUpdated: place.sizeFieldUpdated,
                             metadata: place.metadata
                         },
                         {

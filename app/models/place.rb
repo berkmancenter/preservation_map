@@ -3,6 +3,8 @@ class Place < ActiveRecord::Base
     has_many :fields, :through => :place_fields
     belongs_to :data_map
 
+    attr_accessible :name, :latitude, :longitude, :api_abbr
+
     def size(field)
         field.size(self)
     end
@@ -13,6 +15,10 @@ class Place < ActiveRecord::Base
 
     def value(field)
         field.value(self)
+    end
+
+    def datum(field)
+        place_fields.find_by_field_id(field)
     end
 
     def display_value(field)

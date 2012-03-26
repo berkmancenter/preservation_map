@@ -12,6 +12,8 @@ class DataMap < ActiveRecord::Base
     has_and_belongs_to_many :external_data_sources
     has_attached_file :import_data
 
+    attr_accessible :name, :color_field_id, :size_field_id, :max_spot_size, :min_spot_size, :num_legend_sizes, :num_legend_colors, :color_theme_id, :num_zoom_levels, :default_zoom_level, :default_latitude, :default_longitude, :import_data, :external_data_source_ids, :fields_attributes
+
     validates :name,
               :import_data,
               :min_spot_size,
@@ -50,9 +52,11 @@ class DataMap < ActiveRecord::Base
                 :latitude => place.latitude,
                 :longitude => place.longitude,
                 :size => place.size(size_field),
-                :sizeFieldValue => place.display_value(size_field),
+                :sizeFieldValue => place.datum(size_field).value,
+                :sizeFieldUpdated => place.datum(size_field).updated_at.to_s(:rfc882),
                 :color => place.color(color_field, color_theme),
-                :colorFieldValue => place.display_value(color_field),
+                :colorFieldValue => place.datum(color_field).value,
+                :colorFieldUpdated => place.datum(color_field).updated_at.to_s(:rfc882),
                 :metadata => place.metadata
             }
         end

@@ -3,6 +3,7 @@ class Field < ActiveRecord::Base
     has_many :places, :through => :place_fields
     belongs_to :data_map
     belongs_to :external_data_source
+    attr_accessible :name, :api_url, :external_data_source_id, :log_scale, :reverse_color_theme, :datatype, :external_data_source
     scope :numeric, where(:datatype => 'numeric')
     scope :metadata, where(:datatype => 'metadata')
     scope :yes_no, where(:datatype => 'yes_no')
