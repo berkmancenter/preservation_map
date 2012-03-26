@@ -11,6 +11,7 @@
     <thead>
         <tr>
             <th><%= DataMap.human_attribute_name(:name) %></th>
+            <th><%= DataMap.human_attribute_name(:description) %></th>
             <th><%= DataMap.human_attribute_name(:updated) %></th>
             <% if user_signed_in? %>
                 <th></th>

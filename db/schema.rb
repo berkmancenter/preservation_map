@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20120322142255) do
     t.integer  "default_zoom_level"
     t.float    "default_latitude"
     t.float    "default_longitude"
+    t.text     "description"
     t.string   "import_data_file_name"
     t.string   "import_data_content_type"
     t.integer  "import_data_file_size"

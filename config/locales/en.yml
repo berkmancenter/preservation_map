@@ -89,6 +89,7 @@ en:
     attributes:
       data_map:
         name: 'Name'
+        description: 'Description'
         updated: 'Last Updated'
         size_field: 'Size Field'
         color_field: 'Color Field'
@@ -115,6 +116,7 @@ en:
     hints:
       data_map:
         name: 'What do you want to call it?'
+        description: 'Do you want to add a lengthier description of what this is intended to show?'
         import_data: "Make sure it's a CSV file with columns named: %{column_names}"
         external_data_sources: 'Do you want to pull in data from somewhere else?' 
         min_spot_size: 'What should the radius of the smallest spot be (in pixels)?'

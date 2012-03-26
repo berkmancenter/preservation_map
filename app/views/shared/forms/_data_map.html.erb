@@ -1,6 +1,7 @@
 <%= semantic_form_for @datamap do |f| %>
     <%= f.inputs do %>
         <%= f.input :name %>
+        <%= f.input :description, :input_html => { :rows => 6 } %>
         <% if @datamap.fields.empty? %>
         <%= f.input :import_data, :label => 'Data',
           :hint => t('formtastic.hints.data_map.import_data', :column_names => Code::Application.config.place_column_names[:required].collect{ |k, v| "\"#{v}\"" }.join(', ')) %>
