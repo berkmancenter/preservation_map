@@ -8,5 +8,7 @@ class CreatePlaceFields < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :place_fields, :place_id
+    add_index :place_fields, :field_id
   end
 end
