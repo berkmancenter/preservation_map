@@ -14,6 +14,7 @@ class CreateDataMaps < ActiveRecord::Migration
       t.integer :default_zoom_level
       t.float :default_latitude
       t.float :default_longitude
+      t.text :description
       t.has_attached_file :import_data
 
       t.timestamps

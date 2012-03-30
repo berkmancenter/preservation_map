@@ -1,5 +1,6 @@
 <tr>
     <td><%= link_to data_map.name, data_map_path(data_map) %></td>
+    <td><%= data_map.description %></td>
     <td><%= data_map.updated_at.to_formatted_s(:long_ordinal) %></td>
     <td>
     <% if current_user == data_map.user %>

@@ -6,7 +6,8 @@
 */
 
 var map, spot_layer, 
-    standard_proj = new OpenLayers.Projection('EPSG:4326')
+    standard_proj = new OpenLayers.Projection('EPSG:4326'),
+    default_opacity = 0.85
 ;
 
 // Change OL theme
@@ -41,9 +42,9 @@ spot_layer.events.on({
                     '<dt>Place: </dt>' +
                         '<dd>' + spot_data.placeName +'</dd>' +
                     '<dt>' + $('#data_map_size_field_id option:selected').text() + ' (size): </dt>' +
-                        '<dd>' + spot_data.sizeFieldValue + '</dd>' +
+                        '<dd>' + spot_data.sizeFieldValue + ' <br /><span class="updated">Updated ' + spot_data.sizeFieldUpdated + '</span></dd>' +
                     '<dt>' + $('#data_map_color_field_id option:selected').text() + ' (color): </dt>' +
-                        '<dd>' + spot_data.colorFieldValue + '</dd>';
+                        '<dd>' + spot_data.colorFieldValue + ' <br /><span class="updated">Updated ' + spot_data.colorFieldUpdated + '</span></dd>';
             for (i in spot_data.metadata) {
                 popup_html +=
                     '<dt>' + spot_data.metadata[i].name + '</dt>' +
@@ -150,6 +151,17 @@ $(function() {
 
     $('.activate-help').qtip($.extend({content:{text:'Toggle Help Mode'}}, qtipStyle));
 
+    $('#opacity-slider').slider({
+        value: 100,
+        min: 25,
+        slide: function(e, ui) {
+            spot_layer.setOpacity(ui.value / 100.);
+        },
+        change: function(e, ui) {
+            default_opacity = ui.value / 100.
+        }
+    });
+
     // Show help text
     $('.help').qtip($.extend({show:{when:{event:'help:show'}},hide:{when:{event:'help:hide'}}}, qtipStyle));
 
@@ -210,7 +222,7 @@ function place_spots() {
             for (i in datamap.legend_colors) {
                 legend_html +=
                     '<div class="spot_color">' +
-                        '<div class="spot_swatch" style="background-color:' + datamap.legend_colors[i].color + '"></div>' +
+                        '<div class="spot_swatch" style="background-color:' + datamap.legend_colors[i].color + '; border-color:' + datamap.legend_colors[i].color + '"></div>' +
                         '<div class="spot_value">' + datamap.legend_colors[i].value + '</div>' +
                     '</div>'
                 ;
@@ -231,12 +243,15 @@ function place_spots() {
                         {
                             placeName: place.name,
                             colorFieldValue: place.colorFieldValue,
+                            colorFieldUpdated: place.colorFieldUpdated,
                             sizeFieldValue: place.sizeFieldValue,
+                            sizeFieldUpdated: place.sizeFieldUpdated,
                             metadata: place.metadata
                         },
                         {
                             pointRadius: place.size,
-                            fillColor: place.color
+                            fillColor: place.color,
+                            fillOpacity: default_opacity
                         }
                     )
                 );

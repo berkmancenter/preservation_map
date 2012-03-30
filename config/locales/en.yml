@@ -28,6 +28,7 @@ en:
       legend: 'Legend'
       size_field: 'Size %{field}'
       color_field: 'Color %{field}'
+      opacity_label: '%{spot} Opacity'
       help:
           default_view: "You're the owner of this datamap, so you get to pick what people see by default.  Arrange the map and settings however you like, and then click this to save them as the default."
           size_field: "Here is where you can pick which data determines the sizes of the spots on the map."
@@ -88,6 +89,7 @@ en:
     attributes:
       data_map:
         name: 'Name'
+        description: 'Description'
         updated: 'Last Updated'
         size_field: 'Size Field'
         color_field: 'Color Field'
@@ -114,6 +116,7 @@ en:
     hints:
       data_map:
         name: 'What do you want to call it?'
+        description: 'Do you want to add a lengthier description of what this is intended to show?'
         import_data: "Make sure it's a CSV file with columns named: %{column_names}"
         external_data_sources: 'Do you want to pull in data from somewhere else?' 
         min_spot_size: 'What should the radius of the smallest spot be (in pixels)?'

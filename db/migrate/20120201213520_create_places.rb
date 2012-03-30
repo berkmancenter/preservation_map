@@ -9,5 +9,6 @@ class CreatePlaces < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :places, :data_map_id
   end
 end

@@ -3,6 +3,7 @@
 <head>
     <title><%= t :app_title %> - <%= @datamap.name %></title>
     <%= stylesheet_link_tag('application', :media => 'all') %>
+    <%= stylesheet_link_tag('data_map/print', :media => 'print') %>
     <%= stylesheet_link_tag '//fonts.googleapis.com/css?family=Asap:400,700,400italic|Terminal+Dosis' %>
     <%= stylesheet_link_tag('data_map/show', :media => 'all') %>
     <!--[if IE 6]><%# stylesheet_link_tag 'ie6' %><![endif]-->
@@ -13,6 +14,11 @@
         .spot_swatch, .spot_circle {
             width: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
             height: <%= ([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2 %>px;
+        }
+    </style>
+    <style media="print">
+        .spot_swatch {
+            border-width: <%= (([@datamap.max_spot_size, @datamap.min_spot_size].max * 2) - 2) / 2.0 %>px;
         }
     </style>
 </head>
@@ -32,7 +38,7 @@
             <div class="overlay" id="data_map_title">
                 <h1 title="<%= @datamap.name %>"><%= @datamap.name %></h1>
                 <a href="#" title="<%= t '.help_toggle' %>" class="activate-help"><%= t '.help_button' %></a>
-                <div>
+                <div class="links">
                     <%= link_to t(:home), root_path %>
                     <% if current_user == @datamap.user %>
                         <%= link_to t('.edit'), edit_data_map_path(@datamap) %>
@@ -52,6 +58,8 @@
                         <% end %>
                     <% end %>
                 <% end %>
+                <label for="opacity-slider"><%= t '.opacity_label', :spot => PlaceField.model_name.human %></label>
+                <div id="opacity-slider" name="opacity-slider"></div>
                 <!-- <button id="hideTable">Toggle Data Table</button> -->
             </div>
 
