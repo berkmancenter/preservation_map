@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20120322142255) do
     t.integer  "default_zoom_level"
     t.float    "default_latitude"
     t.float    "default_longitude"
+    t.text     "description"
     t.string   "import_data_file_name"
     t.string   "import_data_content_type"
     t.integer  "import_data_file_size"
@@ -81,6 +82,8 @@ ActiveRecord::Schema.define(:version => 20120322142255) do
     t.datetime "updated_at",                                     :null => false
   end
 
+  add_index "fields", ["datatype"], :name => "index_fields_on_datatype"
+
   create_table "place_fields", :force => true do |t|
     t.float    "value"
     t.integer  "place_id"
@@ -89,6 +92,9 @@ ActiveRecord::Schema.define(:version => 20120322142255) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "place_fields", ["field_id"], :name => "index_place_fields_on_field_id"
+  add_index "place_fields", ["place_id"], :name => "index_place_fields_on_place_id"
 
   create_table "places", :force => true do |t|
     t.string   "name"
@@ -99,6 +105,8 @@ ActiveRecord::Schema.define(:version => 20120322142255) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "places", ["data_map_id"], :name => "index_places_on_data_map_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

@@ -11,5 +11,6 @@ class CreateFields < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :fields, :datatype
   end
 end

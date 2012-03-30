@@ -14,7 +14,7 @@ Given /^I am signed in as "([^"]*)" with password "([^"]*)"$/ do |email, passwor
     visit new_user_session_path
     fill_in('Email', :with => email)
     fill_in('Password', :with => password)
-    click_button('Sign in')
+    click_button('Sign In')
 end
 
 Given /^I am an anonymous user$/ do
